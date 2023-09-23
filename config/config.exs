@@ -8,10 +8,8 @@
 import Config
 
 config :red,
-  ash_apis: [Red.Accounts]
-
-# Do I still need the following line?
-# ecto_repos: [Red.Repo]
+  ash_apis: [Red.Accounts],
+  ecto_repos: [Red.Repo]
 
 config :ash,
   use_all_identities_in_manage_relationship?: false
