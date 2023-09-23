@@ -1,5 +1,6 @@
 defmodule RedWeb.Router do
   use RedWeb, :router
+  use AshAuthentication.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,16 +9,23 @@ defmodule RedWeb.Router do
     plug :put_root_layout, html: {RedWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_from_session
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :load_from_bearer
   end
 
   scope "/", RedWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    sign_in_route()
+    sign_out_route AuthController
+    auth_routes_for Red.Accounts.User, to: AuthController
+    reset_route []
   end
 
   # Other scopes may use custom stacks.

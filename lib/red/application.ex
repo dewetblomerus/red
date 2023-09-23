@@ -16,6 +16,8 @@ defmodule Red.Application do
       {Phoenix.PubSub, name: Red.PubSub},
       # Start Finch
       {Finch, name: Red.Finch},
+      {AshAuthentication.Supervisor, otp_app: :example},
+
       # Start the Endpoint (http/https)
       RedWeb.Endpoint
       # Start a worker by calling: Red.Worker.start_link(arg)
