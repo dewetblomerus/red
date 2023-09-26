@@ -3,6 +3,5 @@ defmodule Red.Accounts do
 
   resources do
     resource Red.Accounts.User
-    resource Red.Accounts.Token
   end
 end
