@@ -19,20 +19,10 @@
       "allow_nil?": false,
       "generated?": false,
       "primary_key?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "text",
-      "source": "hashed_password",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
     }
   ],
   "table": "users",
-  "hash": "C2F5033DBECAB717D8278AAB6F457B5F3240AB834AD3965E2E1823B8A52CE352",
+  "hash": "64AD5B7122C2C5151DE1E2493CC4D20B39C25252B389C8F83C9DDC30FBF58BED",
   "repo": "Elixir.Red.Repo",
   "identities": [
     {
