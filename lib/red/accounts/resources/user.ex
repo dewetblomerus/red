@@ -6,28 +6,18 @@ defmodule Red.Accounts.User do
   attributes do
     uuid_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
-    attribute :hashed_password, :string, allow_nil?: false, sensitive?: true
   end
 
   authentication do
     api Red.Accounts
 
     strategies do
-      password :password do
-        identity_field(:email)
-        sign_in_tokens_enabled?(true)
-
-        resettable do
-          sender Red.Accounts.User.Senders.SendPasswordResetEmail
-        end
+      auth0 do
+        client_id Red.Secrets
+        redirect_uri Red.Secrets
+        client_secret Red.Secrets
+        site Red.Secrets
       end
-    end
-
-    tokens do
-      enabled?(true)
-      token_resource(Red.Accounts.Token)
-
-      signing_secret(Red.Accounts.Secrets)
     end
   end
 
@@ -40,10 +30,24 @@ defmodule Red.Accounts.User do
     identity :unique_email, [:email]
   end
 
-  # If using policies, add the following bypass:
-  # policies do
-  #   bypass AshAuthentication.Checks.AshAuthenticationInteraction do
-  #     authorize_if always()
-  #   end
-  # end
+  actions do
+    create :register_with_auth0 do
+      argument :user_info, :map, allow_nil?: false
+      argument :oauth_tokens, :map, allow_nil?: false
+      upsert? true
+      upsert_identity :unique_email
+
+      # Required if you have token generation enabled.
+      change AshAuthentication.GenerateTokenChange
+
+      # Required if you have the `identity_resource` configuration enabled.
+      change AshAuthentication.Strategy.OAuth2.IdentityChange
+
+      change fn changeset, _ ->
+        user_info = Ash.Changeset.get_argument(changeset, :user_info)
+
+        Ash.Changeset.change_attributes(changeset, Map.take(user_info, ["email"]))
+      end
+    end
+  end
 end
