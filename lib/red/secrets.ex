@@ -20,6 +20,7 @@ defmodule Red.Secrets do
   defp get_config(key) do
     :red
     |> Application.fetch_env!(:auth0)
-    |> Keyword.fetch(key)
+    |> Map.fetch!(key)
+    |> then(&{:ok, &1})
   end
 end
