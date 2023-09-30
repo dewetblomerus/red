@@ -1,0 +1,14 @@
+# Red
+
+## Section
+
+To start your Phoenix server:
+
+* `mix setup`
+* `mix phx.server`
+
+```elixir
+Red.Practice.Word
+|> Ash.Changeset.for_create(:populate, %{word: "the"})
+|> Red.Practice.create!()
+```
