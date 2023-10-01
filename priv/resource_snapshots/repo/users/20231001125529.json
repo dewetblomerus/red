@@ -19,10 +19,30 @@
       "allow_nil?": false,
       "generated?": false,
       "primary_key?": false
+    },
+    {
+      "default": "fragment(\"now()\")",
+      "size": null,
+      "type": "utc_datetime_usec",
+      "source": "created_at",
+      "references": null,
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "fragment(\"now()\")",
+      "size": null,
+      "type": "utc_datetime_usec",
+      "source": "updated_at",
+      "references": null,
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
     }
   ],
   "table": "users",
-  "hash": "ED7025F358ABD6FC1B1DC8277733DE5956E29FBD3020C2B6E4E4D75D63045872",
+  "hash": "A838481D54E118DBFD62830B912C77C967E0B2F813125A52109824E85167B315",
   "repo": "Elixir.Red.Repo",
   "identities": [
     {
@@ -37,8 +57,8 @@
   "schema": null,
   "multitenancy": {
     "global": null,
-    "strategy": null,
-    "attribute": null
+    "attribute": null,
+    "strategy": null
   },
   "base_filter": null,
   "check_constraints": [],
