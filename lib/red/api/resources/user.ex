@@ -1,4 +1,4 @@
-defmodule Red.Accounts.User do
+defmodule Red.Api.User do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication]
@@ -8,8 +8,15 @@ defmodule Red.Accounts.User do
     attribute :email, :ci_string, allow_nil?: false
   end
 
+  relationships do
+    # `has_many` means that the destination attribute is not unique, therefore many related records could exist.
+    # We assume that the destination attribute is `representative_id` based
+    # on the module name of this resource and that the source attribute is `id`.
+    has_many :attempts, Red.Api.Attempt
+  end
+
   authentication do
-    api Red.Accounts
+    api Red.Api
 
     strategies do
       auth0 do
@@ -48,6 +55,10 @@ defmodule Red.Accounts.User do
 
         Ash.Changeset.change_attributes(changeset, Map.take(user_info, ["email"]))
       end
+    end
+
+    read :read do
+      primary? true
     end
   end
 end

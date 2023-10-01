@@ -24,7 +24,7 @@ defmodule RedWeb.Router do
 
     sign_in_route()
     sign_out_route AuthController
-    auth_routes_for Red.Accounts.User, to: AuthController
+    auth_routes_for Red.Api.User, to: AuthController
     reset_route []
   end
 
