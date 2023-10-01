@@ -26,6 +26,11 @@ defmodule RedWeb.Router do
     sign_out_route AuthController
     auth_routes_for Red.Api.User, to: AuthController
     reset_route []
+
+    ash_authentication_live_session :authentication_required,
+      on_mount: {RedWeb.LiveUserAuth, :live_user_required} do
+      live "/practice", PracticeLive
+    end
   end
 
   # Other scopes may use custom stacks.
