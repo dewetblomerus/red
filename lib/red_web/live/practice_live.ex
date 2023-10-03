@@ -11,7 +11,6 @@ defmodule RedWeb.PracticeLive do
       <div class="row">
         <div class="col-12">
           <h1>Practice</h1>
-          <%= assigns.current_user.email %>
         </div>
       </div>
     </div>

@@ -52,7 +52,7 @@ defmodule RedWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {RedWeb.Layouts, :app}
+        layout: {RedWeb.Layouts, :live}
 
       unquote(html_helpers())
     end
