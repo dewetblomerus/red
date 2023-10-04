@@ -85,6 +85,7 @@ defmodule RedWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import RedWeb.CoreComponents
+      import RedWeb.MyComponents
       import RedWeb.Gettext
 
       # Shortcut for generating JS commands
