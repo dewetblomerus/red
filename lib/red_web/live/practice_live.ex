@@ -19,7 +19,7 @@ defmodule RedWeb.PracticeLive do
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h1>Practice</h1>
+          <h1>Type the word you hear</h1>
           <%= @word %>
         </div>
       </div>
