@@ -2,7 +2,7 @@ defmodule Red.Api.Attempt do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
-  @red_words ["the", "red", "words"]
+  alias Red.Words
 
   actions do
     defaults [:create, :read, :update]
@@ -18,7 +18,7 @@ defmodule Red.Api.Attempt do
 
     attribute :correct_spelling, :string do
       allow_nil? false
-      constraints match: ~r/#{@red_words |> Enum.join("|")}/
+      constraints match: ~r/#{Words.words() |> Enum.join("|")}/
     end
 
     create_timestamp :created_at
