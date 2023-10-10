@@ -1,0 +1,18 @@
+<div id="hooker" phx-hook="Say"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Type the word you hear</h1>
+    </div>
+  </div>
+</div>
+<%!-- <.form for={@form} phx-change="validate" phx-submit="save">
+  <.input type="text" field={@form[:username]} />
+  <.input type="email" field={@form[:email]} />
+  <button>Save</button>
+</.form> --%>
+
+<.simple_form for={@form} phx-change="validate" phx-submit="submit">
+  <.input type="text" name="tried_spelling" field={@form[:attempted_spelling]} />
+  <.button>Submit</.button>
+</.simple_form>

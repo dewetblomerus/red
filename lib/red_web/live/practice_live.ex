@@ -3,32 +3,42 @@ defmodule RedWeb.PracticeLive do
   alias Red.Words
 
   def mount(_params, _session, socket) do
+    form =
+      Red.Api.Attempt
+      |> AshPhoenix.Form.for_create(:try,
+        api: RedApi,
+        forms: [auto?: true]
+      )
+      |> to_form()
+
     socket =
       assign(socket, %{
+        form: form,
         word: Words.random_word()
       })
 
-    Process.send_after(self(), :say, 200)
+    Process.send_after(self(), :say, 1)
 
     {:ok, socket}
   end
 
-  def render(assigns) do
-    ~L"""
-    <div id="hooker" phx-hook="Say"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h1>Type the word you hear</h1>
-          <%= @word %>
-        </div>
-      </div>
-    </div>
-    """
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("submit", %{"tried_spelling" => tried_spelling}, socket) do
+    Red.Api.Attempt
+    |> Ash.Changeset.for_create(:try, %{
+      correct_spelling: "the",
+      tried_spelling: tried_spelling,
+      user_id: socket.assigns.current_user.id
+    })
+    |> Red.Api.create!()
+
+    {:noreply, socket}
   end
 
   def handle_info(:say, socket) do
-    # Process.send_after(self(), :say, 2000)
-    {:noreply, push_event(socket, "Say", %{word: socket.assigns.word, what: "hello"})}
+    {:noreply, push_event(socket, "Say", %{word: socket.assigns.word})}
   end
 end
