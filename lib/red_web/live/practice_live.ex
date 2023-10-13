@@ -5,8 +5,8 @@ defmodule RedWeb.PracticeLive do
   def mount(_params, _session, socket) do
     form =
       Red.Api.Attempt
-      |> AshPhoenix.Form.for_create(:try,
-        api: RedApi,
+      |> AshPhoenix.Form.for_create(:create,
+        api: Red.Api,
         forms: [auto?: true]
       )
       |> to_form()

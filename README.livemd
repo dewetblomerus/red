@@ -17,6 +17,12 @@ To start your Phoenix server:
 ```
 
 ```elixir
+# Red.Api.Word
+# |> Ash.Changeset.for_create(:create, %{word: "the"})
+# |> Red.Api.create!()
+```
+
+```elixir
 # Red.Accounts.read_one!(:one, :two)
 
 # MyApp.Post
@@ -30,15 +36,23 @@ user =
   |> Ash.Query.build(filter: [email: "dewetblomerus@gmail.com"])
   |> Red.Api.read_one!()
 
-# Red.Api.Attempt
-# |> Ash.Changeset.for_create(:try, %{
+# user = Red.Api.User.get_by_email!("dewetblomerus@gmail.com")
+
+# Red.Api.Attempt.create!(%{
 #   correct_spelling: "the",
 #   tried_spelling: "ttt",
 #   user_id: user.id
 # })
-# |> Red.Api.create!()
 
 Red.Api.Attempt
-|> Ash.Query.build(filter: [user_id: user.id])
-|> Red.Api.read()
+|> Ash.Changeset.for_create(:try, %{
+  correct_spelling: "the",
+  tried_spelling: "ttt",
+  user_id: user.id
+})
+|> Red.Api.create!()
+
+# Red.Api.Attempt
+# |> Ash.Query.build(filter: [user_id: user.id])
+# |> Red.Api.read()
 ```
