@@ -29,7 +29,7 @@ defmodule RedWeb.PracticeLive do
   def handle_event("submit", %{"tried_spelling" => tried_spelling}, socket) do
     Red.Api.Attempt
     |> Ash.Changeset.for_create(:try, %{
-      correct_spelling: "the",
+      correct_spelling: socket.assigns.word,
       tried_spelling: tried_spelling,
       user_id: socket.assigns.current_user.id
     })
