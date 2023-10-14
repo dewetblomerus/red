@@ -3,6 +3,5 @@ defmodule Red.Api do
 
   resources do
     resource Red.Api.Attempt
-    resource Red.Api.User
   end
 end

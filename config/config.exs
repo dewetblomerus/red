@@ -8,7 +8,7 @@
 import Config
 
 config :red,
-  ash_apis: [Red.Api],
+  ash_apis: [Red.Accounts, Red.Api],
   ecto_repos: [Red.Repo]
 
 config :ash,

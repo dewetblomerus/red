@@ -4,8 +4,8 @@
 
 To start your Phoenix server:
 
-* `mix setup`
-* `mix phx.server`
+- `mix setup`
+- `mix phx.server`
 
 ```elixir
 # Red.Practice.Attempt
@@ -32,11 +32,11 @@ To start your Phoenix server:
 # Ash.Query.build(MyResource, filter: [name: "fred"], sort: [name: :asc], load: [:foo, :bar], offset: 10)
 
 user =
-  Red.Api.User
+  Red.Accounts.User
   |> Ash.Query.build(filter: [email: "dewetblomerus@gmail.com"])
   |> Red.Api.read_one!()
 
-# user = Red.Api.User.get_by_email!("dewetblomerus@gmail.com")
+# user = Red.Accounts.User.get_by_email!("dewetblomerus@gmail.com")
 
 # Red.Api.Attempt.create!(%{
 #   correct_spelling: "the",
