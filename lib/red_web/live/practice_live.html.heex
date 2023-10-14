@@ -2,17 +2,14 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1>Type the word you hear</h1>
+      <.live_component
+        module={RedWeb.PracticeLive.FormComponent}
+        id={:new}
+        current_user={@current_user}
+        action={@live_action}
+        attempt={@attempt}
+        correct_spelling={@word}
+      />
     </div>
   </div>
 </div>
-<%!-- <.form for={@form} phx-change="validate" phx-submit="save">
-  <.input type="text" field={@form[:username]} />
-  <.input type="email" field={@form[:email]} />
-  <button>Save</button>
-</.form> --%>
-
-<.simple_form for={@form} phx-change="validate" phx-submit="submit">
-  <.input type="text" name="tried_spelling" field={@form[:attempted_spelling]} />
-  <.button>Submit</.button>
-</.simple_form>
