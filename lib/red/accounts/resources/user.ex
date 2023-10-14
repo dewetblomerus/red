@@ -1,4 +1,4 @@
-defmodule Red.Api.User do
+defmodule Red.Accounts.User do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication]
@@ -18,7 +18,7 @@ defmodule Red.Api.User do
   end
 
   authentication do
-    api Red.Api
+    api Red.Accounts
 
     strategies do
       auth0 do

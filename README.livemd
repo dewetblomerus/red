@@ -4,8 +4,8 @@
 
 To start your Phoenix server:
 
-* `mix setup`
-* `mix phx.server`
+- `mix setup`
+- `mix phx.server`
 
 ```elixir
 # Red.Practice.Attempt
@@ -14,6 +14,12 @@ To start your Phoenix server:
 #   tried_spelling: "ttt"
 # })
 # |> Red.Practice.create!()
+```
+
+```elixir
+# Red.Api.Word
+# |> Ash.Changeset.for_create(:create, %{word: "the"})
+# |> Red.Api.create!()
 ```
 
 ```elixir
@@ -26,19 +32,27 @@ To start your Phoenix server:
 # Ash.Query.build(MyResource, filter: [name: "fred"], sort: [name: :asc], load: [:foo, :bar], offset: 10)
 
 user =
-  Red.Api.User
+  Red.Accounts.User
   |> Ash.Query.build(filter: [email: "dewetblomerus@gmail.com"])
   |> Red.Api.read_one!()
 
-# Red.Api.Attempt
-# |> Ash.Changeset.for_create(:try, %{
+# user = Red.Accounts.User.get_by_email!("dewetblomerus@gmail.com")
+
+# Red.Api.Attempt.create!(%{
 #   correct_spelling: "the",
 #   tried_spelling: "ttt",
 #   user_id: user.id
 # })
-# |> Red.Api.create!()
 
 Red.Api.Attempt
-|> Ash.Query.build(filter: [user_id: user.id])
-|> Red.Api.read()
+|> Ash.Changeset.for_create(:try, %{
+  correct_spelling: "the",
+  tried_spelling: "ttt",
+  user_id: user.id
+})
+|> Red.Api.create!()
+
+# Red.Api.Attempt
+# |> Ash.Query.build(filter: [user_id: user.id])
+# |> Red.Api.read()
 ```

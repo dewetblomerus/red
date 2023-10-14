@@ -33,7 +33,7 @@ defmodule Red.Api.Attempt do
   end
 
   relationships do
-    belongs_to :user, Red.Api.User,
+    belongs_to :user, Red.Accounts.User,
       attribute_writable?: true,
       allow_nil?: false
   end
