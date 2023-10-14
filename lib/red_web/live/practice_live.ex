@@ -35,14 +35,21 @@ defmodule RedWeb.PracticeLive do
         socket =
           socket
           |> assign(:word, Words.random_word())
-          |> put_flash(:info, "Correct!")
+          |> put_flash(:info, "'#{tried_spelling}' is correct!.")
+
+        Process.send_after(self(), :say, 1)
+        {:noreply, socket}
 
       false ->
         socket =
           socket
-          |> put_flash(:info, "Incorrect!")
-    end
+          |> put_flash(
+            :error,
+            "The word was '#{correct_spelling}' but you typed '#{tried_spelling}'."
+          )
 
-    {:noreply, socket}
+        Process.send_after(self(), :say, 1)
+        {:noreply, socket}
+    end
   end
 end

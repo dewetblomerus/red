@@ -7,7 +7,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
     <div>
       <.header>
         Spell the Word You Hear
-        <:subtitle>Just try your best.</:subtitle>
+        <:subtitle>Press spacebar to hear it again.</:subtitle>
       </.header>
       <.simple_form
         for={@form}
