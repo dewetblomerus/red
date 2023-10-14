@@ -62,5 +62,18 @@ defmodule Red.Accounts.User do
     read :read do
       primary? true
     end
+
+    read :get_by_email do
+      argument :email, :string, allow_nil?: false
+      get? true
+
+      filter(email: arg(:email))
+    end
+  end
+
+  code_interface do
+    define_for Red.Accounts
+
+    define :get_by_email, action: :get_by_email
   end
 end
