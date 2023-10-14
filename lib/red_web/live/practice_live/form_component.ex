@@ -16,9 +16,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:tried_spelling]} type="text" label="Tried spelling" />
+        <.input field={@form[:tried_spelling]} type="text" label="Tried spelling" autofocus />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Attempt</.button>
+          <.button phx-disable-with="Saving...">Submit</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -35,8 +35,13 @@ defmodule RedWeb.PracticeLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"attempt" => attempt_params}, socket) do
-    {:noreply,
-     assign(socket, form: AshPhoenix.Form.validate(socket.assigns.form, attempt_params))}
+    {
+      :noreply,
+      assign(
+        socket,
+        form: AshPhoenix.Form.validate(socket.assigns.form, attempt_params)
+      )
+    }
   end
 
   def handle_event("save", %{"attempt" => attempt_params}, socket) do
@@ -55,12 +60,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
     case AshPhoenix.Form.submit(socket.assigns.form, params: hydrated_params) do
       {:ok, attempt} ->
         notify_parent({:saved, attempt})
-
-        socket =
-          socket
-          |> put_flash(:info, "Attempt #{socket.assigns.form.source.type}d successfully")
-
-        {:noreply, socket}
+        {:noreply, assign_form(socket)}
 
       {:error, form} ->
         {:noreply, assign(socket, form: form)}
@@ -69,22 +69,15 @@ defmodule RedWeb.PracticeLive.FormComponent do
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
-  defp assign_form(%{assigns: %{attempt: attempt}} = socket) do
+  defp assign_form(socket) do
     form =
-      if attempt do
-        AshPhoenix.Form.for_update(attempt, :update,
-          api: Red.Api,
-          as: "attempt",
-          actor: socket.assigns.current_user
-        )
-      else
-        AshPhoenix.Form.for_create(Red.Api.Attempt, :create,
-          api: Red.Api,
-          as: "attempt",
-          actor: socket.assigns.current_user
-        )
-      end
+      AshPhoenix.Form.for_create(Red.Api.Attempt, :create,
+        api: Red.Api,
+        as: "attempt",
+        actor: socket.assigns.current_user
+      )
+      |> to_form()
 
-    assign(socket, form: to_form(form))
+    assign(socket, form: form)
   end
 end
