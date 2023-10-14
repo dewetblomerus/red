@@ -12,6 +12,13 @@ defmodule Red.Api.Attempt do
     end
   end
 
+  code_interface do
+    define_for Red.Api
+    define :create, action: :create
+    define :read_all, action: :read
+    define :update, action: :update
+  end
+
   attributes do
     uuid_primary_key :id
     attribute :tried_spelling, :string, allow_nil?: false
