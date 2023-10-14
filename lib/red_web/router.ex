@@ -30,6 +30,13 @@ defmodule RedWeb.Router do
     ash_authentication_live_session :authentication_required,
       on_mount: {RedWeb.LiveUserAuth, :live_user_required} do
       live "/practice", PracticeLive
+
+      live "/attempts", AttemptLive.Index, :index
+      live "/attempts/new", AttemptLive.Index, :new
+      live "/attempts/:id/edit", AttemptLive.Index, :edit
+
+      live "/attempts/:id", AttemptLive.Show, :show
+      live "/attempts/:id/show/edit", AttemptLive.Show, :edit
     end
   end
 
