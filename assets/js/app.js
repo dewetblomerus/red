@@ -30,10 +30,19 @@ let Hooks = {}
 
 Hooks.Say = {
   mounted() {
-    this.handleEvent('Say', ({ word, what }) => {
+    this.handleEvent('Say', ({ word }) => {
       const utter = new SpeechSynthesisUtterance(word)
+      window.speechSynthesis.cancel()
       window.speechSynthesis.speak(utter)
       console.log('Tried to say the word')
+
+      document.body.onkeyup = function (e) {
+        if (e.key == ' ' || e.code == 'Space' || e.keyCode == 32) {
+          console.log("You've pressed the spacebar")
+          window.speechSynthesis.cancel()
+          window.speechSynthesis.speak(utter)
+        }
+      }
     })
   },
 }
