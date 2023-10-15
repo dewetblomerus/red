@@ -1,13 +1,13 @@
 {
   "attributes": [
     {
-      "default": "fragment(\"uuid_generate_v4()\")",
+      "default": "nil",
       "size": null,
-      "type": "uuid",
+      "type": "bigint",
       "source": "id",
       "references": null,
       "allow_nil?": false,
-      "generated?": false,
+      "generated?": true,
       "primary_key?": true
     },
     {
@@ -42,7 +42,7 @@
     }
   ],
   "table": "users",
-  "hash": "A838481D54E118DBFD62830B912C77C967E0B2F813125A52109824E85167B315",
+  "hash": "F260014D996799B09BAA28710617638C3D40B406A257609B7ECA4F88E537CDDD",
   "repo": "Elixir.Red.Repo",
   "identities": [
     {
@@ -57,8 +57,8 @@
   "schema": null,
   "multitenancy": {
     "global": null,
-    "attribute": null,
-    "strategy": null
+    "strategy": null,
+    "attribute": null
   },
   "base_filter": null,
   "check_constraints": [],

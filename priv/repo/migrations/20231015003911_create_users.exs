@@ -9,7 +9,7 @@ defmodule Red.Repo.Migrations.CreateUsers do
 
   def up do
     create table(:users, primary_key: false) do
-      add :id, :uuid, null: false, default: fragment("uuid_generate_v4()"), primary_key: true
+      add :id, :bigserial, null: false, primary_key: true
       add :email, :citext, null: false
       add :created_at, :utc_datetime_usec, null: false, default: fragment("now()")
       add :updated_at, :utc_datetime_usec, null: false, default: fragment("now()")

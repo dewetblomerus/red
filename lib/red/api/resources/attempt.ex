@@ -20,7 +20,7 @@ defmodule Red.Api.Attempt do
   end
 
   attributes do
-    uuid_primary_key :id
+    integer_primary_key :id
     attribute :tried_spelling, :string, allow_nil?: false
 
     attribute :correct_spelling, :string do
@@ -34,6 +34,7 @@ defmodule Red.Api.Attempt do
   relationships do
     belongs_to :user, Red.Accounts.User,
       attribute_writable?: true,
+      attribute_type: :integer,
       allow_nil?: false
   end
 

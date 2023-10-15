@@ -1,13 +1,13 @@
 {
   "attributes": [
     {
-      "default": "fragment(\"uuid_generate_v4()\")",
+      "default": "nil",
       "size": null,
-      "type": "uuid",
+      "type": "bigint",
       "source": "id",
       "references": null,
       "allow_nil?": false,
-      "generated?": false,
+      "generated?": true,
       "primary_key?": true
     },
     {
@@ -43,20 +43,20 @@
     {
       "default": "nil",
       "size": null,
-      "type": "uuid",
+      "type": "bigint",
       "source": "user_id",
       "references": {
         "name": "attempts_user_id_fkey",
         "table": "users",
         "schema": "public",
-        "primary_key?": true,
-        "destination_attribute": "id",
+        "on_delete": null,
         "multitenancy": {
           "global": null,
           "attribute": null,
           "strategy": null
         },
-        "on_delete": null,
+        "primary_key?": true,
+        "destination_attribute": "id",
         "deferrable": false,
         "on_update": null,
         "destination_attribute_default": null,
@@ -68,7 +68,7 @@
     }
   ],
   "table": "attempts",
-  "hash": "9DDB28845E0791B63C87B8944C21BAE24A05E79E4D35F21F1E22D0BABF64D04B",
+  "hash": "8EFB82BCE2F4B02933A0E0F9216593B18F8CC62A993920145874A2ACB4D74F8F",
   "repo": "Elixir.Red.Repo",
   "identities": [],
   "schema": null,

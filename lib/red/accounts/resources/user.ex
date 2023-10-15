@@ -4,7 +4,7 @@ defmodule Red.Accounts.User do
     extensions: [AshAuthentication]
 
   attributes do
-    uuid_primary_key :id
+    integer_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
     create_timestamp :created_at
     create_timestamp :updated_at
