@@ -12,9 +12,8 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 
 # Red.Practice.Attempt.create!(%{
 #   correct_spelling: "the",
-#   tried_spelling: "ttt",
-#   user_id: user.id
-# })
+#   tried_spelling: "ttt"
+# }, actor: user)
 
 # Ash.set_actor(user)
 # Ash.get_actor()

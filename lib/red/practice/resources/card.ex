@@ -12,6 +12,10 @@ defmodule Red.Practice.Card do
     define :create, action: :create
   end
 
+  changes do
+    change relate_actor(:user)
+  end
+
   attributes do
     integer_primary_key :id
 

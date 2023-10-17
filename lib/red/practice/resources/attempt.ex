@@ -15,6 +15,10 @@ defmodule Red.Practice.Attempt do
     define :update, action: :update
   end
 
+  changes do
+    change relate_actor(:user)
+  end
+
   attributes do
     integer_primary_key :id
     attribute :tried_spelling, :string, allow_nil?: false
@@ -29,7 +33,6 @@ defmodule Red.Practice.Attempt do
 
   relationships do
     belongs_to :user, Red.Accounts.User,
-      attribute_writable?: true,
       attribute_type: :integer,
       allow_nil?: false
   end
