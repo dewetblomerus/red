@@ -4,13 +4,13 @@
 
 To start your Phoenix server:
 
-* `mix setup`
-* `mix phx.server`
+- `mix setup`
+- `mix phx.server`
 
 ```elixir
 user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 
-# Red.Api.Attempt.create!(%{
+# Red.Practice.Attempt.create!(%{
 #   correct_spelling: "the",
 #   tried_spelling: "ttt",
 #   user_id: user.id

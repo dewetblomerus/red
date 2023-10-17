@@ -2,7 +2,7 @@ defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
   alias Red.Words
   alias RedWeb.PracticeLive.FormComponent
-  alias Red.Api.Attempt
+  alias Red.Practice.Attempt
 
   def mount(_params, _session, socket) do
     socket =

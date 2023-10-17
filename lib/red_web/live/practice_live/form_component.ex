@@ -71,8 +71,8 @@ defmodule RedWeb.PracticeLive.FormComponent do
 
   defp assign_form(socket) do
     form =
-      AshPhoenix.Form.for_create(Red.Api.Attempt, :create,
-        api: Red.Api,
+      AshPhoenix.Form.for_create(Red.Practice.Attempt, :create,
+        api: Red.Practice,
         as: "attempt",
         actor: socket.assigns.current_user
       )

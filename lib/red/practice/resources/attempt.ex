@@ -1,4 +1,4 @@
-defmodule Red.Api.Attempt do
+defmodule Red.Practice.Attempt do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
@@ -13,7 +13,7 @@ defmodule Red.Api.Attempt do
   end
 
   code_interface do
-    define_for Red.Api
+    define_for Red.Practice
     define :create, action: :create
     define :read_all, action: :read
     define :update, action: :update
