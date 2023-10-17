@@ -3,5 +3,6 @@ defmodule Red.Practice do
 
   resources do
     resource Red.Practice.Attempt
+    resource Red.Practice.Card
   end
 end
