@@ -4,8 +4,8 @@
 
 To start your Phoenix server:
 
-- `mix setup`
-- `mix phx.server`
+* `mix setup`
+* `mix phx.server`
 
 ```elixir
 user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
@@ -15,4 +15,15 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 #   tried_spelling: "ttt",
 #   user_id: user.id
 # })
+
+# Ash.set_actor(user)
+# Ash.get_actor()
+# now = DateTime.utc_now()
+
+Red.Practice.Card.create!(
+  %{
+    word: "the"
+  },
+  actor: user
+)
 ```
