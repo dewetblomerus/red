@@ -19,10 +19,7 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 # Ash.get_actor()
 # now = DateTime.utc_now()
 
-Red.Practice.Card.create!(
-  %{
-    word: "the"
-  },
-  actor: user
-)
+# Red.Practice.Card.create!(%{
+#   word: "red"
+# }, actor: user)
 ```

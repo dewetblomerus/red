@@ -3,17 +3,17 @@ defmodule Red.Practice.Card do
     data_layer: AshPostgres.DataLayer
 
   actions do
-    defaults [:create, :read, :update]
+    defaults [:read, :update]
+
+    create :create do
+      change relate_actor(:user)
+    end
   end
 
   code_interface do
     define_for Red.Practice
 
     define :create, action: :create
-  end
-
-  changes do
-    change relate_actor(:user)
   end
 
   attributes do
