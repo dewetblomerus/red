@@ -8,12 +8,18 @@ defmodule Red.Practice.Card do
     create :create do
       change relate_actor(:user)
     end
+
+    read :next do
+      filter(expr(is_nil(retry_at)))
+    end
   end
 
   code_interface do
     define_for Red.Practice
 
     define :create, action: :create
+
+    define :next, action: :next
   end
 
   attributes do

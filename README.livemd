@@ -22,4 +22,15 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 # Red.Practice.Card.create!(%{
 #   word: "red"
 # }, actor: user)
+
+# card = Red.Practice.Card.next()
+
+# require Ash.Query
+
+# Red.Practice.Card
+# |> Ash.Query.filter(word == "red")
+# |> Ash.Query.filter(actor: user)
+# |> Red.Practice.read!()
+
+Red.Practice.Card.next()
 ```
