@@ -2,6 +2,15 @@ defmodule Red.Practice.Card do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
+  code_interface do
+    define_for Red.Practice
+
+    define :create, action: :create
+
+    define :next, action: :next, args: [:user_id]
+    define :next_retry_at, action: :next_retry_at, args: [:user_id]
+  end
+
   actions do
     defaults [:read, :update]
 
@@ -10,16 +19,40 @@ defmodule Red.Practice.Card do
     end
 
     read :next do
-      filter(expr(is_nil(retry_at)))
+      argument :user_id, :integer do
+        allow_nil? false
+      end
+
+      get? true
+
+      prepare build(limit: 1, sort: [created_at: :asc])
+
+      filter expr(is_nil(retry_at) and user_id == ^arg(:user_id))
+
+      prepare fn query, _ ->
+        Ash.Query.after_action(query, fn
+          query, [] ->
+            dbg("no cards with retry_at: nil")
+
+            {:ok, results} = Red.Practice.Card.next_retry_at(query.arguments.user_id)
+            {:ok, results}
+
+          _query, results ->
+            dbg("found a card with retry_at: nil")
+            {:ok, results}
+        end)
+      end
     end
-  end
 
-  code_interface do
-    define_for Red.Practice
+    read :next_retry_at do
+      argument :user_id, :integer do
+        allow_nil? false
+      end
 
-    define :create, action: :create
+      prepare build(limit: 1, sort: [retry_at: :asc])
 
-    define :next, action: :next
+      filter expr(retry_at < now())
+    end
   end
 
   attributes do

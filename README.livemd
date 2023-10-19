@@ -32,5 +32,6 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 # |> Ash.Query.filter(actor: user)
 # |> Red.Practice.read!()
 
-Red.Practice.Card.next()
+# Red.Practice.Card.next(user.id)
+Red.Practice.Card.next(1)
 ```
