@@ -32,11 +32,11 @@ defmodule Red.Practice.Card do
       prepare fn query, _ ->
         Ash.Query.after_action(query, fn
           query, [] ->
-            dbg("found no cards with retry_at < now")
+            dbg("No cards found with retry_at < now")
             Red.Practice.Card.oldest_untried_card(query.arguments.user_id)
 
           _query, results ->
-            dbg("found a card with retry_at < now")
+            dbg("A card was found with retry_at < now")
             {:ok, results}
         end)
       end
