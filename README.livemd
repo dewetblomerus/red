@@ -15,7 +15,7 @@ user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
 #   tried_spelling: "ttt"
 # }, actor: user)
 
-# Ash.set_actor(user)
+Ash.set_actor(user)
 # Ash.get_actor()
 # now = DateTime.utc_now()
 

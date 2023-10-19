@@ -8,7 +8,7 @@ defmodule Red.Practice.Card do
     define :create, action: :create
 
     define :next, action: :next, args: [:user_id]
-    define :next_retry_at, action: :next_retry_at, args: [:user_id]
+    define :oldest_untried_card, action: :oldest_untried_card, args: [:user_id]
   end
 
   actions do
@@ -25,33 +25,31 @@ defmodule Red.Practice.Card do
 
       get? true
 
-      prepare build(limit: 1, sort: [created_at: :asc])
+      prepare build(limit: 1, sort: [retry_at: :asc])
 
-      filter expr(is_nil(retry_at) and user_id == ^arg(:user_id))
+      filter expr(retry_at < now() and user_id == ^arg(:user_id))
 
       prepare fn query, _ ->
         Ash.Query.after_action(query, fn
           query, [] ->
-            dbg("no cards with retry_at: nil")
-
-            {:ok, results} = Red.Practice.Card.next_retry_at(query.arguments.user_id)
-            {:ok, results}
+            dbg("found no cards with retry_at < now")
+            Red.Practice.Card.oldest_untried_card(query.arguments.user_id)
 
           _query, results ->
-            dbg("found a card with retry_at: nil")
+            dbg("found a card with retry_at < now")
             {:ok, results}
         end)
       end
     end
 
-    read :next_retry_at do
+    read :oldest_untried_card do
       argument :user_id, :integer do
         allow_nil? false
       end
 
-      prepare build(limit: 1, sort: [retry_at: :asc])
+      prepare build(limit: 1, sort: [created_at: :asc])
 
-      filter expr(retry_at < now())
+      filter expr(is_nil(retry_at) and user_id == ^arg(:user_id))
     end
   end
 
