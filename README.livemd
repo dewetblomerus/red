@@ -8,14 +8,16 @@ To start your Phoenix server:
 * `mix phx.server`
 
 ```elixir
-user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
+# user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
+user = Red.Accounts.User.get_by!(%{email: "dewet.blomerus+test@gmail.com"})
+dbg(user.id)
 
 # Red.Practice.Attempt.create!(%{
 #   correct_spelling: "the",
 #   tried_spelling: "ttt"
 # }, actor: user)
 
-Ash.set_actor(user)
+# Ash.set_actor(user)
 # Ash.get_actor()
 # now = DateTime.utc_now()
 
@@ -23,15 +25,9 @@ Ash.set_actor(user)
 #   word: "red"
 # }, actor: user)
 
-# card = Red.Practice.Card.next()
-
-# require Ash.Query
-
 # Red.Practice.Card
-# |> Ash.Query.filter(word == "red")
-# |> Ash.Query.filter(actor: user)
-# |> Red.Practice.read!()
+# |> Ash.Query.for_read(:next, %{}, actor: user)
+# |> Red.Practice.read_one!()
 
-# Red.Practice.Card.next(user.id)
-Red.Practice.Card.next(1)
+Red.Practice.Card.next!(actor: user)
 ```
