@@ -31,7 +31,10 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(:say, socket) do
     if socket.assigns.card do
-      {:noreply, push_event(socket, "Say", %{word: socket.assigns.card.word})}
+      {:noreply,
+       push_event(socket, "Say", %{
+         utterance: "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
+       })}
     else
       {:noreply, socket}
     end

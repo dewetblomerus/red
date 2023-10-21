@@ -54,10 +54,11 @@ defmodule Red.Practice.Card do
   attributes do
     integer_primary_key :id
 
-    attribute :word, :string, allow_nil?: false
-    attribute :tried_at, :utc_datetime, allow_nil?: true
-    attribute :retry_at, :utc_datetime, allow_nil?: true
     attribute :correct_streak, :integer, allow_nil?: false, default: 0
+    attribute :phrase, :string, allow_nil?: false
+    attribute :retry_at, :utc_datetime, allow_nil?: true
+    attribute :tried_at, :utc_datetime, allow_nil?: true
+    attribute :word, :string, allow_nil?: false
 
     create_timestamp :created_at
     create_timestamp :updated_at

@@ -30,8 +30,8 @@ let Hooks = {}
 
 Hooks.Say = {
   mounted() {
-    this.handleEvent('Say', ({ word }) => {
-      const utter = new SpeechSynthesisUtterance(word)
+    this.handleEvent('Say', ({ utterance }) => {
+      const utter = new SpeechSynthesisUtterance(utterance)
       window.speechSynthesis.cancel()
       window.speechSynthesis.speak(utter)
       console.log('Tried to say the word')
