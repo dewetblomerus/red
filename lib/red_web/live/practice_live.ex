@@ -48,7 +48,7 @@ defmodule RedWeb.PracticeLive do
           socket
           |> assign(:card, get_next_card(socket))
           |> clear_flash()
-          |> put_flash(:info, "'#{tried_spelling}' is correct!.")
+          |> put_flash(:info, "Correct!")
 
         Process.send_after(self(), :say, 1)
         {:noreply, socket}

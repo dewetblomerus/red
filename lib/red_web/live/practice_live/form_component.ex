@@ -49,7 +49,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
   def handle_event("save", %{"card" => %{"tried_spelling" => tried_spelling} = params}, socket) do
     case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
       {:ok, card} ->
-        notify_parent({:tried, %{correct_spelling: card.word, tried_spelling: tried_spelling}})
+        notify_parent(
+          {:tried, %{correct_spelling: card.word, tried_spelling: String.trim(tried_spelling)}}
+        )
 
         {:noreply, assign_form(socket)}
 
