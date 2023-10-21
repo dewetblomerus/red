@@ -9,3 +9,22 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias NimbleCSV.RFC4180, as: CSV
+
+email = "dewetblomerus+new@gmail.com"
+user = Red.Accounts.User.get_by!(%{email: email})
+
+"priv/repo/book_1_seeds.csv"
+|> File.stream!()
+|> CSV.parse_stream()
+|> Stream.map(fn [word, phrase] ->
+  Red.Practice.Card.create(
+    %{
+      word: word,
+      phrase: phrase
+    },
+    actor: user
+  )
+end)
+|> Stream.run()

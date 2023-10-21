@@ -4,8 +4,8 @@
 
 To start your Phoenix server:
 
-* `mix setup`
-* `mix phx.server`
+- `mix setup`
+- `mix phx.server`
 
 ```elixir
 # email = "dewetblomerus@gmail.com"

@@ -44,6 +44,7 @@ defmodule Red.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:nimble_csv, "~> 1.2"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_dashboard, "~> 0.8"},
