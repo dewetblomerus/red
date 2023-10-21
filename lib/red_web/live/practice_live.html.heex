@@ -2,14 +2,20 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <.live_component
-        module={RedWeb.PracticeLive.FormComponent}
-        id={:new}
-        current_user={@current_user}
-        action={@live_action}
-        attempt={@attempt}
-        correct_spelling={@word}
-      />
+      <%= if @card do %>
+        <.live_component
+          module={RedWeb.PracticeLive.FormComponent}
+          id={:new}
+          current_user={@current_user}
+          action={@live_action}
+          attempt={@attempt}
+          correct_spelling={@card.word}
+        />
+      <% else %>
+        <div class="alert alert-info">
+          <p>All done for now.</p>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -8,8 +8,11 @@ To start your Phoenix server:
 * `mix phx.server`
 
 ```elixir
-# user = Red.Accounts.User.get_by!(%{email: "dewetblomerus@gmail.com"})
-user = Red.Accounts.User.get_by!(%{email: "dewet.blomerus+test@gmail.com"})
+email = "dewetblomerus@gmail.com"
+# email = "dewet.blomerus+test@gmail.com"
+# email = "dewetblomerus+new@gmail.com"
+
+user = Red.Accounts.User.get_by!(%{email: email})
 dbg(user.id)
 
 # Red.Practice.Attempt.create!(%{
@@ -29,5 +32,9 @@ dbg(user.id)
 # |> Ash.Query.for_read(:next, %{}, actor: user)
 # |> Red.Practice.read_one!()
 
-Red.Practice.Card.next!(actor: user)
+card = Red.Practice.Card.next!(actor: user)
+
+card
+|> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
+|> Red.Practice.update!()
 ```

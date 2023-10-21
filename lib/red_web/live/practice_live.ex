@@ -1,15 +1,16 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
-  alias Red.Words
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Attempt
 
   def mount(_params, _session, socket) do
+    card = get_next_card(socket)
+
     socket =
       assign(socket, %{
         attempt: nil,
-        page_title: "Practice",
-        word: Words.random_word()
+        card: card,
+        page_title: "Practice"
       })
 
     Process.send_after(self(), :say, 1)
@@ -17,8 +18,23 @@ defmodule RedWeb.PracticeLive do
     {:ok, socket}
   end
 
+  def get_next_card(socket) do
+    card =
+      case Red.Practice.Card.next(actor: socket.assigns.current_user) do
+        {:ok, card} ->
+          card
+
+        {:error, %Ash.Error.Query.NotFound{}} ->
+          nil
+      end
+  end
+
   def handle_info(:say, socket) do
-    {:noreply, push_event(socket, "Say", %{word: socket.assigns.word})}
+    if socket.assigns.card do
+      {:noreply, push_event(socket, "Say", %{word: socket.assigns.card.word})}
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_info(
@@ -34,7 +50,7 @@ defmodule RedWeb.PracticeLive do
       true ->
         socket =
           socket
-          |> assign(:word, Words.random_word())
+          |> assign(:card, get_next_card(socket))
           |> clear_flash()
           |> put_flash(:info, "'#{tried_spelling}' is correct!.")
 
