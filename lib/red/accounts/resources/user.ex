@@ -11,10 +11,7 @@ defmodule Red.Accounts.User do
   end
 
   relationships do
-    # `has_many` means that the destination attribute is not unique, therefore many related records could exist.
-    # We assume that the destination attribute is `representative_id` based
-    # on the module name of this resource and that the source attribute is `id`.
-    has_many :attempts, Red.Practice.Attempt
+    has_many :card, Red.Practice.Card
   end
 
   authentication do

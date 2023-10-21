@@ -15,15 +15,6 @@ email = "dewetblomerus+new@gmail.com"
 user = Red.Accounts.User.get_by!(%{email: email})
 dbg(user.id)
 
-# Red.Practice.Attempt.create!(%{
-#   correct_spelling: "the",
-#   tried_spelling: "ttt"
-# }, actor: user)
-
-# Ash.set_actor(user)
-# Ash.get_actor()
-# now = DateTime.utc_now()
-
 [
   %{word: "use", phrase: "use the force, Luke"},
   %{word: "move", phrase: "I like to move it"},
