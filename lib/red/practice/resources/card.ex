@@ -87,14 +87,14 @@ defmodule Red.Practice.Card.Try do
   def update(changeset, opts, context) do
     is_correct? = changeset.data.word == changeset.arguments.tried_spelling
 
-    suggested_interval =
-      calculate_suggested_interval(
+    previous_interval =
+      get_previous_interval(
         changeset.data.retry_at,
         changeset.data.tried_at
       )
 
     actual_interval =
-      calculate_actual_interval(changeset.data.tried_at)
+      get_real_interval(changeset.data.tried_at)
 
     correct_streak =
       if is_correct? do
@@ -103,7 +103,15 @@ defmodule Red.Practice.Card.Try do
         0
       end
 
-    new_interval = calculate_interval(is_correct?, suggested_interval, actual_interval)
+    new_interval_params = %{
+      actual_interval: actual_interval,
+      correct_streak: correct_streak,
+      is_correct?: is_correct?,
+      previous_interval: previous_interval
+    }
+
+    new_interval =
+      get_new_interval(new_interval_params)
 
     now = NaiveDateTime.utc_now()
 
@@ -118,12 +126,12 @@ defmodule Red.Practice.Card.Try do
     |> Red.Practice.update()
   end
 
-  defp calculate_suggested_interval(retry_at, tried_at)
+  defp get_previous_interval(retry_at, tried_at)
        when is_nil(retry_at) or is_nil(tried_at) do
     0
   end
 
-  defp calculate_suggested_interval(retry_at, tried_at) do
+  defp get_previous_interval(retry_at, tried_at) do
     NaiveDateTime.diff(
       retry_at,
       tried_at,
@@ -131,9 +139,9 @@ defmodule Red.Practice.Card.Try do
     )
   end
 
-  def calculate_actual_interval(nil), do: 0
+  def get_real_interval(nil), do: 0
 
-  def calculate_actual_interval(tried_at) do
+  def get_real_interval(tried_at) do
     NaiveDateTime.diff(
       NaiveDateTime.utc_now(),
       tried_at,
@@ -141,18 +149,31 @@ defmodule Red.Practice.Card.Try do
     )
   end
 
-  defp calculate_interval(true, 0, _) do
+  defp get_new_interval(%{
+         is_correct?: true,
+         correct_streak: correct_streak
+       })
+       when correct_streak < 2 do
+    0
+  end
+
+  defp get_new_interval(%{is_correct?: true, correct_streak: 2}) do
     1
   end
 
-  defp calculate_interval(true, suggested_interval, actual_interval)
-       when suggested_interval > 0 and actual_interval > 0 do
-    if actual_interval > suggested_interval * 2 do
+  defp get_new_interval(%{
+         actual_interval: actual_interval,
+         correct_streak: _,
+         is_correct?: true,
+         previous_interval: previous_interval
+       })
+       when previous_interval > 0 and actual_interval > 0 do
+    if actual_interval > previous_interval * 2 do
       actual_interval
     else
-      suggested_interval * 2
+      previous_interval * 2
     end
   end
 
-  defp calculate_interval(false, _, _), do: 0
+  defp get_new_interval(%{is_correct?: false}), do: 0
 end

@@ -57,6 +57,7 @@ defmodule RedWeb.PracticeLive do
         socket =
           socket
           |> clear_flash()
+          |> assign(:card, Red.Practice.reload!(socket.assigns.card))
           |> put_flash(
             :error,
             "The word was '#{correct_spelling}' but you typed '#{tried_spelling}'."

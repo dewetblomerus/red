@@ -8,9 +8,9 @@ To start your Phoenix server:
 * `mix phx.server`
 
 ```elixir
-email = "dewetblomerus@gmail.com"
+# email = "dewetblomerus@gmail.com"
 # email = "dewet.blomerus+test@gmail.com"
-# email = "dewetblomerus+new@gmail.com"
+email = "dewetblomerus+new@gmail.com"
 
 user = Red.Accounts.User.get_by!(%{email: email})
 dbg(user.id)
@@ -24,7 +24,8 @@ dbg(user.id)
 # Ash.get_actor()
 # now = DateTime.utc_now()
 
-~w(use move taste none sure uses moved waste done using remove paste used removed)
+# ~w(use move taste none sure uses moved waste done using remove paste used removed)
+~w(use move)
 |> Enum.each(fn word ->
   dbg(word)
 
@@ -44,9 +45,13 @@ end)
 # |> Ash.Query.for_read(:next, %{}, actor: user)
 # |> Red.Practice.read_one!()
 
-# card = Red.Practice.Card.next!(actor: user)
+card = Red.Practice.Card.next!(actor: user)
 
 # card
 # |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
 # |> Red.Practice.update!()
+```
+
+```elixir
+Red.Practice.reload!(card)
 ```

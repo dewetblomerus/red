@@ -35,8 +35,6 @@ defmodule RedWeb.PracticeLive.FormComponent do
 
   @impl true
   def handle_event("validate", params, socket) do
-    dbg(params)
-
     {
       :noreply,
       assign(
