@@ -15,9 +15,11 @@ alias NimbleCSV.RFC4180, as: CSV
 email = "dewetblomerus+new@gmail.com"
 user = Red.Accounts.User.get_by!(%{email: email})
 
-"priv/repo/book_1_seeds.csv"
+NimbleCSV.define(MyParser, separator: "|", escape: "\"")
+
+"priv/repo/book_1_to_3_seeds.csv"
 |> File.stream!()
-|> CSV.parse_stream()
+|> MyParser.parse_stream()
 |> Stream.map(fn [word, phrase] ->
   Red.Practice.Card.create(
     %{
