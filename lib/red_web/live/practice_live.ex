@@ -48,7 +48,7 @@ defmodule RedWeb.PracticeLive do
           socket
           |> assign(:card, get_next_card(socket))
           |> clear_flash()
-          |> put_flash(:info, "Correct!")
+          |> put_flash(:info, "Correct! #{success_emoji()}")
 
         Process.send_after(self(), :say, 1)
         {:noreply, socket}
@@ -66,5 +66,9 @@ defmodule RedWeb.PracticeLive do
         Process.send_after(self(), :say, 1)
         {:noreply, socket}
     end
+  end
+
+  defp success_emoji() do
+    ~w(✅ 🎉 ✨ 😍 🥳 💪 🔥) |> Enum.random()
   end
 end
