@@ -1,7 +1,7 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
   alias RedWeb.PracticeLive.FormComponent
-  alias Red.Practice.Attempt
+  alias Red.Practice.Card
 
   def mount(_params, _session, socket) do
     card = get_next_card(socket)
@@ -20,7 +20,7 @@ defmodule RedWeb.PracticeLive do
 
   def get_next_card(socket) do
     card =
-      case Red.Practice.Card.next(actor: socket.assigns.current_user) do
+      case Card.next(actor: socket.assigns.current_user) do
         {:ok, card} ->
           card
 
@@ -39,11 +39,7 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(
         {FormComponent,
-         {:saved,
-          %Attempt{
-            tried_spelling: tried_spelling,
-            correct_spelling: correct_spelling
-          }}},
+         {:tried, %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
     case tried_spelling == correct_spelling do

@@ -11,7 +11,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
       </.header>
       <.simple_form
         for={@form}
-        id="attempt-form"
+        id="try-form"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
@@ -34,32 +34,23 @@ defmodule RedWeb.PracticeLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"attempt" => attempt_params}, socket) do
+  def handle_event("validate", params, socket) do
+    dbg(params)
+
     {
       :noreply,
       assign(
         socket,
-        form: AshPhoenix.Form.validate(socket.assigns.form, attempt_params)
+        form: AshPhoenix.Form.validate(socket.assigns.form, params)
       )
     }
   end
 
-  def handle_event("save", %{"attempt" => attempt_params}, socket) do
-    hydrated_params =
-      Map.merge(
-        attempt_params,
-        %{
-          "user_id" => socket.assigns.current_user.id,
-          "correct_spelling" => socket.assigns.correct_spelling
-        },
-        fn _k, _v1, _v2 ->
-          raise("duplicate key")
-        end
-      )
+  def handle_event("save", %{"card" => %{"tried_spelling" => tried_spelling} = params}, socket) do
+    case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
+      {:ok, card} ->
+        notify_parent({:tried, %{correct_spelling: card.word, tried_spelling: tried_spelling}})
 
-    case AshPhoenix.Form.submit(socket.assigns.form, params: hydrated_params) do
-      {:ok, attempt} ->
-        notify_parent({:saved, attempt})
         {:noreply, assign_form(socket)}
 
       {:error, form} ->
@@ -71,9 +62,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
 
   defp assign_form(socket) do
     form =
-      AshPhoenix.Form.for_create(Red.Practice.Attempt, :create,
+      AshPhoenix.Form.for_update(socket.assigns.card, :try,
         api: Red.Practice,
-        as: "attempt",
+        as: "card",
         actor: socket.assigns.current_user
       )
       |> to_form()

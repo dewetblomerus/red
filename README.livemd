@@ -24,6 +24,18 @@ dbg(user.id)
 # Ash.get_actor()
 # now = DateTime.utc_now()
 
+~w(use move taste none sure uses moved waste done using remove paste used removed)
+|> Enum.each(fn word ->
+  dbg(word)
+
+  Red.Practice.Card.create!(
+    %{
+      word: word
+    },
+    actor: user
+  )
+end)
+
 # Red.Practice.Card.create!(%{
 #   word: "red"
 # }, actor: user)
@@ -32,9 +44,9 @@ dbg(user.id)
 # |> Ash.Query.for_read(:next, %{}, actor: user)
 # |> Red.Practice.read_one!()
 
-card = Red.Practice.Card.next!(actor: user)
+# card = Red.Practice.Card.next!(actor: user)
 
-card
-|> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
-|> Red.Practice.update!()
+# card
+# |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
+# |> Red.Practice.update!()
 ```

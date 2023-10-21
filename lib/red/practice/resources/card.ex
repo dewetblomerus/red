@@ -45,6 +45,7 @@ defmodule Red.Practice.Card do
     end
 
     update :try do
+      accept [:tried_spelling]
       argument(:tried_spelling, :string, allow_nil?: false)
       manual Red.Practice.Card.Try
     end
@@ -81,24 +82,19 @@ end
 
 defmodule Red.Practice.Card.Try do
   use Ash.Resource.ManualUpdate
-  @interval_unit :second
+  @interval_unit :minute
 
   def update(changeset, opts, context) do
     is_correct? = changeset.data.word == changeset.arguments.tried_spelling
 
     suggested_interval =
-      NaiveDateTime.diff(
+      calculate_suggested_interval(
         changeset.data.retry_at,
-        changeset.data.tried_at,
-        @interval_unit
+        changeset.data.tried_at
       )
 
     actual_interval =
-      NaiveDateTime.diff(
-        NaiveDateTime.utc_now(),
-        changeset.data.tried_at,
-        @interval_unit
-      )
+      calculate_actual_interval(changeset.data.tried_at)
 
     correct_streak =
       if is_correct? do
@@ -120,6 +116,29 @@ defmodule Red.Practice.Card.Try do
     changeset
     |> Ash.Changeset.for_update(:update, params)
     |> Red.Practice.update()
+  end
+
+  defp calculate_suggested_interval(retry_at, tried_at)
+       when is_nil(retry_at) or is_nil(tried_at) do
+    0
+  end
+
+  defp calculate_suggested_interval(retry_at, tried_at) do
+    NaiveDateTime.diff(
+      retry_at,
+      tried_at,
+      @interval_unit
+    )
+  end
+
+  def calculate_actual_interval(nil), do: 0
+
+  def calculate_actual_interval(tried_at) do
+    NaiveDateTime.diff(
+      NaiveDateTime.utc_now(),
+      tried_at,
+      @interval_unit
+    )
   end
 
   defp calculate_interval(true, 0, _) do
