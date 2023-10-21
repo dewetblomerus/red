@@ -25,7 +25,8 @@ defmodule Red.Practice.Card.Try do
       actual_interval: actual_interval,
       correct_streak: correct_streak,
       is_correct?: is_correct?,
-      previous_interval: previous_interval
+      previous_interval: previous_interval,
+      tried_before: !is_nil(changeset.data.tried_at)
     }
 
     new_interval =
@@ -65,6 +66,10 @@ defmodule Red.Practice.Card.Try do
       tried_at,
       @interval_unit
     )
+  end
+
+  defp get_new_interval(%{is_correct?: true, tried_before: false}) do
+    480
   end
 
   defp get_new_interval(%{

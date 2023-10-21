@@ -24,16 +24,24 @@ dbg(user.id)
 # Ash.get_actor()
 # now = DateTime.utc_now()
 
-# ~w(use move taste none sure uses moved waste done using remove paste used removed)
 [
   %{word: "use", phrase: "use the force, Luke"},
   %{word: "move", phrase: "I like to move it"},
   %{word: "taste", phrase: "Can I taste that chocolate?"},
   %{word: "none", phrase: "We will have none of that"},
-  %{word: "sure", phrase: "Are you sure?"}
+  %{word: "sure", phrase: "Are you sure?"},
+  %{word: "uses", phrase: "She uses a pencil"},
+  %{word: "moved", phrase: "Who moved my cheese?"},
+  %{word: "waste", phrase: "Let us not waste food"},
+  %{word: "done", phrase: "I am done"},
+  %{word: "using", phrase: "I am using a spelling app"},
+  %{word: "remove", phrase: "May I remove my shoes?"},
+  %{word: "paste", phrase: "Copy and paste"},
+  %{word: "used", phrase: "I used a hammer"},
+  %{word: "removed", phrase: "She has removed her shoes"}
 ]
 |> Enum.each(fn %{word: word, phrase: phrase} ->
-  Red.Practice.Card.create!(
+  Red.Practice.Card.create(
     %{
       word: word,
       phrase: phrase
