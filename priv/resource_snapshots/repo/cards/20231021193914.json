@@ -7,38 +7,8 @@
       "source": "id",
       "references": null,
       "allow_nil?": false,
-      "primary_key?": true,
-      "generated?": true
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "text",
-      "source": "word",
-      "references": null,
-      "allow_nil?": false,
-      "primary_key?": false,
-      "generated?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "utc_datetime",
-      "source": "tried_at",
-      "references": null,
-      "allow_nil?": true,
-      "primary_key?": false,
-      "generated?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "utc_datetime",
-      "source": "retry_at",
-      "references": null,
-      "allow_nil?": true,
-      "primary_key?": false,
-      "generated?": false
+      "generated?": true,
+      "primary_key?": true
     },
     {
       "default": "0",
@@ -47,8 +17,48 @@
       "source": "correct_streak",
       "references": null,
       "allow_nil?": false,
-      "primary_key?": false,
-      "generated?": false
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "text",
+      "source": "phrase",
+      "references": null,
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "utc_datetime",
+      "source": "retry_at",
+      "references": null,
+      "allow_nil?": true,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "utc_datetime",
+      "source": "tried_at",
+      "references": null,
+      "allow_nil?": true,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "text",
+      "source": "word",
+      "references": null,
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
     },
     {
       "default": "fragment(\"now()\")",
@@ -57,8 +67,8 @@
       "source": "created_at",
       "references": null,
       "allow_nil?": false,
-      "primary_key?": false,
-      "generated?": false
+      "generated?": false,
+      "primary_key?": false
     },
     {
       "default": "fragment(\"now()\")",
@@ -67,8 +77,8 @@
       "source": "updated_at",
       "references": null,
       "allow_nil?": false,
-      "primary_key?": false,
-      "generated?": false
+      "generated?": false,
+      "primary_key?": false
     },
     {
       "default": "nil",
@@ -78,27 +88,27 @@
       "references": {
         "name": "cards_user_id_fkey",
         "table": "users",
-        "primary_key?": true,
         "schema": "public",
+        "on_delete": null,
         "multitenancy": {
           "global": null,
-          "strategy": null,
-          "attribute": null
+          "attribute": null,
+          "strategy": null
         },
+        "primary_key?": true,
         "destination_attribute": "id",
-        "on_delete": null,
-        "on_update": null,
         "deferrable": false,
+        "on_update": null,
         "destination_attribute_default": null,
         "destination_attribute_generated": null
       },
       "allow_nil?": false,
-      "primary_key?": false,
-      "generated?": false
+      "generated?": false,
+      "primary_key?": false
     }
   ],
   "table": "cards",
-  "hash": "7CDF36F7E5D23E89365512E81EAF57E7A413292D7EB5171CE736C236B23386A1",
+  "hash": "C08AE09A3D8251C7D4DE07B94BC9BE553A55D7D6CE2A9C28E0304C402AC790D0",
   "repo": "Elixir.Red.Repo",
   "identities": [
     {
@@ -107,19 +117,19 @@
         "word",
         "user_id"
       ],
-      "base_filter": null,
-      "index_name": "cards_unique_word_index"
+      "index_name": "cards_unique_word_index",
+      "base_filter": null
     }
   ],
   "schema": null,
-  "check_constraints": [],
-  "custom_indexes": [],
   "multitenancy": {
     "global": null,
-    "strategy": null,
-    "attribute": null
+    "attribute": null,
+    "strategy": null
   },
   "base_filter": null,
+  "check_constraints": [],
+  "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true
 }

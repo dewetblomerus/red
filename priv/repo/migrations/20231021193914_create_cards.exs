@@ -10,10 +10,11 @@ defmodule Red.Repo.Migrations.CreateCards do
   def up do
     create table(:cards, primary_key: false) do
       add :id, :bigserial, null: false, primary_key: true
-      add :word, :text, null: false
-      add :tried_at, :utc_datetime
-      add :retry_at, :utc_datetime
       add :correct_streak, :bigint, null: false, default: 0
+      add :phrase, :text, null: false
+      add :retry_at, :utc_datetime
+      add :tried_at, :utc_datetime
+      add :word, :text, null: false
       add :created_at, :utc_datetime_usec, null: false, default: fragment("now()")
       add :updated_at, :utc_datetime_usec, null: false, default: fragment("now()")
 
