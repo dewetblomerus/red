@@ -23,7 +23,7 @@ defmodule Red.Practice.Card do
 
       prepare build(limit: 1, sort: [retry_at: :asc])
 
-      filter expr(retry_at < now() and user_id == ^actor(:id))
+      filter expr(user_id == ^actor(:id) and retry_at <= now())
 
       prepare fn query, context ->
         Ash.Query.after_action(query, fn
