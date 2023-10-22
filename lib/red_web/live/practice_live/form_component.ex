@@ -16,6 +16,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
         autocomplete="off"
+        spellcheck="false"
       >
         <.input field={@form[:tried_spelling]} type="text" label="Tried spelling" autofocus />
         <:actions>
