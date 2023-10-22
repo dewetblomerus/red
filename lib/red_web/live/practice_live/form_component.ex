@@ -34,12 +34,12 @@ defmodule RedWeb.PracticeLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", params, socket) do
+  def handle_event("validate", %{"card" => card_params}, socket) do
     {
       :noreply,
       assign(
         socket,
-        form: AshPhoenix.Form.validate(socket.assigns.form, params)
+        form: AshPhoenix.Form.validate(socket.assigns.form, card_params)
       )
     }
   end

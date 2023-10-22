@@ -12,7 +12,7 @@
 
 alias NimbleCSV.RFC4180, as: CSV
 
-email = "dewetblomerus+new@gmail.com"
+email = "dewetblomerus@gmail.com"
 user = Red.Accounts.User.get_by!(%{email: email})
 
 NimbleCSV.define(MyParser, separator: "|", escape: "\"")
