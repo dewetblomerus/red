@@ -52,7 +52,6 @@ defmodule RedWeb.PracticeLive.FormComponent do
     tried_spelling =
       raw_tried_spelling
       |> String.trim()
-      |> String.downcase()
       |> String.replace(" ", "")
 
     case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
