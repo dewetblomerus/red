@@ -44,7 +44,17 @@ defmodule RedWeb.PracticeLive.FormComponent do
     }
   end
 
-  def handle_event("save", %{"card" => %{"tried_spelling" => tried_spelling} = params}, socket) do
+  def handle_event(
+        "save",
+        %{"card" => %{"tried_spelling" => raw_tried_spelling} = params},
+        socket
+      ) do
+    tried_spelling =
+      raw_tried_spelling
+      |> String.trim()
+      |> String.downcase()
+      |> String.replace(" ", "")
+
     case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
       {:ok, card} ->
         notify_parent(
