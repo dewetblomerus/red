@@ -21,6 +21,14 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
+  config :red,
+    auth0: %{
+      client_id: System.fetch_env!("AUTH0_CLIENT_ID"),
+      redirect_uri: "https://" <> System.fetch_env!("PHX_HOST") <> "/auth",
+      client_secret: System.fetch_env!("AUTH0_CLIENT_SECRET"),
+      site: System.fetch_env!("AUTH0_SITE")
+    }
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
@@ -48,7 +56,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.fetch_env!("PHX_HOST")
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :red, RedWeb.Endpoint,
