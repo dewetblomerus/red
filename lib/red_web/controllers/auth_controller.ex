@@ -3,7 +3,7 @@ defmodule RedWeb.AuthController do
   use AshAuthentication.Phoenix.Controller
 
   def success(conn, _activity, user, _token) do
-    return_to = get_session(conn, :return_to) || ~p"/practice"
+    return_to = get_session(conn, :return_to) || ~p"/"
 
     conn
     |> delete_session(:return_to)

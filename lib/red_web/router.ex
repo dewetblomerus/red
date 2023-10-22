@@ -20,7 +20,7 @@ defmodule RedWeb.Router do
   scope "/", RedWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/home", PageController, :home
 
     sign_in_route()
     sign_out_route AuthController
@@ -28,8 +28,8 @@ defmodule RedWeb.Router do
     reset_route []
 
     ash_authentication_live_session :authentication_required,
-      on_mount: {RedWeb.LiveUserAuth, :live_user_required} do
-      live "/practice", PracticeLive
+      on_mount: {RedWeb.LiveUserAuth, :live_user_home} do
+      live "/", PracticeLive
     end
   end
 
