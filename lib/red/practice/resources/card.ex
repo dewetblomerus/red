@@ -49,6 +49,21 @@ defmodule Red.Practice.Card do
       argument(:tried_spelling, :string, allow_nil?: false)
       manual Red.Practice.Card.Try
     end
+
+    read :due_in do
+      argument(:max_correct_streak, :integer, default: 10)
+      argument(:time_amount, :integer, allow_nil?: false)
+      argument(:time_unit, :atom, allow_nil?: false)
+
+      prepare build(sort: [retry_at: :asc])
+
+      filter expr(
+               user_id == ^actor(:id) and
+                 retry_at >= now() and
+                 retry_at < from_now(^arg(:time_amount), ^arg(:time_unit)) and
+                 correct_streak <= ^arg(:max_correct_streak)
+             )
+    end
   end
 
   attributes do

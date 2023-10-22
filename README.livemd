@@ -4,42 +4,51 @@
 
 To start your Phoenix server:
 
-- `mix setup`
-- `mix phx.server`
+* `mix setup`
+* `mix phx.server`
 
 ```elixir
-# email = "dewetblomerus@gmail.com"
+email = "dewetblomerus@gmail.com"
 # email = "dewet.blomerus+test@gmail.com"
-email = "dewetblomerus+new@gmail.com"
+# email = "dewetblomerus+new@gmail.com"
 
 user = Red.Accounts.User.get_by!(%{email: email})
 dbg(user.id)
 
-[
-  %{word: "use", phrase: "use the force, Luke"},
-  %{word: "move", phrase: "I like to move it"},
-  %{word: "taste", phrase: "Can I taste that chocolate?"},
-  %{word: "none", phrase: "We will have none of that"},
-  %{word: "sure", phrase: "Are you sure?"},
-  %{word: "uses", phrase: "She uses a pencil"},
-  %{word: "moved", phrase: "Who moved my cheese?"},
-  %{word: "waste", phrase: "Let us not waste food"},
-  %{word: "done", phrase: "I am done"},
-  %{word: "using", phrase: "I am using a spelling app"},
-  %{word: "remove", phrase: "May I remove my shoes?"},
-  %{word: "paste", phrase: "Copy and paste"},
-  %{word: "used", phrase: "I used a hammer"},
-  %{word: "removed", phrase: "She has removed her shoes"}
-]
-|> Enum.each(fn %{word: word, phrase: phrase} ->
-  Red.Practice.Card.create(
-    %{
-      word: word,
-      phrase: phrase
-    },
-    actor: user
-  )
-end)
+# Red.Practice.Attempt.create!(%{
+#   correct_spelling: "the",
+#   tried_spelling: "ttt"
+# }, actor: user)
+
+# Ash.set_actor(user)
+# Ash.get_actor()
+# now = DateTime.utc_now()
+
+# [
+#   %{word: "use", phrase: "use the force, Luke"},
+#   %{word: "move", phrase: "I like to move it"},
+#   %{word: "taste", phrase: "Can I taste that chocolate?"},
+#   %{word: "none", phrase: "We will have none of that"},
+#   %{word: "sure", phrase: "Are you sure?"},
+#   %{word: "uses", phrase: "She uses a pencil"},
+#   %{word: "moved", phrase: "Who moved my cheese?"},
+#   %{word: "waste", phrase: "Let us not waste food"},
+#   %{word: "done", phrase: "I am done"},
+#   %{word: "using", phrase: "I am using a spelling app"},
+#   %{word: "remove", phrase: "May I remove my shoes?"},
+#   %{word: "paste", phrase: "Copy and paste"},
+#   %{word: "used", phrase: "I used a hammer"},
+#   %{word: "removed", phrase: "She has removed her shoes"},
+# ]
+# |> Enum.each(fn %{word: word, phrase: phrase} ->
+#   Red.Practice.Card.create(
+#     %{
+#       word: word,
+#       phrase: phrase
+#     },
+#     actor: user
+#   )
+# end)
 
 # Red.Practice.Card.create!(%{
 #   word: "red"
@@ -57,5 +66,15 @@ end)
 ```
 
 ```elixir
-Red.Practice.reload!(card)
+# Red.Practice.reload!(card)
+```
+
+```elixir
+Red.Practice.Card
+|> Ash.Query.for_read(:due_in, %{time_amount: 1, time_unit: :hour, max_correct_streak: 5},
+  actor: user
+)
+|> Red.Practice.read()
+
+# Red.Practice.Card.read!(actor: user)
 ```
