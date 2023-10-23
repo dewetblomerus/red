@@ -90,13 +90,13 @@ defmodule Red.Practice.Card.Try do
 
   defp get_new_interval(%{
          actual_interval: actual_interval,
-         correct_streak: _,
+         correct_streak: correct_streak,
          is_correct?: true,
          previous_interval: previous_interval
        })
        when previous_interval > 0 and actual_interval > 0 do
     if actual_interval > previous_interval * 2 do
-      actual_interval
+      min(actual_interval, previous_interval * correct_streak)
     else
       previous_interval * 2
     end
