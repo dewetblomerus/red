@@ -1,5 +1,5 @@
 defmodule Red.Practice.Card.Loader do
-  # alias NimbleCSV.RFC4180
+  alias Red.Practice.Card
 
   def call(user) do
     NimbleCSV.define(MyParser, separator: "|", escape: "\"")
@@ -17,5 +17,17 @@ defmodule Red.Practice.Card.Loader do
       )
     end)
     |> Stream.run()
+
+    get_next_card(user)
+  end
+
+  defp get_next_card(user) do
+    case Card.next(actor: user) do
+      {:ok, card} ->
+        card
+
+      {:error, %Ash.Error.Query.NotFound{}} ->
+        nil
+    end
   end
 end
