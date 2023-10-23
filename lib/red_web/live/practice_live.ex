@@ -55,6 +55,7 @@ defmodule RedWeb.PracticeLive do
           card
 
         {:error, %Ash.Error.Query.NotFound{}} ->
+          Red.Practice.Card.Loader.call(socket.assigns.current_user)
           nil
       end
   end
