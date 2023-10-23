@@ -80,7 +80,11 @@ defmodule Red.Practice.Card.Try do
     0
   end
 
-  defp get_new_interval(%{is_correct?: true, correct_streak: 2}) do
+  defp get_new_interval(%{
+         is_correct?: true,
+         correct_streak: 2,
+         previous_interval: 0
+       }) do
     1
   end
 
