@@ -3,22 +3,30 @@ defmodule RedWeb.PracticeLive do
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
 
-  def mount(_params, _session, socket) do
-    due_today_count = get_due_today_count(socket.assigns.current_user)
+  @max_due_today 20
 
-    card = get_next_card(socket, due_today_count)
-
+  def mount(_params, _session, old_socket) do
     socket =
-      assign(socket, %{
-        attempt: nil,
-        card: card,
-        due_today_count: due_today_count,
+      old_socket
+      |> assign_state()
+      |> assign(%{
+        max_due_today: @max_due_today,
         page_title: "Practice"
       })
 
     Process.send_after(self(), :say, 100)
 
     {:ok, socket}
+  end
+
+  def assign_state(socket) do
+    due_today_count = get_due_today_count(socket.assigns.current_user)
+    card = get_next_card(socket, due_today_count)
+
+    assign(socket, %{
+      card: card,
+      due_today_count: due_today_count
+    })
   end
 
   defp get_due_today_count(user) do
@@ -36,7 +44,7 @@ defmodule RedWeb.PracticeLive do
     |> Enum.count()
   end
 
-  def get_next_card(socket, due_today_count) when due_today_count >= 20 do
+  def get_next_card(socket, due_today_count) when due_today_count >= @max_due_today do
     nil
   end
 
@@ -73,10 +81,7 @@ defmodule RedWeb.PracticeLive do
 
         socket =
           socket
-          |> assign(%{
-            card: get_next_card(socket, due_today_count),
-            due_today_count: due_today_count
-          })
+          |> assign_state()
           |> clear_flash()
           |> put_flash(:info, "Correct! #{success_emoji()}")
 
