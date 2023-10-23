@@ -7,8 +7,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
     <div>
       <.header>
         Spell the Word You Hear
-        <:subtitle>Press spacebar to hear it again.</:subtitle>
+        <:subtitle>Press spacebar or click the repeat button to hear it again.</:subtitle>
       </.header>
+      <.button id="repeatButton">Repeat</.button>
       <.simple_form
         for={@form}
         id="try-form"
