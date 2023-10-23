@@ -7,9 +7,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
     <div>
       <.header>
         Spell the Word You Hear
-        <:subtitle>Press spacebar or click the repeat button to hear it again.</:subtitle>
+        <:subtitle>Press spacebar or click the button below to hear it again.</:subtitle>
       </.header>
-      <.button id="repeatButton">Repeat</.button>
+      <.button id="repeatButton">Say the Word</.button>
       <.simple_form
         for={@form}
         id="try-form"
@@ -19,7 +19,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
         autocomplete="off"
         spellcheck="false"
       >
-        <.input field={@form[:tried_spelling]} type="text" label="Tried spelling" autofocus />
+        <.input field={@form[:tried_spelling]} type="text" label="Give it your best shot" autofocus />
         <:actions>
           <.button phx-disable-with="Saving...">Submit</.button>
         </:actions>
