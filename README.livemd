@@ -71,10 +71,16 @@ dbg(user.id)
 
 ```elixir
 Red.Practice.Card
-|> Ash.Query.for_read(:due_in, %{time_amount: 1, time_unit: :hour, max_correct_streak: 5},
+|> Ash.Query.for_read(
+  :due_in,
+  %{
+    time_amount: 1,
+    time_unit: :hour,
+    max_correct_streak: 1
+  },
   actor: user
 )
-|> Red.Practice.read()
+|> Red.Practice.read!()
 
 # Red.Practice.Card.read!(actor: user)
 ```

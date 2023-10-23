@@ -2,6 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
+      <h3>You have <%= @due_today_count %> out of 20 cards in active review</h3>
       <%= if @card do %>
         <.live_component
           module={RedWeb.PracticeLive.FormComponent}

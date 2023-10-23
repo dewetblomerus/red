@@ -4,21 +4,43 @@ defmodule RedWeb.PracticeLive do
   alias Red.Practice.Card
 
   def mount(_params, _session, socket) do
-    card = get_next_card(socket)
+    due_today_count = get_due_today_count(socket.assigns.current_user)
+
+    card = get_next_card(socket, due_today_count)
 
     socket =
       assign(socket, %{
         attempt: nil,
         card: card,
+        due_today_count: due_today_count,
         page_title: "Practice"
       })
 
-    Process.send_after(self(), :say, 1)
+    Process.send_after(self(), :say, 100)
 
     {:ok, socket}
   end
 
-  def get_next_card(socket) do
+  defp get_due_today_count(user) do
+    Red.Practice.Card
+    |> Ash.Query.for_read(
+      :due_in,
+      %{
+        time_amount: 8,
+        time_unit: :hour,
+        max_correct_streak: 5
+      },
+      actor: user
+    )
+    |> Red.Practice.read!()
+    |> Enum.count()
+  end
+
+  def get_next_card(socket, due_today_count) when due_today_count >= 20 do
+    nil
+  end
+
+  def get_next_card(socket, _due_today_count) do
     card =
       case Card.next(actor: socket.assigns.current_user) do
         {:ok, card} ->
@@ -47,13 +69,18 @@ defmodule RedWeb.PracticeLive do
       ) do
     case tried_spelling == correct_spelling do
       true ->
+        due_today_count = get_due_today_count(socket.assigns.current_user)
+
         socket =
           socket
-          |> assign(:card, get_next_card(socket))
+          |> assign(%{
+            card: get_next_card(socket, due_today_count),
+            due_today_count: due_today_count
+          })
           |> clear_flash()
           |> put_flash(:info, "Correct! #{success_emoji()}")
 
-        Process.send_after(self(), :say, 1)
+        Process.send_after(self(), :say, 100)
         {:noreply, socket}
 
       false ->
