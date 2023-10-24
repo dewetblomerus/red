@@ -78,7 +78,7 @@ defmodule Red.Practice.Card.Try do
         actual_interval: actual_interval,
         previous_interval: previous_interval
       })
-      when previous_interval > 1400 and actual_interval > 0 do
+      when previous_interval >= 600 and actual_interval > 0 do
     if actual_interval > previous_interval * 2 do
       min(actual_interval, previous_interval * 3)
     else
@@ -93,6 +93,6 @@ defmodule Red.Practice.Card.Try do
 
   def get_new_interval(%{correct_streak: correct_streak})
       when correct_streak > 4 do
-    1440
+    600
   end
 end

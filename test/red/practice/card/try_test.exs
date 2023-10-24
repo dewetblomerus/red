@@ -91,24 +91,24 @@ defmodule Red.Practice.Card.TryTest do
       assert Try.get_new_interval(params) == 4
     end
 
-    test "schedules for tomorrow on fifth correct try" do
+    test "bumps out on fifth correct try" do
       params =
         correct_params_tried_on_retried_at(%{
           correct_streak: 5,
           previous_interval: 9
         })
 
-      assert Try.get_new_interval(params) == 1440
+      assert Try.get_new_interval(params) == 600
     end
 
-    test "schedules for tomorrow tries more than 5" do
+    test "bumps out on tries more than 5" do
       params =
         correct_params_tried_on_retried_at(%{
           correct_streak: 10,
           previous_interval: 60
         })
 
-      assert Try.get_new_interval(params) == 1440
+      assert Try.get_new_interval(params) == 600
     end
   end
 
