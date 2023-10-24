@@ -76,7 +76,6 @@ defmodule Red.Practice.Card.Try do
 
   def get_new_interval(%{
         actual_interval: actual_interval,
-        is_correct?: true,
         previous_interval: previous_interval
       })
       when previous_interval > 1400 and actual_interval > 0 do
