@@ -68,39 +68,32 @@ defmodule Red.Practice.Card.Try do
     )
   end
 
-  defp get_new_interval(%{is_correct?: true, tried_before: false}) do
-    480
+  def get_new_interval(%{is_correct?: false}), do: 0
+
+  def get_new_interval(%{tried_before: false}) do
+    1440
   end
 
-  defp get_new_interval(%{
-         is_correct?: true,
-         correct_streak: correct_streak
-       })
-       when correct_streak < 2 do
-    0
-  end
-
-  defp get_new_interval(%{
-         is_correct?: true,
-         correct_streak: 2,
-         previous_interval: 0
-       }) do
-    1
-  end
-
-  defp get_new_interval(%{
-         actual_interval: actual_interval,
-         correct_streak: correct_streak,
-         is_correct?: true,
-         previous_interval: previous_interval
-       })
-       when previous_interval > 0 and actual_interval > 0 do
+  def get_new_interval(%{
+        actual_interval: actual_interval,
+        is_correct?: true,
+        previous_interval: previous_interval
+      })
+      when previous_interval > 1400 and actual_interval > 0 do
     if actual_interval > previous_interval * 2 do
-      min(actual_interval, previous_interval * correct_streak)
+      min(actual_interval, previous_interval * 3)
     else
       previous_interval * 2
     end
   end
 
-  defp get_new_interval(%{is_correct?: false}), do: 0
+  def get_new_interval(%{correct_streak: 1}), do: 0
+  def get_new_interval(%{correct_streak: 2}), do: 1
+  def get_new_interval(%{correct_streak: 3}), do: 3
+  def get_new_interval(%{correct_streak: 4}), do: 9
+
+  def get_new_interval(%{correct_streak: correct_streak})
+      when correct_streak > 4 do
+    1440
+  end
 end
