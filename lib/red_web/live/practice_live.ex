@@ -44,19 +44,18 @@ defmodule RedWeb.PracticeLive do
     |> Enum.count()
   end
 
-  def get_next_card(socket, due_today_count) when due_today_count >= @max_due_today do
+  def get_next_card(_socket, due_today_count) when due_today_count >= @max_due_today do
     nil
   end
 
   def get_next_card(socket, _due_today_count) do
-    card =
-      case Card.next(actor: socket.assigns.current_user) do
-        {:ok, card} ->
-          card
+    case Card.next(actor: socket.assigns.current_user) do
+      {:ok, card} ->
+        card
 
-        {:error, %Ash.Error.Query.NotFound{}} ->
-          Red.Practice.Card.Loader.call(socket.assigns.current_user)
-      end
+      {:error, %Ash.Error.Query.NotFound{}} ->
+        Red.Practice.Card.Loader.call(socket.assigns.current_user)
+    end
   end
 
   def handle_info(:say, socket) do
@@ -77,8 +76,6 @@ defmodule RedWeb.PracticeLive do
       ) do
     case tried_spelling == correct_spelling do
       true ->
-        due_today_count = get_due_today_count(socket.assigns.current_user)
-
         socket =
           socket
           |> assign_state()

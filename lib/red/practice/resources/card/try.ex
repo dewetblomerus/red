@@ -2,7 +2,7 @@ defmodule Red.Practice.Card.Try do
   use Ash.Resource.ManualUpdate
   @interval_unit :minute
 
-  def update(changeset, opts, context) do
+  def update(changeset, _opts, _context) do
     is_correct? = changeset.data.word == changeset.arguments.tried_spelling
 
     previous_interval =
