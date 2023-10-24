@@ -59,7 +59,7 @@ defmodule Red.Practice.Card do
 
       filter expr(
                user_id == ^actor(:id) and
-                 retry_at >= now() and
+                 retry_at > now() and
                  retry_at < from_now(^arg(:time_amount), ^arg(:time_unit)) and
                  correct_streak <= ^arg(:max_correct_streak)
              )

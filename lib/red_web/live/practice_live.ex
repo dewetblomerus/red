@@ -3,14 +3,13 @@ defmodule RedWeb.PracticeLive do
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
 
-  @max_due_today 20
+  @max_due_in_one_day 20
 
   def mount(_params, _session, old_socket) do
     socket =
       old_socket
       |> assign_state()
       |> assign(%{
-        max_due_today: @max_due_today,
         page_title: "Practice"
       })
 
@@ -34,9 +33,9 @@ defmodule RedWeb.PracticeLive do
     |> Ash.Query.for_read(
       :due_in,
       %{
-        time_amount: 8,
+        time_amount: 24,
         time_unit: :hour,
-        max_correct_streak: 5
+        max_correct_streak: 10
       },
       actor: user
     )
@@ -44,7 +43,7 @@ defmodule RedWeb.PracticeLive do
     |> Enum.count()
   end
 
-  def get_next_card(_socket, due_today_count) when due_today_count >= @max_due_today do
+  def get_next_card(_socket, due_today_count) when due_today_count >= @max_due_in_one_day do
     nil
   end
 

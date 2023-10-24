@@ -89,8 +89,8 @@ defmodule Red.Practice.Card.Try do
 
   def get_new_interval(%{correct_streak: 1}), do: 0
   def get_new_interval(%{correct_streak: 2}), do: 1
-  def get_new_interval(%{correct_streak: 3}), do: 3
-  def get_new_interval(%{correct_streak: 4}), do: 9
+  def get_new_interval(%{correct_streak: 3}), do: 2
+  def get_new_interval(%{correct_streak: 4}), do: 4
 
   def get_new_interval(%{correct_streak: correct_streak})
       when correct_streak > 4 do

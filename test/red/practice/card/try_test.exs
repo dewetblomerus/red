@@ -78,17 +78,17 @@ defmodule Red.Practice.Card.TryTest do
           previous_interval: 1
         })
 
-      assert Try.get_new_interval(params) == 3
+      assert Try.get_new_interval(params) == 2
     end
 
     test "schedules a retry on fourth correct try" do
       params =
         correct_params_tried_on_retried_at(%{
           correct_streak: 4,
-          previous_interval: 3
+          previous_interval: 2
         })
 
-      assert Try.get_new_interval(params) == 9
+      assert Try.get_new_interval(params) == 4
     end
 
     test "schedules for tomorrow on fifth correct try" do
