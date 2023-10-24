@@ -35,7 +35,7 @@ defmodule RedWeb.PracticeLive do
       %{
         time_amount: 24,
         time_unit: :hour,
-        max_correct_streak: 10
+        max_correct_streak: 7
       },
       actor: user
     )
