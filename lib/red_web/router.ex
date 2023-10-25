@@ -1,6 +1,7 @@
 defmodule RedWeb.Router do
   use RedWeb, :router
   use AshAuthentication.Phoenix.Router
+  import AshAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,6 +16,12 @@ defmodule RedWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :load_from_bearer
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    ash_admin "/admin"
   end
 
   scope "/", RedWeb do

@@ -1,7 +1,11 @@
 defmodule Red.Accounts.User do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshAuthentication]
+    extensions: [AshAuthentication, AshAdmin.Resource]
+
+  admin do
+    actor?(true)
+  end
 
   attributes do
     integer_primary_key :id
