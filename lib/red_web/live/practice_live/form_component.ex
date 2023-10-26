@@ -8,9 +8,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.header>
         Practice
       </.header>
-      <div class="self-center">
-        <.button id="repeatButton" class="self-center">Repeat Audio</.button>
-      </div>
+      <.button id="repeatButton">Repeat Audio</.button>
       <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form
         for={@form}
@@ -21,7 +19,9 @@ defmodule RedWeb.PracticeLive.FormComponent do
         autocomplete="off"
         spellcheck="false"
       >
-        <.input field={@form[:tried_spelling]} type="text" label="Type the word below" autofocus />
+        <div class="mx-auto max-w-xs">
+          <.input field={@form[:tried_spelling]} type="text" label="Type the word below" autofocus />
+        </div>
         <:actions>
           <.button phx-disable-with="Saving...">Submit</.button>
         </:actions>

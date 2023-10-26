@@ -1,18 +1,14 @@
-<.flash_group flash={@flash} />
-<.navbar current_user={@current_user} />
-
-<div class="py-10">
-  <header>
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-        Sign in to start practicing.
-      </h1>
-      <a
-        href="/sign-in"
-        class="rounded-lg bg-gray-800 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-white hover:bg-zinc-200/80 active:text-zinc-900/70"
-      >
-        Sign In
-      </a>
-    </div>
-  </header>
+<div class="py-5">
+  <%= if @current_user do %>
+    <a href="/">
+      <.button>Start Practicing</.button>
+    </a>
+  <% else %>
+    <h1 class="mb-2 text-3xl font-bold leading-tight tracking-tight text-gray-900">
+      Sign in to start practicing.
+    </h1>
+    <a href="/sign-in">
+      <.button>Sign In</.button>
+    </a>
+  <% end %>
 </div>
