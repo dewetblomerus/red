@@ -11,12 +11,13 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.button id="repeatButton">Repeat Audio</.button>
       <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form
+        autocapitalize="none"
+        autocomplete="off"
         for={@form}
         id="try-form"
-        phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
-        autocomplete="off"
+        phx-target={@myself}
         spellcheck="false"
       >
         <div class="mx-auto max-w-xs">
