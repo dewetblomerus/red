@@ -27,12 +27,15 @@ defmodule RedWeb.MyComponents do
           <div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
             <div class="block ml-6">
               <div class="flex space-x-4">
-                <div class="px-3 py-2 text-xl font-medium text-white ">
-                  Red Words
-                </div>
+                <a href="/" class="px-3 py-2 text-xl font-medium text-white ">
+                  Spelling Tutor
+                </a>
               </div>
             </div>
           </div>
+          <a href="/about" class="text-white hover:text-grey-200 active:text-grey-400">
+            About
+          </a>
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <%= if @current_user do %>
               <span class="px-3 py-2 text-sm font-medium text-white rounded-md">

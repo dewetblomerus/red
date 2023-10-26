@@ -6,7 +6,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        Spelling Practice
+        Practice
       </.header>
       <div class="self-center">
         <.button id="repeatButton" class="self-center">Repeat Audio</.button>
