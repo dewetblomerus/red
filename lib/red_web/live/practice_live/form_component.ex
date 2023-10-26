@@ -6,10 +6,12 @@ defmodule RedWeb.PracticeLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        Spell the Word You Hear
-        <:subtitle>Press spacebar or click the button below to hear it again.</:subtitle>
+        Spelling Practice
       </.header>
-      <.button id="repeatButton">Say the Word</.button>
+      <div class="self-center">
+        <.button id="repeatButton" class="self-center">Repeat Audio</.button>
+      </div>
+      <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form
         for={@form}
         id="try-form"
@@ -19,7 +21,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
         autocomplete="off"
         spellcheck="false"
       >
-        <.input field={@form[:tried_spelling]} type="text" label="Give it your best shot" autofocus />
+        <.input field={@form[:tried_spelling]} type="text" label="Type the word below" autofocus />
         <:actions>
           <.button phx-disable-with="Saving...">Submit</.button>
         </:actions>
