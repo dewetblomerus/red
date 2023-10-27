@@ -10,34 +10,46 @@ defmodule Red.Practice.Card.TryTest do
   #   tried_before: false
   # }
 
-  describe "get_new_interval/1 for a card that has never been tried" do
-    test "boosts cards when correct on first try" do
+  describe "get_new_interval/1 new cards" do
+    test "move to learning when wrong" do
+      params = %{
+        is_correct?: false,
+        tried_before: false
+      }
+
+      assert Try.get_new_interval(params) === 0
+    end
+
+    test "move to review when correct on first try" do
       params = %{
         is_correct?: true,
         tried_before: false
       }
 
-      assert Try.get_new_interval(params) == 1440
+      assert Try.get_new_interval(params) === 1440 * 3
     end
 
-    test "increases the time when correct again" do
-      params = %{
-        is_correct?: true,
-        actual_interval: 1500,
-        correct_streak: 2,
-        previous_interval: 1440
-      }
+    test "increases the interval when correct again" do
+      0..10
+      |> Enum.each(fn correct_streak ->
+        params = %{
+          is_correct?: true,
+          actual_interval: 1440 * 3,
+          correct_streak: correct_streak,
+          previous_interval: 1440 * 3
+        }
 
-      assert Try.get_new_interval(params) == 2880
+        assert Try.get_new_interval(params) === 10800
+      end)
     end
   end
 
-  describe "get_new_interval/1 right after a failed try" do
+  describe "get_new_interval/1 learning cards" do
     test "schedules a retry when wrong" do
       assert Try.get_new_interval(%{is_correct?: false}) == 0
     end
 
-    test "schedules an immediate retry on first correct try" do
+    test "schedules an immediate retry on 1st correct try" do
       params = %{
         is_correct?: true,
         correct_streak: 1,
@@ -47,7 +59,7 @@ defmodule Red.Practice.Card.TryTest do
       assert Try.get_new_interval(params) == 0
     end
 
-    test "schedules a one-minute retry on second correct try" do
+    test "schedules a one-minute retry on 2nd correct try" do
       params = %{
         is_correct?: true,
         correct_streak: 2,
@@ -56,64 +68,49 @@ defmodule Red.Practice.Card.TryTest do
 
       assert Try.get_new_interval(params) == 1
     end
-  end
 
-  describe "get_new_interval/1 after a few correct tries" do
-    def correct_params_tried_on_retried_at(%{
-          correct_streak: correct_streak,
-          previous_interval: previous_interval
-        }) do
-      params = %{
-        is_correct?: true,
-        actual_interval: previous_interval,
-        correct_streak: correct_streak,
-        previous_interval: previous_interval
-      }
-    end
-
-    test "schedules a three-minute retry on third correct try" do
+    test "schedules a 10-minute retry on 3rd correct try" do
       params =
-        correct_params_tried_on_retried_at(%{
+        %{
+          is_correct?: true,
           correct_streak: 3,
           previous_interval: 1
-        })
+        }
 
-      assert Try.get_new_interval(params) == 2
+      assert Try.get_new_interval(params) == 10
     end
 
-    test "schedules a retry on fourth correct try" do
-      params =
-        correct_params_tried_on_retried_at(%{
-          correct_streak: 4,
-          previous_interval: 2
-        })
+    test "promotes to review on 4 or more correct tries" do
+      4..10
+      |> Enum.each(fn correct_streak ->
+        params = %{
+          is_correct?: true,
+          actual_interval: 20,
+          correct_streak: correct_streak,
+          previous_interval: 20
+        }
 
-      assert Try.get_new_interval(params) == 4
-    end
-
-    test "bumps out on fifth correct try" do
-      params =
-        correct_params_tried_on_retried_at(%{
-          correct_streak: 5,
-          previous_interval: 9
-        })
-
-      assert Try.get_new_interval(params) == 600
-    end
-
-    test "bumps out on tries more than 5" do
-      params =
-        correct_params_tried_on_retried_at(%{
-          correct_streak: 10,
-          previous_interval: 60
-        })
-
-      assert Try.get_new_interval(params) == 600
+        assert Try.get_new_interval(params) == 1440
+      end)
     end
   end
 
-  describe "get_new_interval/1 with >= one-day interval tried on retry_at" do
-    def correct_params_multi_day_on_retry_at(%{
+  # describe "get_new_interval/1 review cards" do
+  #   def correct_params_tried_on_retried_at(%{
+  #         correct_streak: correct_streak,
+  #         previous_interval: previous_interval
+  #       }) do
+  #     params = %{
+  #       is_correct?: true,
+  #       actual_interval: previous_interval,
+  #       correct_streak: correct_streak,
+  #       previous_interval: previous_interval
+  #     }
+  #   end
+  # end
+
+  describe "get_new_interval/1 review cards" do
+    def correct_params_on_retry_at(%{
           previous_interval: previous_interval
         }) do
       params = %{
@@ -123,46 +120,20 @@ defmodule Red.Practice.Card.TryTest do
       }
     end
 
-    test "doubles the retry_at" do
-      params =
-        correct_params_multi_day_on_retry_at(%{
+    test "2.5 the retry_at" do
+      params_one_day =
+        correct_params_on_retry_at(%{
           previous_interval: 1440
         })
 
-      assert Try.get_new_interval(params) == 2880
-    end
-  end
+      assert Try.get_new_interval(params_one_day) == 3600
 
-  describe "get_new_interval/1 with >= one-day interval tried later" do
-    def correct_params_multi_day_tried_later(%{
-          actual_interval: actual_interval,
-          previous_interval: previous_interval
-        }) do
-      params = %{
-        is_correct?: true,
-        actual_interval: actual_interval,
-        previous_interval: previous_interval
-      }
-    end
-
-    test "actual interval becomes the new interval" do
-      params =
-        correct_params_multi_day_tried_later(%{
-          actual_interval: 3000,
-          previous_interval: 1440
+      params_five_days =
+        correct_params_on_retry_at(%{
+          previous_interval: 1440 * 5
         })
 
-      assert Try.get_new_interval(params) == 3000
-    end
-
-    test "never more than 3x" do
-      params =
-        correct_params_multi_day_tried_later(%{
-          actual_interval: 10_000,
-          previous_interval: 1440
-        })
-
-      assert Try.get_new_interval(params) == 4320
+      assert Try.get_new_interval(params_five_days) === round(1440 * 12.5)
     end
   end
 end
