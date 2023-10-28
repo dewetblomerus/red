@@ -11,7 +11,13 @@ defmodule Red.Accounts.User do
   end
 
   relationships do
-    has_many :card, Red.Practice.Card
+    has_many :cards, Red.Practice.Card
+  end
+
+  aggregates do
+    count :count_cards_reviewed_today, :cards do
+      filter expr(tried_at >= ago(8, :hour))
+    end
   end
 
   authentication do

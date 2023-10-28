@@ -66,9 +66,7 @@ dbg(user.id)
 ```
 
 ```elixir
-# Red.Practice.reload!(card)
-```
+user = Red.Accounts.load!(user, [:count_cards_reviewed_today])
 
-```elixir
-
+user.count_cards_reviewed_today
 ```
