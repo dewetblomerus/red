@@ -36,7 +36,8 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+  maybe_ipv6 =
+    if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :red, Red.Repo,
     # ssl: true,

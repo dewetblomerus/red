@@ -58,7 +58,10 @@ defmodule Red.Accounts.User do
       change fn changeset, _ ->
         user_info = Ash.Changeset.get_argument(changeset, :user_info)
 
-        Ash.Changeset.change_attributes(changeset, Map.take(user_info, ["email"]))
+        Ash.Changeset.change_attributes(
+          changeset,
+          Map.take(user_info, ["email"])
+        )
       end
     end
 

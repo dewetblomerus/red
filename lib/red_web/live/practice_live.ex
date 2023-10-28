@@ -34,7 +34,8 @@ defmodule RedWeb.PracticeLive do
     if socket.assigns.card do
       {:noreply,
        push_event(socket, "Say", %{
-         utterance: "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
+         utterance:
+           "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
        })}
     else
       {:noreply, socket}
@@ -43,7 +44,8 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(
         {FormComponent,
-         {:tried, %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
+         {:tried,
+          %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
     case tried_spelling == correct_spelling do

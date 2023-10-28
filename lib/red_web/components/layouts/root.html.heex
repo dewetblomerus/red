@@ -3,13 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <meta name="google-site-verification" content="WFJOlpm_Me03tC1SyV-D44SsmJvik85ojpoAgXPpeys" />
+    <meta
+      name="google-site-verification"
+      content="WFJOlpm_Me03tC1SyV-D44SsmJvik85ojpoAgXPpeys"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <.live_title suffix=" · Red Words">
       <%= assigns[:page_title] || "Red" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src={~p"/assets/app.js"}
+    >
     </script>
   </head>
   <body class="bg-white antialiased">
