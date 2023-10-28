@@ -16,7 +16,7 @@ defmodule Red.Accounts.User do
 
   aggregates do
     count :count_cards_reviewed_today, :cards do
-      filter expr(tried_at >= ago(8, :hour))
+      filter expr(tried_at >= ago(10, :hour))
     end
   end
 
