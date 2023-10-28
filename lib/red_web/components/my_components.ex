@@ -49,7 +49,7 @@ defmodule RedWeb.MyComponents do
               </a>
             <% else %>
               <a
-                href="/sign-in"
+                href="/auth/user/auth0"
                 class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
               >
                 Sign In
