@@ -2,12 +2,15 @@ defmodule Red.Practice.Card do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
+  @cards_per_day 20
+
   code_interface do
     define_for Red.Practice
 
     define :create, action: :create
 
     define :next, action: :next
+    define :lookahead, action: :lookahead
     define :oldest_untried_card, action: :oldest_untried_card
   end
 
@@ -28,18 +31,20 @@ defmodule Red.Practice.Card do
       prepare fn query, context ->
         Ash.Query.after_action(query, fn
           _, [] ->
-            dbg("No due cards found 📭")
+            dbg("No cards due 📭")
 
-            actor = Red.Accounts.load!(context.actor, [:count_cards_reviewed_today])
+            reviewed_today_count =
+              Red.Accounts.load!(
+                context.actor,
+                [:count_cards_reviewed_today]
+              ).count_cards_reviewed_today
 
-            cond do
-              actor.count_cards_reviewed_today < 10 ->
-                dbg("Grabbing a new card ✨")
-                Red.Practice.Card.oldest_untried_card(actor: context.actor)
-
-              true ->
-                dbg("Waiting for tomorrow ⏳")
-                {:ok, []}
+            if reviewed_today_count < @cards_per_day do
+              dbg("Grabbing a new card ✨")
+              Red.Practice.Card.oldest_untried_card(actor: context.actor)
+            else
+              dbg("Looking Ahead 🔭")
+              Red.Practice.Card.lookahead(actor: context.actor)
             end
 
           _, results ->
@@ -47,6 +52,12 @@ defmodule Red.Practice.Card do
             {:ok, results}
         end)
       end
+    end
+
+    read :lookahead do
+      prepare build(limit: 1, sort: [retry_at: :asc])
+
+      filter expr(user_id == ^actor(:id) and retry_at <= from_now(20, :minute))
     end
 
     read :oldest_untried_card do

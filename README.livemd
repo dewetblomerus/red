@@ -66,7 +66,11 @@ dbg(user.id)
 ```
 
 ```elixir
-user = Red.Accounts.load!(user, [:count_cards_reviewed_today])
+# user = Red.Accounts.load!(user, [:count_cards_reviewed_today])
 
-user.count_cards_reviewed_today
+# user.count_cards_reviewed_today
+```
+
+```elixir
+Red.Practice.Card.lookahead(actor: user)
 ```
