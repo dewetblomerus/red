@@ -27,9 +27,7 @@ defmodule Red.Practice.Card do
 
       prepare fn query, context ->
         Ash.Query.after_action(query, fn
-          query, [] ->
-            dbg(query)
-
+          _, [] ->
             dbg("No due cards found 📭")
 
             actor = Red.Accounts.load!(context.actor, [:count_cards_reviewed_today])
@@ -43,9 +41,8 @@ defmodule Red.Practice.Card do
               {:ok, []}
             end
 
-          query, results ->
-            dbg("A card was found with retry_at < now ✅")
-            dbg(query)
+          _, results ->
+            dbg("A card was found with retry_at <= now ✅")
             {:ok, results}
         end)
       end
