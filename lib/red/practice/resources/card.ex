@@ -28,11 +28,24 @@ defmodule Red.Practice.Card do
       prepare fn query, context ->
         Ash.Query.after_action(query, fn
           query, [] ->
-            dbg("No cards found with retry_at < now")
-            Red.Practice.Card.oldest_untried_card(actor: context.actor)
+            dbg(query)
 
-          _query, results ->
-            dbg("A card was found with retry_at < now")
+            dbg("No due cards found 📭")
+
+            actor = Red.Accounts.load!(context.actor, [:count_cards_reviewed_today])
+            dbg("Reviewed Today: #{actor.count_cards_reviewed_today}")
+
+            if actor.count_cards_reviewed_today < 10 do
+              dbg("Grabbing a new card ✨")
+              Red.Practice.Card.oldest_untried_card(actor: context.actor)
+            else
+              dbg("Waiting for tomorrow ⏳")
+              {:ok, []}
+            end
+
+          query, results ->
+            dbg("A card was found with retry_at < now ✅")
+            dbg(query)
             {:ok, results}
         end)
       end

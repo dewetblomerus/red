@@ -3,12 +3,10 @@ defmodule RedWeb.PracticeLive do
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
 
-  @max_due_in_one_day 20
-
   def mount(_params, _session, old_socket) do
     socket =
       old_socket
-      |> assign_state()
+      |> assign_card()
       |> assign(%{
         page_title: "Practice"
       })
@@ -18,42 +16,17 @@ defmodule RedWeb.PracticeLive do
     {:ok, socket}
   end
 
-  def assign_state(socket) do
-    due_today_count = get_due_today_count(socket.assigns.current_user)
-    card = get_next_card(socket, due_today_count)
-
-    assign(socket, %{
-      card: card,
-      due_today_count: due_today_count
-    })
+  def assign_card(socket) do
+    assign(socket, card: get_next_card(socket.assigns.current_user))
   end
 
-  defp get_due_today_count(user) do
-    Red.Practice.Card
-    |> Ash.Query.for_read(
-      :due_in,
-      %{
-        time_amount: 24,
-        time_unit: :hour,
-        max_correct_streak: 7
-      },
-      actor: user
-    )
-    |> Red.Practice.read!()
-    |> Enum.count()
-  end
-
-  def get_next_card(_socket, due_today_count) when due_today_count >= @max_due_in_one_day do
-    nil
-  end
-
-  def get_next_card(socket, _due_today_count) do
-    case Card.next(actor: socket.assigns.current_user) do
+  def get_next_card(user) do
+    case Card.next(actor: user) do
       {:ok, card} ->
         card
 
       {:error, %Ash.Error.Query.NotFound{}} ->
-        Red.Practice.Card.Loader.call(socket.assigns.current_user)
+        Red.Practice.Card.Loader.call(user)
     end
   end
 
@@ -77,7 +50,7 @@ defmodule RedWeb.PracticeLive do
       true ->
         socket =
           socket
-          |> assign_state()
+          |> assign_card()
           |> clear_flash()
           |> put_flash(:info, "Correct! #{success_emoji()}")
 
