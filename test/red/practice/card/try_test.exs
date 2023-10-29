@@ -90,24 +90,10 @@ defmodule Red.Practice.Card.TryTest do
           previous_interval: 20
         }
 
-        assert Try.get_new_interval(params) == 1440
+        assert Try.get_new_interval(params) == 720
       end)
     end
   end
-
-  # describe "get_new_interval/1 review cards" do
-  #   def correct_params_tried_on_retried_at(%{
-  #         correct_streak: correct_streak,
-  #         previous_interval: previous_interval
-  #       }) do
-  #     params = %{
-  #       is_correct?: true,
-  #       actual_interval: previous_interval,
-  #       correct_streak: correct_streak,
-  #       previous_interval: previous_interval
-  #     }
-  #   end
-  # end
 
   describe "get_new_interval/1 review cards" do
     def correct_params_on_retry_at(%{

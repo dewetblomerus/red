@@ -77,7 +77,7 @@ defmodule Red.Practice.Card.Try do
   def get_new_interval(%{
         previous_interval: previous_interval
       })
-      when previous_interval >= 1440 do
+      when previous_interval >= 600 do
     round(previous_interval * 2.5)
   end
 
@@ -87,6 +87,6 @@ defmodule Red.Practice.Card.Try do
 
   def get_new_interval(%{correct_streak: correct_streak})
       when correct_streak > 3 do
-    1440
+    720
   end
 end
