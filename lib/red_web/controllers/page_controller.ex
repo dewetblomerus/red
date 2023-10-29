@@ -11,8 +11,10 @@ defmodule RedWeb.PageController do
   end
 
   def about(conn, _params) do
-    # The home page is often custom made,
-    # so skip the default app layout.
     render(conn, :about)
+  end
+
+  def privacy(conn, _params) do
+    render(conn, :privacy)
   end
 end

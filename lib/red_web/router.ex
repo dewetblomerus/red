@@ -20,8 +20,9 @@ defmodule RedWeb.Router do
   scope "/", RedWeb do
     pipe_through :browser
 
-    get "/home", PageController, :home
     get "/about", PageController, :about
+    get "/home", PageController, :home
+    get "/privacy", PageController, :privacy
 
     sign_in_route()
     sign_out_route AuthController
