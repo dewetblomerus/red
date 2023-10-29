@@ -10,13 +10,28 @@ defmodule RedWeb.PracticeLive do
       |> assign(%{
         page_title: "Practice"
       })
+      |> redirect_to_load_words_if_needed()
 
     Process.send_after(self(), :say, 100)
 
+    {:ok, socket}
+  end
+
+  def redirect_to_load_words_if_needed(socket) do
     if socket.assigns.card do
-      {:ok, socket}
+      socket
     else
-      {:ok, redirect(socket, to: "/words")}
+      reviewed_today_count =
+        Red.Accounts.load!(
+          socket.assigns.current_user,
+          [:count_cards_reviewed_today]
+        ).count_cards_reviewed_today
+
+      if reviewed_today_count < 20 do
+        redirect(socket, to: "/words")
+      else
+        socket
+      end
     end
   end
 
@@ -59,6 +74,7 @@ defmodule RedWeb.PracticeLive do
           |> assign_card()
           |> clear_flash()
           |> put_flash(:info, "Correct! #{success_emoji()}")
+          |> redirect_to_load_words_if_needed()
 
         Process.send_after(self(), :say, 100)
         {:noreply, socket}
