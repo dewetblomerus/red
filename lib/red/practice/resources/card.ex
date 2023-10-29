@@ -12,6 +12,7 @@ defmodule Red.Practice.Card do
     define :next, action: :next
     define :lookahead, action: :lookahead
     define :oldest_untried_card, action: :oldest_untried_card
+    define :get_by, action: :get_by
   end
 
   actions do
@@ -64,6 +65,11 @@ defmodule Red.Practice.Card do
       prepare build(limit: 1, sort: [created_at: :asc])
 
       filter expr(is_nil(retry_at) and user_id == ^actor(:id))
+    end
+
+    read :get_by do
+      filter expr(user_id == ^actor(:id))
+      get_by [:word]
     end
 
     update :try do

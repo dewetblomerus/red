@@ -32,6 +32,7 @@ defmodule RedWeb.Router do
     ash_authentication_live_session :authentication_required,
       on_mount: {RedWeb.LiveUserAuth, :live_user_home} do
       live "/", PracticeLive
+      live "/words", WordsLive
     end
   end
 

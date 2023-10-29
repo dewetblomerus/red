@@ -13,7 +13,11 @@ defmodule RedWeb.PracticeLive do
 
     Process.send_after(self(), :say, 100)
 
-    {:ok, socket}
+    if socket.assigns.card do
+      {:ok, socket}
+    else
+      {:ok, redirect(socket, to: "/words")}
+    end
   end
 
   def assign_card(socket) do
@@ -26,7 +30,7 @@ defmodule RedWeb.PracticeLive do
         card
 
       {:error, %Ash.Error.Query.NotFound{}} ->
-        Red.Practice.Card.Loader.call(user)
+        nil
     end
   end
 

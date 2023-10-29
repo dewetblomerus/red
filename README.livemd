@@ -9,7 +9,7 @@ To start your Phoenix server:
 
 ```elixir
 email = "dewetblomerus@gmail.com"
-# email = "dewet.blomerus+test@gmail.com"
+# email = "dewetblomerus+test@gmail.com"
 # email = "dewetblomerus+new@gmail.com"
 
 user = Red.Accounts.User.get_by!(%{email: email})
@@ -73,4 +73,32 @@ dbg(user.id)
 
 ```elixir
 Red.Practice.Card.lookahead(actor: user)
+```
+
+```elixir
+NimbleCSV.define(MyParser, separator: "|", escape: "\"")
+
+one =
+  "word_lists/wilson-book-1-to-3.csv"
+  |> File.stream!()
+  |> MyParser.parse_stream()
+  |> Enum.map(fn [word, phrase] ->
+    dbg("insterting word: '#{word}' for #{user.email} ⚠️")
+
+    word
+  end)
+
+two =
+  "word_lists/wilson-book-4.csv"
+  |> File.stream!()
+  |> MyParser.parse_stream()
+  |> Enum.map(fn [word, phrase] ->
+    dbg("insterting word: '#{word}' for #{user.email} ⚠️")
+
+    word
+  end)
+
+one_trimmed = one -- two
+
+one == one_trimmed
 ```
