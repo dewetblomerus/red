@@ -33,6 +33,7 @@ Hooks.Say = {
     this.handleEvent('Say', ({ utterance }) => {
       const utter = new SpeechSynthesisUtterance(utterance)
       window.speechSynthesis.cancel()
+      utter.rate = 0.8
       window.speechSynthesis.speak(utter)
       console.log('Tried to say the word')
 
