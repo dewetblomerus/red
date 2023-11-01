@@ -18,8 +18,13 @@ defmodule RedWeb.Router do
     plug :load_from_bearer
   end
 
+  pipeline :admin do
+    plug RedWeb.AdminChecker
+  end
+
   scope "/" do
     pipe_through :browser
+    pipe_through :admin
 
     ash_admin "/admin"
   end
