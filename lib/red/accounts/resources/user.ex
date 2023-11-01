@@ -50,7 +50,7 @@ defmodule Red.Accounts.User do
       argument :user_info, :map, allow_nil?: false
       argument :oauth_tokens, :map, allow_nil?: false
       upsert? true
-      upsert_identity :unique_email
+      upsert_identity :unique_auth0_id
 
       # Required if you have token generation enabled.
       change AshAuthentication.GenerateTokenChange
