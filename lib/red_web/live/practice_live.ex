@@ -3,57 +3,49 @@ defmodule RedWeb.PracticeLive do
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
 
-  @max_due_in_one_day 20
-
   def mount(_params, _session, old_socket) do
     socket =
       old_socket
-      |> assign_state()
+      |> assign_card()
       |> assign(%{
         page_title: "Practice"
       })
+      |> redirect_to_load_words_if_needed()
 
     Process.send_after(self(), :say, 100)
 
     {:ok, socket}
   end
 
-  def assign_state(socket) do
-    due_today_count = get_due_today_count(socket.assigns.current_user)
-    card = get_next_card(socket, due_today_count)
+  def redirect_to_load_words_if_needed(socket) do
+    if socket.assigns.card do
+      socket
+    else
+      reviewed_today_count =
+        Red.Accounts.load!(
+          socket.assigns.current_user,
+          [:count_cards_reviewed_today]
+        ).count_cards_reviewed_today
 
-    assign(socket, %{
-      card: card,
-      due_today_count: due_today_count
-    })
+      if reviewed_today_count < 20 do
+        redirect(socket, to: "/words")
+      else
+        socket
+      end
+    end
   end
 
-  defp get_due_today_count(user) do
-    Red.Practice.Card
-    |> Ash.Query.for_read(
-      :due_in,
-      %{
-        time_amount: 24,
-        time_unit: :hour,
-        max_correct_streak: 7
-      },
-      actor: user
-    )
-    |> Red.Practice.read!()
-    |> Enum.count()
+  def assign_card(socket) do
+    assign(socket, card: get_next_card(socket.assigns.current_user))
   end
 
-  def get_next_card(_socket, due_today_count) when due_today_count >= @max_due_in_one_day do
-    nil
-  end
-
-  def get_next_card(socket, _due_today_count) do
-    case Card.next(actor: socket.assigns.current_user) do
+  def get_next_card(user) do
+    case Card.next(actor: user) do
       {:ok, card} ->
         card
 
       {:error, %Ash.Error.Query.NotFound{}} ->
-        Red.Practice.Card.Loader.call(socket.assigns.current_user)
+        nil
     end
   end
 
@@ -61,7 +53,8 @@ defmodule RedWeb.PracticeLive do
     if socket.assigns.card do
       {:noreply,
        push_event(socket, "Say", %{
-         utterance: "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
+         utterance:
+           "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
        })}
     else
       {:noreply, socket}
@@ -70,16 +63,18 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(
         {FormComponent,
-         {:tried, %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
+         {:tried,
+          %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
     case tried_spelling == correct_spelling do
       true ->
         socket =
           socket
-          |> assign_state()
+          |> assign_card()
           |> clear_flash()
           |> put_flash(:info, "Correct! #{success_emoji()}")
+          |> redirect_to_load_words_if_needed()
 
         Process.send_after(self(), :say, 100)
         {:noreply, socket}

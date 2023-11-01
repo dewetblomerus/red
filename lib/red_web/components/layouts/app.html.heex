@@ -1,6 +1,7 @@
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
+<main>
+  <.flash_group flash={@flash} />
+  <.navbar current_user={@current_user} />
+  <div class="mx-auto max-w-xl">
     <%= @inner_content %>
   </div>
 </main>

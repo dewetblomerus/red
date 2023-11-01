@@ -27,7 +27,9 @@ defmodule RedWeb.Router do
   scope "/", RedWeb do
     pipe_through :browser
 
+    get "/about", PageController, :about
     get "/home", PageController, :home
+    get "/privacy", PageController, :privacy
 
     sign_in_route()
     sign_out_route AuthController
@@ -37,6 +39,7 @@ defmodule RedWeb.Router do
     ash_authentication_live_session :authentication_required,
       on_mount: {RedWeb.LiveUserAuth, :live_user_home} do
       live "/", PracticeLive
+      live "/words", WordsLive
     end
   end
 

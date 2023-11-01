@@ -10,12 +10,20 @@ defmodule Red.Accounts.User do
   attributes do
     integer_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
+    attribute :auth0_id, :string, private?: true
+
     create_timestamp :created_at
     create_timestamp :updated_at
   end
 
   relationships do
-    has_many :card, Red.Practice.Card
+    has_many :cards, Red.Practice.Card
+  end
+
+  aggregates do
+    count :count_cards_reviewed_today, :cards do
+      filter expr(tried_at >= ago(10, :hour))
+    end
   end
 
   authentication do
@@ -38,6 +46,7 @@ defmodule Red.Accounts.User do
 
   identities do
     identity :unique_email, [:email]
+    identity :unique_auth0_id, [:auth0_id]
   end
 
   actions do
@@ -56,7 +65,15 @@ defmodule Red.Accounts.User do
       change fn changeset, _ ->
         user_info = Ash.Changeset.get_argument(changeset, :user_info)
 
-        Ash.Changeset.change_attributes(changeset, Map.take(user_info, ["email"]))
+        changes = %{
+          "email" => Map.get(user_info, "email"),
+          "auth0_id" => Map.get(user_info, "sub")
+        }
+
+        Ash.Changeset.change_attributes(
+          changeset,
+          changes
+        )
       end
     end
 

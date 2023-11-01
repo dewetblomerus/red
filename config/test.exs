@@ -17,7 +17,8 @@ config :red, Red.Repo,
 # you can enable the server option below.
 config :red, RedWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "BBVg8yLBPEYFO7KeurlQ2Gd99V++ooItRGIjB71JKFcg5CWu3jy8z64W+l7KHJA8",
+  secret_key_base:
+    "BBVg8yLBPEYFO7KeurlQ2Gd99V++ooItRGIjB71JKFcg5CWu3jy8z64W+l7KHJA8",
   server: false
 
 # In test we don't send emails.

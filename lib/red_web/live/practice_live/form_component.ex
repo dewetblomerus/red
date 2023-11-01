@@ -6,20 +6,28 @@ defmodule RedWeb.PracticeLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        Spell the Word You Hear
-        <:subtitle>Press spacebar or click the button below to hear it again.</:subtitle>
+        Practice
       </.header>
-      <.button id="repeatButton">Say the Word</.button>
+      <.button id="repeatButton">Repeat Audio</.button>
+      <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form
+        autocapitalize="none"
+        autocomplete="off"
         for={@form}
         id="try-form"
-        phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
-        autocomplete="off"
+        phx-target={@myself}
         spellcheck="false"
       >
-        <.input field={@form[:tried_spelling]} type="text" label="Give it your best shot" autofocus />
+        <div class="mx-auto max-w-xs">
+          <.input
+            field={@form[:tried_spelling]}
+            type="text"
+            label="Type the word below"
+            autofocus
+          />
+        </div>
         <:actions>
           <.button phx-disable-with="Saving...">Submit</.button>
         </:actions>
@@ -60,7 +68,11 @@ defmodule RedWeb.PracticeLive.FormComponent do
     case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
       {:ok, card} ->
         notify_parent(
-          {:tried, %{correct_spelling: card.word, tried_spelling: String.trim(tried_spelling)}}
+          {:tried,
+           %{
+             correct_spelling: card.word,
+             tried_spelling: String.trim(tried_spelling)
+           }}
         )
 
         {:noreply, assign_form(socket)}
