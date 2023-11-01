@@ -6,7 +6,7 @@ defmodule Red.Accounts.User do
   attributes do
     integer_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
-    attribute :auth0_id, :string, private?: true
+    attribute :auth0_id, :string, allow_nil?: false, private?: true
 
     create_timestamp :created_at
     create_timestamp :updated_at
