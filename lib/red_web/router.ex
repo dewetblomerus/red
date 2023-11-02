@@ -22,13 +22,6 @@ defmodule RedWeb.Router do
     plug RedWeb.AdminChecker
   end
 
-  scope "/" do
-    pipe_through :browser
-    pipe_through :admin
-
-    ash_admin "/admin"
-  end
-
   scope "/", RedWeb do
     pipe_through :browser
 
@@ -46,6 +39,13 @@ defmodule RedWeb.Router do
       live "/", PracticeLive
       live "/words", WordsLive
     end
+  end
+
+  scope "/" do
+    pipe_through :browser
+    pipe_through :admin
+
+    ash_admin "/admin"
   end
 
   # Other scopes may use custom stacks.

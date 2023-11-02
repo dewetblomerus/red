@@ -22,13 +22,13 @@ defmodule RedWeb.AdminChecker do
 
     case email do
       "dewetblomerus@gmail.com" -> conn
-      _ -> halt_plug(conn)
+      _ -> redirect_and_halt(conn)
     end
   end
 
-  defp halt_plug(conn) do
+  defp redirect_and_halt(conn) do
     conn
-    |> Plug.Conn.put_status(:unauthorized)
+    |> Phoenix.Controller.redirect(to: "/")
     |> Plug.Conn.halt()
   end
 end
