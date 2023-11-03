@@ -16,7 +16,11 @@ defmodule Red.Practice.Card do
   end
 
   actions do
-    defaults [:read, :update]
+    defaults [:update]
+
+    read :read do
+      filter expr(user_id == ^actor(:id))
+    end
 
     create :create do
       change relate_actor(:user)
