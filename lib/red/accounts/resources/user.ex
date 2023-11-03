@@ -7,6 +7,9 @@ defmodule Red.Accounts.User do
     integer_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
     attribute :auth0_id, :string, allow_nil?: false, private?: true
+    attribute :email_verified, :boolean
+    attribute :picture, :string
+    attribute :name, :string
 
     create_timestamp :created_at
     update_timestamp :updated_at
@@ -61,10 +64,15 @@ defmodule Red.Accounts.User do
       change fn changeset, _ ->
         user_info = Ash.Changeset.get_argument(changeset, :user_info)
 
-        changes = %{
-          "email" => Map.get(user_info, "email"),
-          "auth0_id" => Map.get(user_info, "sub")
-        }
+        changes =
+          user_info
+          |> Map.take([
+            "email_verified",
+            "email",
+            "name",
+            "picture"
+          ])
+          |> Map.put("auth0_id", Map.get(user_info, "sub"))
 
         Ash.Changeset.change_attributes(
           changeset,
