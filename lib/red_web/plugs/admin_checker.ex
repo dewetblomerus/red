@@ -20,9 +20,10 @@ defmodule RedWeb.AdminChecker do
 
     email = current_user.email |> Ash.CiString.value()
 
-    case email do
-      "dewetblomerus@gmail.com" -> conn
-      _ -> redirect_and_halt(conn)
+    if email == "dewetblomerus@gmail.com" && current_user.email_verified do
+      conn
+    else
+      redirect_and_halt(conn)
     end
   end
 

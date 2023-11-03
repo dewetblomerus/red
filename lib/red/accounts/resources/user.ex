@@ -53,6 +53,8 @@ defmodule Red.Accounts.User do
   end
 
   actions do
+    defaults [:update]
+
     create :register_with_auth0 do
       argument :user_info, :map, allow_nil?: false
       argument :oauth_tokens, :map, allow_nil?: false
