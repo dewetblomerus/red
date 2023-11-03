@@ -19,6 +19,7 @@ defmodule Red.Practice.Card do
     defaults [:update]
 
     read :read do
+      primary? true
       filter expr(user_id == ^actor(:id))
     end
 
