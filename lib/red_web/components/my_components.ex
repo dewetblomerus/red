@@ -41,9 +41,12 @@ defmodule RedWeb.MyComponents do
           </a>
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <%= if @current_user do %>
-              <span class="px-3 py-2 text-sm font-medium text-white rounded-md">
-                <%= @current_user.email %>
-              </span>
+              <img
+                src={@current_user.picture}
+                alt="Profile Picture"
+                style="width:50px;height:50px;border-radius:50%;"
+                class="mr-2"
+              />
               <a
                 href="/sign-out"
                 class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
