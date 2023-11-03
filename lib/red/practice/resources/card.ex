@@ -2,7 +2,7 @@ defmodule Red.Practice.Card do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
-  @cards_per_day 20
+  @cards_per_day 25
 
   code_interface do
     define_for Red.Practice
