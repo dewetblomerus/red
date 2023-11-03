@@ -1,12 +1,9 @@
 defmodule RedWeb.AdminChecker do
   def call(conn, opts) do
-    dbg("call called")
-    dbg(conn)
     check_super_user(conn, opts)
   end
 
   def init(opts) do
-    dbg("init called")
     opts
   end
 
