@@ -9,7 +9,7 @@ defmodule Red.Accounts.User do
     attribute :auth0_id, :string, allow_nil?: false, private?: true
 
     create_timestamp :created_at
-    create_timestamp :updated_at
+    update_timestamp :updated_at
   end
 
   relationships do
