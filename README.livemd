@@ -76,29 +76,29 @@ Red.Practice.Card.lookahead(actor: user)
 ```
 
 ```elixir
-NimbleCSV.define(MyParser, separator: "|", escape: "\"")
+# NimbleCSV.define(MyParser, separator: "|", escape: "\"")
 
-one =
-  "word_lists/wilson-book-1-to-3.csv"
-  |> File.stream!()
-  |> MyParser.parse_stream()
-  |> Enum.map(fn [word, phrase] ->
-    dbg("insterting word: '#{word}' for #{user.email} ⚠️")
+# one =
+#   "word_lists/wilson-book-1-to-3.csv"
+#   |> File.stream!()
+#   |> MyParser.parse_stream()
+#   |> Enum.map(fn [word, phrase] ->
+#     dbg("insterting word: '#{word}' for #{user.email} ⚠️")
 
-    word
-  end)
+#     word
+#   end)
 
-two =
-  "word_lists/wilson-book-4.csv"
-  |> File.stream!()
-  |> MyParser.parse_stream()
-  |> Enum.map(fn [word, phrase] ->
-    dbg("insterting word: '#{word}' for #{user.email} ⚠️")
+# two =
+#   "word_lists/wilson-book-4.csv"
+#   |> File.stream!()
+#   |> MyParser.parse_stream()
+#   |> Enum.map(fn [word, phrase] ->
+#     dbg("insterting word: '#{word}' for #{user.email} ⚠️")
 
-    word
-  end)
+#     word
+#   end)
 
-one_trimmed = one -- two
+# one_trimmed = one -- two
 
-one == one_trimmed
+# one == one_trimmed
 ```
