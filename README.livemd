@@ -66,9 +66,16 @@ dbg(user.id)
 ```
 
 ```elixir
-# user = Red.Accounts.load!(user, [:count_cards_reviewed_today])
+user =
+  Red.Accounts.load!(user, [
+    :count_cards_reviewed_today,
+    :count_cards_goal_today,
+    :count_cards_succeeded_today
+  ])
 
-# user.count_cards_reviewed_today
+user.count_cards_reviewed_today
+
+user.count_cards_succeeded_today
 ```
 
 ```elixir

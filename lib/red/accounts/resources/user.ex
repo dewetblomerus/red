@@ -27,6 +27,20 @@ defmodule Red.Accounts.User do
     count :count_cards_reviewed_today, :cards do
       filter expr(tried_at >= ago(10, :hour))
     end
+
+    count :count_cards_succeeded_today, :cards do
+      filter expr(
+               tried_at >= ago(10, :hour) and retry_at >= from_now(20, :minute)
+             )
+    end
+
+    count :count_cards_goal_today, :cards do
+      filter expr(
+               tried_at >= ago(10, :hour) || retry_at <= from_now(20, :minute)
+             )
+
+      uniq? true
+    end
   end
 
   authentication do

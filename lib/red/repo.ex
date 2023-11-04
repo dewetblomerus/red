@@ -3,6 +3,10 @@ defmodule Red.Repo do
     otp_app: :red
 
   def installed_extensions do
-    ["uuid-ossp", "citext"]
+    [
+      "ash-functions",
+      "citext",
+      "uuid-ossp"
+    ]
   end
 end

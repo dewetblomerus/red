@@ -7,6 +7,7 @@ defmodule RedWeb.PracticeLive do
     socket =
       old_socket
       |> assign_card()
+      |> assign_progress()
       |> assign(%{
         page_title: "Practice"
       })
@@ -36,7 +37,24 @@ defmodule RedWeb.PracticeLive do
   end
 
   def assign_card(socket) do
-    assign(socket, card: get_next_card(socket.assigns.current_user))
+    assign(
+      socket,
+      card: get_next_card(socket.assigns.current_user)
+    )
+  end
+
+  def assign_progress(socket) do
+    user =
+      Red.Accounts.load!(socket.assigns.current_user, [
+        :count_cards_succeeded_today,
+        :count_cards_goal_today
+      ])
+
+    assign(
+      socket,
+      count_cards_succeeded_today: user.count_cards_succeeded_today,
+      count_cards_goal_today: max(user.count_cards_goal_today, 25)
+    )
   end
 
   def get_next_card(user) do
@@ -72,6 +90,7 @@ defmodule RedWeb.PracticeLive do
         socket =
           socket
           |> assign_card()
+          |> assign_progress()
           |> clear_flash()
           |> put_flash(:info, correct_message())
           |> redirect_to_load_words_if_needed()
@@ -82,6 +101,7 @@ defmodule RedWeb.PracticeLive do
       false ->
         socket =
           socket
+          |> assign_progress()
           |> clear_flash()
           |> assign(:card, Red.Practice.reload!(socket.assigns.card))
           |> put_flash(
@@ -107,7 +127,7 @@ defmodule RedWeb.PracticeLive do
       ]
       |> Enum.random()
 
-    emoji = success_emoji()
+    emoji = Enum.random(success_emoji())
 
     "#{phrase} #{emoji}"
   end
@@ -137,6 +157,22 @@ defmodule RedWeb.PracticeLive do
       🥇
       🥳
       😍
-    ) |> Enum.random()
+    )
+  end
+
+  def success_streak(number, goal) do
+    dbg(number)
+    dbg(goal)
+
+    emojis =
+      success_emoji()
+      |> Stream.cycle()
+      |> Enum.take(number)
+
+    blanks_count = (goal - number) |> max(0)
+
+    blanks = ["_"] |> Stream.cycle() |> Enum.take(blanks_count)
+
+    emojis ++ blanks
   end
 end
