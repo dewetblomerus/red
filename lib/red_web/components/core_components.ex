@@ -237,7 +237,9 @@ defmodule RedWeb.CoreComponents do
           :for={action <- @actions}
           class="mt-2 flex items-center justify-between gap-6"
         >
-          <%= render_slot(action, f) %>
+          <div class="mx-auto">
+            <%= render_slot(action, f) %>
+          </div>
         </div>
       </div>
     </.form>
@@ -263,7 +265,8 @@ defmodule RedWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900",
+        "py-2 px-3 hover:bg-zinc-700",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
