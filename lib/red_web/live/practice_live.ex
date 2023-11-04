@@ -73,7 +73,7 @@ defmodule RedWeb.PracticeLive do
           socket
           |> assign_card()
           |> clear_flash()
-          |> put_flash(:info, "Correct! #{success_emoji()}")
+          |> put_flash(:info, correct_message())
           |> redirect_to_load_words_if_needed()
 
         Process.send_after(self(), :say, 100)
@@ -94,7 +94,49 @@ defmodule RedWeb.PracticeLive do
     end
   end
 
+  defp correct_message() do
+    phrase =
+      [
+        "Correct!",
+        "Good job!",
+        "Nice!",
+        "Well done!",
+        "You got it!",
+        "That's it!",
+        "Nailed it!"
+      ]
+      |> Enum.random()
+
+    emoji = success_emoji()
+
+    "#{phrase} #{emoji}"
+  end
+
   defp success_emoji() do
-    ~w(✅ 🎉 ✨ 😍 🥳 💪 🔥) |> Enum.random()
+    ~w(
+      ✅
+      ✨
+      ⭐️
+      🌟
+      🎀
+      🎁
+      🎈
+      🎉
+      🎊
+      🎖️
+      🏆
+      💥
+      💪
+      💯
+      🔥
+      🤗
+      🤘
+      🤙
+      🤟
+      🤩
+      🥇
+      🥳
+      😍
+    ) |> Enum.random()
   end
 end
