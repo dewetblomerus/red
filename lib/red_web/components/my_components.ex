@@ -21,48 +21,38 @@ defmodule RedWeb.MyComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="bg-gray-800">
-      <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="relative flex items-center justify-between h-16">
-          <div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
-            <div class="block ml-6">
-              <div class="flex space-x-4">
-                <a href="/" class="px-3 py-2 text-xl font-medium text-white ">
-                  Spelling Tutor
-                </a>
-              </div>
-            </div>
-          </div>
+    <nav class="flex justify-between items-center bg-gray-800 text-white px-3">
+      <a
+        href="/"
+        class="text-white text-xl pl-2 hover:text-grey-200 active:text-grey-400"
+      >
+        Spelling Tutor
+      </a>
+      <div class="flex justify-end items-center gap-3">
+        <a href="/about" class="text-white hover:text-grey-200 active:text-grey-400">
+          About
+        </a>
+        <%= if @current_user do %>
+          <img
+            src={@current_user.picture}
+            alt="Profile Picture"
+            style="width:50px;height:50px;border-radius:50%;"
+            class="my-1"
+          />
           <a
-            href="/about"
-            class="text-white hover:text-grey-200 active:text-grey-400"
+            href="/sign-out"
+            class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
           >
-            About
+            Sign out
           </a>
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <%= if @current_user do %>
-              <img
-                src={@current_user.picture}
-                alt="Profile Picture"
-                style="width:50px;height:50px;border-radius:50%;"
-                class="mr-2"
-              />
-              <a
-                href="/sign-out"
-                class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
-              >
-                Sign out
-              </a>
-            <% else %>
-              <a
-                href="/auth/user/auth0"
-                class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
-              >
-                Sign In
-              </a>
-            <% end %>
-          </div>
-        </div>
+        <% else %>
+          <a
+            href="/auth/user/auth0"
+            class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+          >
+            Sign In
+          </a>
+        <% end %>
       </div>
     </nav>
     """
