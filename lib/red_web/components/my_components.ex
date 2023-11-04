@@ -21,7 +21,7 @@ defmodule RedWeb.MyComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="flex flex-wrap justify-between items-center bg-gray-800 text-white lg:px-6 sm:px-3 px-1">
+    <nav class="flex flex-wrap justify-between items-center bg-gray-800 text-white lg:px-8 sm:px-4 px-2">
       <a
         href="/"
         class="text-white whitespace-nowrap text-xl hover:text-grey-200 active:text-grey-400"
@@ -36,7 +36,7 @@ defmodule RedWeb.MyComponents do
           <img
             src={@current_user.picture}
             alt="Profile Picture"
-            style="width:50px;height:50px;border-radius:50%;"
+            style="width:48px;height:48px;border-radius:50%;"
             class="my-1"
           />
           <a
@@ -48,7 +48,7 @@ defmodule RedWeb.MyComponents do
         <% else %>
           <a
             href="/auth/user/auth0"
-            class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+            class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70 my-3"
           >
             Sign In
           </a>
