@@ -21,14 +21,14 @@ defmodule RedWeb.MyComponents do
 
   def navbar(assigns) do
     ~H"""
-    <nav class="flex justify-between items-center bg-gray-800 text-white px-3">
+    <nav class="flex flex-wrap justify-between items-center bg-gray-800 text-white lg:px-6 sm:px-3 px-1">
       <a
         href="/"
-        class="text-white text-xl pl-2 hover:text-grey-200 active:text-grey-400"
+        class="text-white whitespace-nowrap text-xl hover:text-grey-200 active:text-grey-400"
       >
         Spelling Tutor
       </a>
-      <div class="flex justify-end items-center gap-3">
+      <div class="flex flex-wrap justify-end items-center gap-3">
         <a href="/about" class="text-white hover:text-grey-200 active:text-grey-400">
           About
         </a>
