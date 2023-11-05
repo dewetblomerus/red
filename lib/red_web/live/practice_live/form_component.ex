@@ -19,15 +19,16 @@ defmodule RedWeb.PracticeLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
         phx-target={@myself}
-        role="presentation"
         spellcheck="false"
       >
         <div class="mx-auto max-w-xs">
           <.input
-            field={@form[:tried_spelling]}
-            type="text"
-            label="Type the word below"
+            autocomplete="false"
             autofocus
+            field={@form[:tried_spelling]}
+            label="Type the word below"
+            role="presentation"
+            type="text"
           />
         </div>
         <:actions>
