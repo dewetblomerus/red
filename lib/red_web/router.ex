@@ -38,6 +38,7 @@ defmodule RedWeb.Router do
       on_mount: {RedWeb.LiveUserAuth, :live_user_home} do
       live "/", PracticeLive
       live "/words", WordsLive
+      live "/stats", StatsLive
     end
   end
 
