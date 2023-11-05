@@ -13,11 +13,13 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.simple_form
         autocapitalize="none"
         autocomplete="off"
+        autocorrect="off"
         for={@form}
         id="try-form"
         phx-change="validate"
         phx-submit="save"
         phx-target={@myself}
+        role="presentation"
         spellcheck="false"
       >
         <div class="mx-auto max-w-xs">
