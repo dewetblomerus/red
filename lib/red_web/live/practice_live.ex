@@ -92,7 +92,7 @@ defmodule RedWeb.PracticeLive do
           %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
-    case tried_spelling == correct_spelling do
+    case String.downcase(tried_spelling) == String.downcase(correct_spelling) do
       true ->
         socket =
           socket
