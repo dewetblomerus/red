@@ -3,7 +3,9 @@ defmodule Red.Practice.Card.Try do
   @interval_unit :minute
 
   def update(changeset, _opts, _context) do
-    is_correct? = changeset.data.word == changeset.arguments.tried_spelling
+    is_correct? =
+      String.downcase(changeset.data.word) ==
+        String.downcase(changeset.arguments.tried_spelling)
 
     previous_interval =
       get_previous_interval(
