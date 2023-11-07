@@ -70,12 +70,16 @@ user =
   Red.Accounts.load!(user, [
     :count_cards_reviewed_today,
     :count_cards_goal_today,
-    :count_cards_succeeded_today
+    :count_cards_succeeded_today,
+    :count_cards_untried,
+    :count_cards_practice
   ])
 
 user.count_cards_reviewed_today
 
 user.count_cards_succeeded_today
+
+user.count_cards_practice
 ```
 
 ```elixir
@@ -108,4 +112,22 @@ Red.Practice.Card.lookahead(actor: user)
 # one_trimmed = one -- two
 
 # one == one_trimmed
+```
+
+```elixir
+card =
+  Red.Practice.Card.next!(actor: user)
+  |> Red.Practice.load!([:interval])
+
+card.interval
+
+# Time.diff(card.interval, ~T[00:00:00], :minute)
+
+# card.category
+
+[card] = Red.Practice.Card.oldest_untried_card!(actor: user)
+
+card = Red.Practice.load!(card, [:interval, :category])
+
+card.category
 ```

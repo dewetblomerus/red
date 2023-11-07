@@ -41,6 +41,18 @@ defmodule Red.Accounts.User do
 
       uniq? true
     end
+
+    count :count_cards_untried, :cards do
+      filter expr(is_nil(tried_at))
+    end
+
+    count :count_cards_practice, :cards do
+      filter expr(retry_at <= datetime_add(tried_at, 1, :day))
+    end
+
+    count :count_cards_review, :cards do
+      filter expr(retry_at > datetime_add(tried_at, 1, :day))
+    end
   end
 
   authentication do

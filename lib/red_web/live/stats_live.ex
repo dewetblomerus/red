@@ -3,7 +3,17 @@ defmodule RedWeb.StatsLive do
   alias Red.Practice.Card.Loader
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    user =
+      Red.Accounts.load!(socket.assigns.current_user, [
+        :count_cards_goal_today,
+        :count_cards_practice,
+        :count_cards_review,
+        :count_cards_reviewed_today,
+        :count_cards_succeeded_today,
+        :count_cards_untried
+      ])
+
+    {:ok, assign(socket, user: user)}
   end
 
   def render(assigns) do
@@ -17,15 +27,15 @@ defmodule RedWeb.StatsLive do
         <table>
           <tr>
             <td class="text-left">Future Review</td>
-            <td>9</td>
+            <td><%= @user.count_cards_review %></td>
           </tr>
           <tr>
             <td class="text-left">Practicing</td>
-            <td>4</td>
+            <td><%= @user.count_cards_practice %></td>
           </tr>
           <tr>
             <td class="text-left">New Cards</td>
-            <td>30</td>
+            <td><%= @user.count_cards_untried %></td>
           </tr>
         </table>
       </div>
