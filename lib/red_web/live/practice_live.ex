@@ -59,7 +59,7 @@ defmodule RedWeb.PracticeLive do
     assign(
       socket,
       count_cards_succeeded_today: user.count_cards_succeeded_today,
-      count_cards_goal_today: max(user.count_cards_goal_today, 25),
+      count_cards_goal_today: max(user.count_cards_goal_today, @cards_per_day),
       current_user: user
     )
   end
