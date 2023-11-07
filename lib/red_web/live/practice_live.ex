@@ -46,14 +46,19 @@ defmodule RedWeb.PracticeLive do
   def assign_progress(socket) do
     user =
       Red.Accounts.load!(socket.assigns.current_user, [
+        :count_cards_goal_today,
+        :count_cards_practice,
+        :count_cards_review,
+        :count_cards_reviewed_today,
         :count_cards_succeeded_today,
-        :count_cards_goal_today
+        :count_cards_untried
       ])
 
     assign(
       socket,
       count_cards_succeeded_today: user.count_cards_succeeded_today,
-      count_cards_goal_today: max(user.count_cards_goal_today, 25)
+      count_cards_goal_today: max(user.count_cards_goal_today, 25),
+      current_user: user
     )
   end
 

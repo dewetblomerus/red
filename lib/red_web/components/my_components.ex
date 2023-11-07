@@ -33,12 +33,6 @@ defmodule RedWeb.MyComponents do
           About
         </a>
         <%= if @current_user do %>
-          <a
-            href="/stats"
-            class="text-white hover:text-grey-200 active:text-grey-400"
-          >
-            Stats
-          </a>
           <img
             src={@current_user.picture}
             alt="Profile Picture"

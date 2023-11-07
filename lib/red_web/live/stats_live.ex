@@ -19,26 +19,14 @@ defmodule RedWeb.StatsLive do
   def render(assigns) do
     ~H"""
     <div class="items-center">
+      <a href="/">
+        <.button>Start Practicing</.button>
+      </a>
       <h1 class="text-2xl">
-        Stats
+        Your Stats
       </h1>
 
-      <div class="p-1 mx-auto bg-slate-200 rounded max-w-xs">
-        <table>
-          <tr>
-            <td class="text-left">Future Review</td>
-            <td><%= @user.count_cards_review %></td>
-          </tr>
-          <tr>
-            <td class="text-left">Practicing</td>
-            <td><%= @user.count_cards_practice %></td>
-          </tr>
-          <tr>
-            <td class="text-left">New Cards</td>
-            <td><%= @user.count_cards_untried %></td>
-          </tr>
-        </table>
-      </div>
+      <RedWeb.PracticeLive.StatsComponent.render user={@user} />
     </div>
     """
   end

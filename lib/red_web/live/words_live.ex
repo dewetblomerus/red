@@ -28,8 +28,10 @@ defmodule RedWeb.WordsLive do
     </h1>
 
     <%= if @any_loaded? do %>
-      <div class="mt-3">
-        <a href="/" class="text-blue-800">Start Practicing</a>
+      <div class="pt-2">
+        <a href="/">
+          <.button>Start Practicing</.button>
+        </a>
       </div>
     <% end %>
 
