@@ -6,9 +6,9 @@ defmodule RedWeb.PracticeLive.StatsComponent do
     ~H"""
     <div class="flex justify-center">
       <div class="border-2 border-gray-500 rounded-xl">
-        <%= render_row("Future Review", @user.count_cards_review) %>
+        <%= render_row("Known Words", @user.count_cards_review) %>
         <%= render_row("Practicing", @user.count_cards_practice) %>
-        <%= render_row("New Untried Cards", @user.count_cards_untried) %>
+        <%= render_row("New Untried Words", @user.count_cards_untried) %>
       </div>
     </div>
     """
