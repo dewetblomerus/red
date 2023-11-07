@@ -3,6 +3,8 @@ defmodule RedWeb.PracticeLive do
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
 
+  @cards_per_day 25
+
   def mount(_params, _session, old_socket) do
     socket =
       old_socket
@@ -28,7 +30,7 @@ defmodule RedWeb.PracticeLive do
           [:count_cards_reviewed_today]
         ).count_cards_reviewed_today
 
-      if reviewed_today_count < 20 do
+      if reviewed_today_count < @cards_per_day do
         redirect(socket, to: "/words")
       else
         socket
