@@ -23,11 +23,12 @@ defmodule RedWeb.PracticeLive.FormComponent do
       >
         <div class="mx-auto max-w-xs">
           <.input
-            autocomplete="false"
+            autocomplete="one-time-code"
             autofocus
             field={@form[:tried_spelling]}
             label="Type the word below"
             role="presentation"
+            spellcheck="false"
             type="text"
           />
         </div>
