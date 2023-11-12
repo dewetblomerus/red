@@ -43,7 +43,14 @@ defmodule RedWeb.WordsLive do
           </div>
           <div class="my-auto pr-4">
             <%= if word_list_file.already_loaded? do %>
-              Already Loaded
+              <div class="flex">
+                <div>
+                  Known Words:
+                </div>
+                <div class="w-12 text-right">
+                  <%= word_list_file.progress.review_count %>/<%= word_list_file.progress.total_count %>
+                </div>
+              </div>
             <% else %>
               <.button
                 phx-click="load-file"

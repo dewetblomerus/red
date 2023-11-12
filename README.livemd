@@ -87,24 +87,13 @@ user.count_cards_practice
 
 ```elixir
 # Red.Practice.Card.get_progress_for_list!(actor: user)
-word_list =
-  Red.Words.lists()
-  |> Map.get("wilson-book-1.csv")
-  |> Enum.map(& &1.word)
-
 cards =
   Card.for_user!(actor: user)
-  |> Enum.map(& &1.word)
-  |> Enum.into(MapSet.new())
 
-word_list
-|> Enum.all?(fn word ->
-  Enum.member?(cards, word)
-end)
+tried_cards = Enum.filter(cards, &(!is_nil(&1.retry_at)))
 
-Red.Words.lists()
-|> Enum.map(fn {key, value} ->
-  dbg(key)
-  dbg(value)
+tried_cards
+|> Enum.map(fn card ->
+  DateTime.diff(card.retry_at, card.tried_at, :day)
 end)
 ```
