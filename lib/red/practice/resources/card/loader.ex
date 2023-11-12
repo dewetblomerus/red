@@ -27,9 +27,9 @@ defmodule Red.Practice.Card.Loader do
 
     review_words =
       cards
-      |> Enum.filter(&(!is_nil(&1.retry_at)))
       |> Enum.filter(fn card ->
-        DateTime.diff(card.retry_at, card.tried_at, :day) >= 1
+        !is_nil(card.retry_at) &&
+          DateTime.diff(card.retry_at, card.tried_at, :day) >= 1
       end)
       |> Enum.map(& &1.word)
       |> Enum.into(MapSet.new())
