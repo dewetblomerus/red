@@ -2,8 +2,13 @@ defmodule RedWeb.WordsLive do
   use RedWeb, :live_view
   alias Red.Practice.Card.Loader
 
-  def mount(_params, _session, socket) do
-    {:ok, perform_assigns(socket)}
+  def mount(_params, _session, old_socket) do
+    socket =
+      old_socket
+      |> assign(page_title: "Words")
+      |> perform_assigns()
+
+    {:ok, socket}
   end
 
   def perform_assigns(socket) do
