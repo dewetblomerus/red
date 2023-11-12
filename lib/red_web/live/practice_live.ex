@@ -2,6 +2,7 @@ defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
   alias RedWeb.PracticeLive.FormComponent
   alias Red.Practice.Card
+  alias Red.Practice.Card.Loader
 
   @cards_per_day 25
 
@@ -39,9 +40,22 @@ defmodule RedWeb.PracticeLive do
   end
 
   def assign_card(socket) do
+    card = get_next_card(socket.assigns.current_user)
+
+    word_list_files =
+      if card do
+        nil
+      else
+        Loader.list!(socket.assigns.current_user)
+        |> Enum.filter(fn file_map ->
+          file_map.already_loaded?
+        end)
+      end
+
     assign(
       socket,
-      card: get_next_card(socket.assigns.current_user)
+      card: card,
+      word_list_files: word_list_files
     )
   end
 

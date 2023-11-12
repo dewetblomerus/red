@@ -21,6 +21,11 @@
       <% else %>
         <div class="alert alert-info">
           <p>All done for now.</p>
+          <.live_component
+            id="words-component"
+            module={RedWeb.PracticeLive.WordsComponent}
+            word_list_files={@word_list_files}
+          />
         </div>
       <% end %>
       <div class="pt-3">
