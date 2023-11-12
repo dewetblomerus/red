@@ -8,6 +8,7 @@ defmodule Red.Practice.Card do
     define_for Red.Practice
 
     define :create, action: :create
+    define :for_user, action: :for_user
     define :get_by, action: :get_by
     define :lookahead, action: :lookahead
     define :next, action: :next

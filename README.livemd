@@ -8,6 +8,9 @@ To start your Phoenix server:
 * `mix phx.server`
 
 ```elixir
+alias Red.Practice.Card
+alias Red.Accounts.User
+
 email = "dewetblomerus@gmail.com"
 # email = "dewetblomerus+test@gmail.com"
 # email = "dewetblomerus+new@gmail.com"
@@ -83,9 +86,19 @@ user.count_cards_practice
 ```
 
 ```elixir
-Red.Practice.Card.lookahead(actor: user)
-```
+# Red.Practice.Card.get_progress_for_list!(actor: user)
+word_list =
+  Red.Words.lists()
+  |> Map.get("wilson-book-1.csv")
+  |> Enum.map(& &1.word)
 
-```elixir
-Red.Words.lists()
+cards =
+  Card.for_user!(actor: user)
+  |> Enum.map(& &1.word)
+  |> Enum.into(MapSet.new())
+
+word_list
+|> Enum.all?(fn word ->
+  Enum.member?(cards, word)
+end)
 ```
