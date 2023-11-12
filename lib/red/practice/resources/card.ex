@@ -8,11 +8,10 @@ defmodule Red.Practice.Card do
     define_for Red.Practice
 
     define :create, action: :create
-
-    define :next, action: :next
-    define :lookahead, action: :lookahead
-    define :oldest_untried_card, action: :oldest_untried_card
     define :get_by, action: :get_by
+    define :lookahead, action: :lookahead
+    define :next, action: :next
+    define :oldest_untried_card, action: :oldest_untried_card
   end
 
   actions do
