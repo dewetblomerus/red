@@ -24,19 +24,16 @@ defmodule Red.Practice.Card.Loader do
       |> Enum.into(MapSet.new())
 
     Red.Words.lists()
-    |> Map.keys()
-    |> Enum.sort()
-    |> Enum.map(fn file_name ->
+    |> Enum.map(fn {file_name, word_list} ->
       %{
         file_name: file_name,
-        already_loaded?: already_loaded?(cards, file_name)
+        already_loaded?: already_loaded?(cards, word_list)
       }
     end)
   end
 
-  def already_loaded?(cards, file_name) do
-    Red.Words.lists()
-    |> Map.get(file_name)
+  def already_loaded?(cards, word_list) do
+    word_list
     |> Enum.map(& &1.word)
     |> Enum.all?(fn word ->
       Enum.member?(cards, word)
