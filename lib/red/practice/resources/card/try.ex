@@ -2,10 +2,15 @@ defmodule Red.Practice.Card.Try do
   use Ash.Resource.ManualUpdate
   @interval_unit :minute
 
+  def check_is_correct?(correct_spelling, attempted_spelling) do
+    attempted_spelling
+    |> String.downcase()
+    |> String.replace(" ", "") == String.downcase(correct_spelling)
+  end
+
   def update(changeset, _opts, _context) do
     is_correct? =
-      String.downcase(changeset.data.word) ==
-        String.downcase(changeset.arguments.tried_spelling)
+      check_is_correct?(changeset.data.word, changeset.arguments.tried_spelling)
 
     previous_interval =
       get_previous_interval(

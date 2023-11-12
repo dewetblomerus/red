@@ -106,7 +106,10 @@ defmodule RedWeb.PracticeLive do
           %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
-    case String.downcase(tried_spelling) == String.downcase(correct_spelling) do
+    case Red.Practice.Card.Try.check_is_correct?(
+           correct_spelling,
+           tried_spelling
+         ) do
       true ->
         socket =
           socket

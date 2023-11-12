@@ -75,7 +75,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
           {:tried,
            %{
              correct_spelling: card.word,
-             tried_spelling: String.trim(tried_spelling)
+             tried_spelling: tried_spelling
            }}
         )
 
