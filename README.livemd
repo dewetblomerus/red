@@ -13,7 +13,7 @@ email = "dewetblomerus@gmail.com"
 # email = "dewetblomerus+new@gmail.com"
 
 user = Red.Accounts.User.get_by!(%{email: email})
-dbg(user.id)
+# dbg(user.id)
 
 # Red.Practice.Attempt.create!(%{
 #   correct_spelling: "the",
@@ -87,47 +87,5 @@ Red.Practice.Card.lookahead(actor: user)
 ```
 
 ```elixir
-# NimbleCSV.define(MyParser, separator: "|", escape: "\"")
-
-# one =
-#   "word_lists/wilson-book-1-to-3.csv"
-#   |> File.stream!()
-#   |> MyParser.parse_stream()
-#   |> Enum.map(fn [word, phrase] ->
-#     dbg("insterting word: '#{word}' for #{user.email} ⚠️")
-
-#     word
-#   end)
-
-# two =
-#   "word_lists/wilson-book-4.csv"
-#   |> File.stream!()
-#   |> MyParser.parse_stream()
-#   |> Enum.map(fn [word, phrase] ->
-#     dbg("insterting word: '#{word}' for #{user.email} ⚠️")
-
-#     word
-#   end)
-
-# one_trimmed = one -- two
-
-# one == one_trimmed
-```
-
-```elixir
-card =
-  Red.Practice.Card.next!(actor: user)
-  |> Red.Practice.load!([:interval])
-
-card.interval
-
-# Time.diff(card.interval, ~T[00:00:00], :minute)
-
-# card.category
-
-[card] = Red.Practice.Card.oldest_untried_card!(actor: user)
-
-card = Red.Practice.load!(card, [:interval, :category])
-
-card.category
+Red.Words.lists()
 ```

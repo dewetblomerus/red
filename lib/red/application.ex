@@ -17,7 +17,7 @@ defmodule Red.Application do
       # Start Finch
       {Finch, name: Red.Finch},
       {AshAuthentication.Supervisor, otp_app: :example},
-
+      Red.Words.BootLoader,
       # Start the Endpoint (http/https)
       RedWeb.Endpoint
       # Start a worker by calling: Red.Worker.start_link(arg)

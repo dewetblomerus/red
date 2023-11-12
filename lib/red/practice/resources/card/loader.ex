@@ -1,12 +1,10 @@
 defmodule Red.Practice.Card.Loader do
   alias Red.Practice.Card
-  NimbleCSV.define(MyParser, separator: "|", escape: "\"")
 
   def load(user, file_name) do
-    "#{word_lists_dir()}/#{file_name}"
-    |> File.stream!()
-    |> MyParser.parse_stream()
-    |> Stream.map(fn [word, phrase] ->
+    Red.Words.lists()
+    |> Map.get(file_name)
+    |> Enum.each(fn %{word: word, phrase: phrase} ->
       dbg("insterting word: '#{word}' for #{user.email} ⚠️")
 
       Red.Practice.Card.create(
@@ -17,12 +15,11 @@ defmodule Red.Practice.Card.Loader do
         actor: user
       )
     end)
-    |> Stream.run()
   end
 
   def list!(user) do
-    word_lists_dir()
-    |> File.ls!()
+    Red.Words.lists()
+    |> Map.keys()
     |> Enum.sort()
     |> Enum.map(fn file_name ->
       %{
@@ -33,23 +30,12 @@ defmodule Red.Practice.Card.Loader do
   end
 
   def already_loaded?(user, file_name) do
-    "#{word_lists_dir()}/#{file_name}"
-    |> File.stream!()
-    |> MyParser.parse_stream()
-    |> Enum.all?(fn [word, _] ->
+    Red.Words.lists()
+    |> Map.get(file_name)
+    |> Enum.all?(fn %{word: word} ->
       result = Red.Practice.Card.get_by(%{word: word}, actor: user)
-      match?({:ok, _}, result) |> dbg()
+      match?({:ok, _}, result)
     end)
-  end
-
-  defp get_next_card(user) do
-    case Card.next(actor: user) do
-      {:ok, card} ->
-        card
-
-      {:error, %Ash.Error.Query.NotFound{}} ->
-        nil
-    end
   end
 
   defp word_lists_dir() do

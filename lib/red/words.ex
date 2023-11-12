@@ -1,9 +1,5 @@
 defmodule Red.Words do
-  def words do
-    ["the", "red", "words"]
-  end
-
-  def random_word do
-    words() |> Enum.random()
+  def lists() do
+    :persistent_term.get({__MODULE__, :wordlists})
   end
 end
