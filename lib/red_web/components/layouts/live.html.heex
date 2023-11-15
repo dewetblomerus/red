@@ -3,6 +3,20 @@
   <.navbar current_user={@current_user} />
 
   <div class="mx-auto mt-2 max-w-xl">
-    <%= @inner_content %>
+    <%= if @current_user do %>
+      <%= @inner_content %>
+    <% else %>
+      <h1 class="mb-2 text-3xl font-bold leading-tight tracking-tight text-gray-900">
+        Sign in to start practicing.
+      </h1>
+      <a href="/auth/user/auth0">
+        <.button>Sign In</.button>
+      </a>
+      <p class="pt-2">
+        SpellSightWords saves your progress for each word you try to spell. And
+        then we use spaced repitition to only show you the words you need to
+        practice. None of this could work without you being signed in, though.
+      </p>
+    <% end %>
   </div>
 </main>

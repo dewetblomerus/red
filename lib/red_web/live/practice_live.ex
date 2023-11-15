@@ -6,7 +6,12 @@ defmodule RedWeb.PracticeLive do
 
   @cards_per_day 25
 
-  def mount(_params, _session, old_socket) do
+  def mount(
+        _params,
+        _session,
+        %Phoenix.LiveView.Socket{assigns: %{current_user: %Red.Accounts.User{}}} =
+          old_socket
+      ) do
     socket =
       old_socket
       |> assign_card()
@@ -18,6 +23,10 @@ defmodule RedWeb.PracticeLive do
 
     Process.send_after(self(), :say, 100)
 
+    {:ok, socket}
+  end
+
+  def mount(_, _, socket) do
     {:ok, socket}
   end
 

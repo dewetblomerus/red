@@ -14,20 +14,11 @@ defmodule RedWeb.LiveUserAuth do
     end
   end
 
-  def on_mount(:live_user_home, _params, _session, socket) do
-    if socket.assigns[:current_user] do
-      {:cont, socket}
-    else
-      # {:cont, assign(socket, :current_user, nil)}
-      {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/home")}
-    end
-  end
-
   def on_mount(:live_user_required, _params, _session, socket) do
     if socket.assigns[:current_user] do
       {:cont, socket}
     else
-      {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/sign-in")}
+      {:halt, Phoenix.LiveView.redirect(socket, to: ~p"/")}
     end
   end
 
