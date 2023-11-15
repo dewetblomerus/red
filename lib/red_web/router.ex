@@ -28,7 +28,6 @@ defmodule RedWeb.Router do
     get "/about", PageController, :about
     get "/privacy", PageController, :privacy
 
-    sign_in_route()
     sign_out_route AuthController
     auth_routes_for Red.Accounts.User, to: AuthController
     reset_route []
