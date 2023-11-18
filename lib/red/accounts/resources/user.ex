@@ -87,12 +87,6 @@ defmodule Red.Accounts.User do
       upsert? true
       upsert_identity :unique_auth0_id
 
-      # Required if you have token generation enabled.
-      change AshAuthentication.GenerateTokenChange
-
-      # Required if you have the `identity_resource` configuration enabled.
-      change AshAuthentication.Strategy.OAuth2.IdentityChange
-
       change fn changeset, _ ->
         user_info = Ash.Changeset.get_argument(changeset, :user_info)
 
