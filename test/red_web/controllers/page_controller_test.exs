@@ -3,6 +3,6 @@ defmodule RedWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 302) =~ "You are being"
+    assert html_response(conn, 200) =~ "Sign in to start"
   end
 end
