@@ -26,7 +26,7 @@ if config_env() == :prod do
       client_id: System.fetch_env!("AUTH0_CLIENT_ID"),
       redirect_uri: "https://" <> System.fetch_env!("PHX_HOST") <> "/auth",
       client_secret: System.fetch_env!("AUTH0_CLIENT_SECRET"),
-      site: System.fetch_env!("AUTH0_SITE")
+      base_url: System.fetch_env!("AUTH0_BASE_URL")
     }
 
   database_url =

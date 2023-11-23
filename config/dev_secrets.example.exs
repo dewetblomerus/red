@@ -5,5 +5,5 @@ config :red,
     client_id: "auth0-client-id",
     redirect_uri: "http://localhost:4000/auth",
     client_secret: "auth0-client-secret",
-    site: "https://auth0-domain"
+    base_url: "https://auth0-domain"
   }

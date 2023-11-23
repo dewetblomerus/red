@@ -26,11 +26,11 @@ defmodule Red.Secrets do
   end
 
   def secret_for(
-        [:authentication, :strategies, :auth0, :site],
+        [:authentication, :strategies, :auth0, :base_url],
         Red.Accounts.User,
         _
       ) do
-    get_config(:site)
+    get_config(:base_url)
   end
 
   defp get_config(key) do
