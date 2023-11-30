@@ -14,6 +14,7 @@ defmodule Red.Accounts.User do
     attribute :email_verified, :boolean
     attribute :picture, :string
     attribute :name, :string
+    attribute :daily_goal, :integer, allow_nil?: false, default: 10
 
     create_timestamp :created_at
     update_timestamp :updated_at
