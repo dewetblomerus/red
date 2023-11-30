@@ -2,8 +2,6 @@ defmodule Red.Practice.Card do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
-  @cards_per_day 25
-
   code_interface do
     define_for Red.Practice
 
@@ -44,7 +42,7 @@ defmodule Red.Practice.Card do
                 [:count_cards_reviewed_today]
               ).count_cards_reviewed_today
 
-            if reviewed_today_count < @cards_per_day do
+            if reviewed_today_count < context.actor.daily_goal do
               dbg("Grabbing a new card ✨")
               Red.Practice.Card.oldest_untried_card(actor: context.actor)
             else

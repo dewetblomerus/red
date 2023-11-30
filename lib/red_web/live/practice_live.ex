@@ -4,8 +4,6 @@ defmodule RedWeb.PracticeLive do
   alias Red.Practice.Card
   alias Red.Practice.Card.Loader
 
-  @cards_per_day 25
-
   def mount(
         _params,
         _session,
@@ -40,7 +38,7 @@ defmodule RedWeb.PracticeLive do
           [:count_cards_reviewed_today]
         ).count_cards_reviewed_today
 
-      if reviewed_today_count < @cards_per_day do
+      if reviewed_today_count < socket.assigns.current_user.daily_goal do
         redirect(socket, to: "/words")
       else
         socket
@@ -82,7 +80,7 @@ defmodule RedWeb.PracticeLive do
     assign(
       socket,
       count_cards_succeeded_today: user.count_cards_succeeded_today,
-      count_cards_goal_today: max(user.count_cards_goal_today, @cards_per_day),
+      count_cards_goal_today: max(user.count_cards_goal_today, user.daily_goal),
       current_user: user
     )
   end
