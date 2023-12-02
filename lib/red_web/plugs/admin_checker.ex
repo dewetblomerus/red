@@ -1,17 +1,13 @@
 defmodule RedWeb.AdminChecker do
-  def call(conn, opts) do
-    check_super_user(conn, opts)
+  def call(conn, _opts) do
+    check_super_user(conn)
   end
 
   def init(opts) do
     opts
   end
 
-  def call(conn, opts \\ []) do
-    check_super_user(conn, opts)
-  end
-
-  defp check_super_user(conn, _opts) do
+  defp check_super_user(conn) do
     current_user =
       conn.assigns.current_user
 

@@ -64,7 +64,7 @@ defmodule Red.Accounts.User do
         client_id Red.Secrets
         redirect_uri Red.Secrets
         client_secret Red.Secrets
-        site Red.Secrets
+        base_url Red.Secrets
       end
     end
   end

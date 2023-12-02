@@ -65,8 +65,4 @@ defmodule Red.Practice.Card.Loader do
       Enum.member?(cards, word)
     end)
   end
-
-  defp word_lists_dir do
-    "word_lists"
-  end
 end
