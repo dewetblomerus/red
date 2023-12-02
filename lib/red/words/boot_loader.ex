@@ -1,4 +1,6 @@
 defmodule Red.Words.BootLoader do
+  require Logger
+
   def child_spec(_) do
     %{
       id: __MODULE__,
@@ -11,7 +13,7 @@ defmodule Red.Words.BootLoader do
 
   def start_link do
     Task.start_link(fn ->
-      dbg("🏃‍♂️ Running once at startup 🏃‍♂️")
+      Logger.info("🏃‍♂️ Running once at startup 🏃‍♂️")
       load()
     end)
   end

@@ -39,7 +39,7 @@ defmodule Red.Practice.Card.TryTest do
           previous_interval: 1440 * 3
         }
 
-        assert Try.get_new_interval(params) === 10800
+        assert Try.get_new_interval(params) === 10_800
       end)
     end
   end

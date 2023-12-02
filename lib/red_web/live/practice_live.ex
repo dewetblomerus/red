@@ -192,9 +192,6 @@ defmodule RedWeb.PracticeLive do
   end
 
   def success_streak(number, goal) do
-    dbg(number)
-    dbg(goal)
-
     emojis =
       success_emoji()
       |> Stream.cycle()

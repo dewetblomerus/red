@@ -1,4 +1,6 @@
 defmodule Red.Practice.Card do
+  require Logger
+
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer
 
@@ -34,7 +36,7 @@ defmodule Red.Practice.Card do
       prepare fn query, context ->
         Ash.Query.after_action(query, fn
           _, [] ->
-            dbg("No cards due 📭")
+            Logger.debug("No cards due 📭")
 
             reviewed_today_count =
               Red.Accounts.load!(
@@ -43,15 +45,15 @@ defmodule Red.Practice.Card do
               ).count_cards_reviewed_today
 
             if reviewed_today_count < context.actor.daily_goal do
-              dbg("Grabbing a new card ✨")
+              Logger.debug("Grabbing a new card ✨")
               Red.Practice.Card.oldest_untried_card(actor: context.actor)
             else
-              dbg("Looking Ahead 🔭")
+              Logger.debug("Looking Ahead 🔭")
               Red.Practice.Card.lookahead(actor: context.actor)
             end
 
           _, results ->
-            dbg("A card was found with retry_at <= now ✅")
+            Logger.debug("A card was found with retry_at <= now ✅")
             {:ok, results}
         end)
       end
