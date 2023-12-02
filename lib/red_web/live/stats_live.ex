@@ -1,6 +1,5 @@
 defmodule RedWeb.StatsLive do
   use RedWeb, :live_view
-  alias Red.Practice.Card.Loader
 
   def mount(_params, _session, socket) do
     user =

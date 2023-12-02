@@ -1,7 +1,6 @@
 defmodule RedWeb.PracticeLive.StatsComponent do
   use Phoenix.Component
 
-  @impl true
   def render(assigns) do
     ~H"""
     <div class="flex justify-center">

@@ -1,13 +1,14 @@
 defmodule Red.Practice.Card.Loader do
+  require Logger
   alias Red.Practice.Card
 
   def load(user, file_name) do
     Red.Words.lists()
     |> Map.get(file_name)
     |> Enum.each(fn %{word: word, phrase: phrase} ->
-      dbg("insterting word: '#{word}' for #{user.email} ⚠️")
+      Logger.info("insterting word: '#{word}' for #{user.email} ⚠️")
 
-      Red.Practice.Card.create(
+      Card.create(
         %{
           word: word,
           phrase: phrase
@@ -50,11 +51,9 @@ defmodule Red.Practice.Card.Loader do
 
   def progress(review_words, word_list, _) do
     review_count =
-      word_list
-      |> Enum.filter(fn %{word: word} ->
+      Enum.count(word_list, fn %{word: word} ->
         Enum.member?(review_words, word)
       end)
-      |> Enum.count()
 
     %{review_count: review_count, total_count: Enum.count(word_list)}
   end
@@ -65,9 +64,5 @@ defmodule Red.Practice.Card.Loader do
     |> Enum.all?(fn word ->
       Enum.member?(cards, word)
     end)
-  end
-
-  defp word_lists_dir() do
-    "word_lists"
   end
 end

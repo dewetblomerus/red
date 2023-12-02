@@ -1,4 +1,6 @@
 defmodule Red.Words.BootLoader do
+  require Logger
+
   def child_spec(_) do
     %{
       id: __MODULE__,
@@ -11,12 +13,12 @@ defmodule Red.Words.BootLoader do
 
   def start_link do
     Task.start_link(fn ->
-      dbg("🏃‍♂️ Running once at startup 🏃‍♂️")
+      Logger.info("🏃‍♂️ Running once at startup 🏃‍♂️")
       load()
     end)
   end
 
-  def load() do
+  def load do
     all_word_lists =
       word_lists_dir()
       |> File.ls!()
@@ -40,7 +42,7 @@ defmodule Red.Words.BootLoader do
     |> Enum.to_list()
   end
 
-  defp word_lists_dir() do
+  defp word_lists_dir do
     "word_lists"
   end
 end
