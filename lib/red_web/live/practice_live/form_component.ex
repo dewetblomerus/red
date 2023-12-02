@@ -13,7 +13,6 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.simple_form
         autocapitalize="none"
         autocomplete="off"
-        autocorrect="off"
         for={@form}
         id="try-form"
         phx-change="validate"
