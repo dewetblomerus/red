@@ -18,7 +18,7 @@ defmodule Red.Words.BootLoader do
     end)
   end
 
-  def load() do
+  def load do
     all_word_lists =
       word_lists_dir()
       |> File.ls!()
@@ -42,7 +42,7 @@ defmodule Red.Words.BootLoader do
     |> Enum.to_list()
   end
 
-  defp word_lists_dir() do
+  defp word_lists_dir do
     "word_lists"
   end
 end

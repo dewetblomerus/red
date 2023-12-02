@@ -8,7 +8,7 @@ defmodule Red.Practice.Card.Loader do
     |> Enum.each(fn %{word: word, phrase: phrase} ->
       Logger.info("insterting word: '#{word}' for #{user.email} ⚠️")
 
-      Red.Practice.Card.create(
+      Card.create(
         %{
           word: word,
           phrase: phrase
@@ -66,7 +66,7 @@ defmodule Red.Practice.Card.Loader do
     end)
   end
 
-  defp word_lists_dir() do
+  defp word_lists_dir do
     "word_lists"
   end
 end

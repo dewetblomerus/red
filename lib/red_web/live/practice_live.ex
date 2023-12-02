@@ -1,8 +1,9 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
-  alias RedWeb.PracticeLive.FormComponent
+
   alias Red.Practice.Card
-  alias Red.Practice.Card.Loader
+  alias Red.Practice.Card.{Loader, Try}
+  alias RedWeb.PracticeLive.FormComponent
 
   def mount(
         _params,
@@ -113,7 +114,7 @@ defmodule RedWeb.PracticeLive do
           %{tried_spelling: tried_spelling, correct_spelling: correct_spelling}}},
         socket
       ) do
-    case Red.Practice.Card.Try.check_is_correct?(
+    case Try.check_is_correct?(
            correct_spelling,
            tried_spelling
          ) do
@@ -145,7 +146,7 @@ defmodule RedWeb.PracticeLive do
     end
   end
 
-  defp correct_message() do
+  defp correct_message do
     phrase =
       [
         "Correct!",
@@ -163,7 +164,7 @@ defmodule RedWeb.PracticeLive do
     "#{phrase} #{emoji}"
   end
 
-  defp success_emoji() do
+  defp success_emoji do
     ~w(
       ✅
       ✨

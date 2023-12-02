@@ -1,4 +1,6 @@
 defmodule Red.Practice.Card do
+  alias Red.Practice.Card
+
   require Logger
 
   use Ash.Resource,
@@ -46,10 +48,10 @@ defmodule Red.Practice.Card do
 
             if reviewed_today_count < context.actor.daily_goal do
               Logger.debug("Grabbing a new card ✨")
-              Red.Practice.Card.oldest_untried_card(actor: context.actor)
+              Card.oldest_untried_card(actor: context.actor)
             else
               Logger.debug("Looking Ahead 🔭")
-              Red.Practice.Card.lookahead(actor: context.actor)
+              Card.lookahead(actor: context.actor)
             end
 
           _, results ->

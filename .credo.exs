@@ -4,7 +4,7 @@
   configs: [
     %{
       name: "default",
-      strict: false,
+      strict: true,
       checks: [
         {Credo.Check.Readability.ModuleDoc, false}
       ]
