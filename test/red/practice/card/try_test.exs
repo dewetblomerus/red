@@ -99,7 +99,7 @@ defmodule Red.Practice.Card.TryTest do
     def correct_params_on_retry_at(%{
           previous_interval: previous_interval
         }) do
-      params = %{
+      %{
         is_correct?: true,
         actual_interval: previous_interval,
         previous_interval: previous_interval
