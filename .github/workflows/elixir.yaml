@@ -75,8 +75,5 @@ jobs:
     - name: Install dependencies
       run: mix deps.get
 
-    - name: Compiles without warnings
-      run: mix compile --warnings-as-errors
-
     - name: Check Everything
       run: mix check
