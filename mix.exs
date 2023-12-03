@@ -32,7 +32,7 @@ defmodule Red.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash_admin, "~> 0.9.5"},
+      {:ash_admin, "~> 0.10"},
       {:ash_authentication_phoenix, "~> 1.8"},
       {:ash_authentication, "~> 3.11"},
       {:ash_phoenix, "~> 1.2"},
