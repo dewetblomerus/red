@@ -1,5 +1,6 @@
 defmodule Red.Practice.CardTest do
   use Red.DataCase, async: true
+  alias Red.Factory
   alias Red.Practice.Card
 
   setup do
@@ -27,7 +28,7 @@ defmodule Red.Practice.CardTest do
     end
   end
 
-  describe "try/1" do
+  describe "try" do
     test "requires a retry when incorrect", %{user: user} do
       {:ok, card} =
         Card.create(
@@ -54,6 +55,61 @@ defmodule Red.Practice.CardTest do
              } = tried_card
 
       assert retry_at == tried_at
+    end
+  end
+
+  describe "next/1" do
+    test "returns an error when there are no cards", %{user: user} do
+      assert {:error, %Ash.Error.Query.NotFound{}} = Card.next(actor: user)
+    end
+
+    test "when there are cards due, returns the oldest due card", %{user: user} do
+      now = NaiveDateTime.utc_now()
+      two_minutes_ago = NaiveDateTime.add(now, -2, :minute)
+      three_minutes_ago = NaiveDateTime.add(now, -3, :minute)
+
+      _another_due_card =
+        Factory.card_factory(
+          user,
+          %{
+            retry_at: two_minutes_ago
+          }
+        )
+
+      oldest_due_card =
+        Factory.card_factory(
+          user,
+          %{
+            retry_at: three_minutes_ago
+          }
+        )
+
+      assert {:ok, next_card} = Card.next(actor: user)
+      assert next_card.id == oldest_due_card.id
+    end
+
+    test "returns the oldest untried card", %{user: user} do
+      now = NaiveDateTime.utc_now()
+      two_minutes_ago = NaiveDateTime.add(now, -2, :minute)
+      three_minutes_ago = NaiveDateTime.add(now, -3, :minute)
+
+      oldest_card =
+        Factory.card_factory(
+          user,
+          %{
+            created_at: two_minutes_ago
+          }
+        )
+
+      _newer_card =
+        Factory.card_factory(
+          user,
+          %{
+            created_at: three_minutes_ago
+          }
+        )
+
+      assert oldest_card.id == Card.next!(actor: user).id
     end
   end
 end
