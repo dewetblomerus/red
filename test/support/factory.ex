@@ -1,5 +1,6 @@
 defmodule Red.Factory do
   alias Red.Accounts.User
+  alias Red.Practice.Card
 
   def admin_user do
     user_info = %{
@@ -39,5 +40,16 @@ defmodule Red.Factory do
       }
     )
     |> Red.Accounts.create!()
+  end
+
+  def card_factory(user, opts \\ %{}) do
+    Card.create!(
+      %{
+        phrase: Faker.String.base64(),
+        word: Faker.String.base64(40),
+        retry_at: Map.get(opts, :retry_at)
+      },
+      actor: user
+    )
   end
 end
