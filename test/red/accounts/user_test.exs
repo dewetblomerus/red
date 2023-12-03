@@ -42,7 +42,7 @@ defmodule Red.Accounts.UserTest do
       picture = user_info["picture"]
 
       assert %User{
-               auth0_id: auth0_id,
+               auth0_id: ^auth0_id,
                daily_goal: 10,
                email_verified: true,
                email: %Ash.CiString{string: ^email},
