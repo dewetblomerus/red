@@ -1,7 +1,7 @@
 defmodule Red.Practice.CardTest do
   use Red.DataCase, async: true
-  alias Red.Practice.Card
   alias Red.Factory
+  alias Red.Practice.Card
 
   setup do
     user = Red.Factory.user_factory()
