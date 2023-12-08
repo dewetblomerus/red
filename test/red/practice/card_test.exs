@@ -88,7 +88,9 @@ defmodule Red.Practice.CardTest do
       assert next_card.id == oldest_due_card.id
     end
 
-    test "returns the oldest untried card", %{user: user} do
+    test "when there are no cards due returns the oldest untried card", %{
+      user: user
+    } do
       now = NaiveDateTime.utc_now()
       two_minutes_ago = NaiveDateTime.add(now, -2, :minute)
       three_minutes_ago = NaiveDateTime.add(now, -3, :minute)
@@ -110,6 +112,53 @@ defmodule Red.Practice.CardTest do
         )
 
       assert oldest_card.id == Card.next!(actor: user).id
+    end
+
+    test "when there are no cards due, before hitting daily goal, get oldest untried card",
+         %{user: user} do
+      now = NaiveDateTime.utc_now()
+      nineteen_minutes_from_now = NaiveDateTime.add(now, 19, :minute)
+
+      oldest_card =
+        Factory.card_factory(user)
+
+      near_future_card =
+        Factory.card_factory(
+          user,
+          %{
+            retry_at: nineteen_minutes_from_now
+          }
+        )
+
+      assert oldest_card.id == Card.next!(actor: user).id
+    end
+
+    test "when there are no cards due, after hitting daily goal, look ahead 20 mintues",
+         %{user: user} do
+      now = NaiveDateTime.utc_now()
+      nineteen_minutes_from_now = NaiveDateTime.add(now, 19, :minute)
+
+      oldest_card =
+        Factory.card_factory(user)
+
+      for _ <- 1..user.daily_goal do
+        Factory.card_factory(
+          user,
+          %{
+            tried_at: NaiveDateTime.utc_now()
+          }
+        )
+      end
+
+      near_future_card =
+        Factory.card_factory(
+          user,
+          %{
+            retry_at: nineteen_minutes_from_now
+          }
+        )
+
+      assert near_future_card.id == Card.next!(actor: user).id
     end
   end
 end

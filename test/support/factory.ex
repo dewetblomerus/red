@@ -47,7 +47,8 @@ defmodule Red.Factory do
       %{
         phrase: Faker.String.base64(),
         word: Faker.String.base64(40),
-        retry_at: Map.get(opts, :retry_at)
+        retry_at: Map.get(opts, :retry_at),
+        tried_at: Map.get(opts, :tried_at)
       },
       actor: user
     )
