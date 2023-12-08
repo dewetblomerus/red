@@ -85,6 +85,10 @@ defmodule Red.Practice.Card do
     end
   end
 
+  calculations do
+    calculate :interval, :time, expr(retry_at - tried_at)
+  end
+
   attributes do
     integer_primary_key :id
 

@@ -69,31 +69,37 @@ user = Red.Accounts.User.get_by!(%{email: email})
 ```
 
 ```elixir
-user =
-  Red.Accounts.load!(user, [
-    :count_cards_reviewed_today,
-    :count_cards_goal_today,
-    :count_cards_succeeded_today,
-    :count_cards_untried,
-    :count_cards_practice
-  ])
+# user =
+#   Red.Accounts.load!(user, [
+#     :count_cards_reviewed_today,
+#     :count_cards_goal_today,
+#     :count_cards_succeeded_today,
+#     :count_cards_untried,
+#     :count_cards_practice
+#   ])
 
-user.count_cards_reviewed_today
+# user.count_cards_reviewed_today
 
-user.count_cards_succeeded_today
+# user.count_cards_succeeded_today
 
-user.count_cards_practice
+# user.count_cards_practice
 ```
 
 ```elixir
 # Red.Practice.Card.get_progress_for_list!(actor: user)
-cards =
-  Card.for_user!(actor: user)
+# cards =
+#   Card.for_user!(actor: user)
 
-tried_cards = Enum.filter(cards, &(!is_nil(&1.retry_at)))
+# tried_cards = Enum.filter(cards, &(!is_nil(&1.retry_at)))
 
-tried_cards
-|> Enum.map(fn card ->
-  DateTime.diff(card.retry_at, card.tried_at, :day)
-end)
+# tried_cards
+# |> Enum.map(fn card ->
+#   DateTime.diff(card.retry_at, card.tried_at, :day)
+# end)
+require Ash.Query
+
+Red.Practice.Card
+|> Ash.Query.filter(interval > 10)
+# |> Ash.Query.sort([:title])
+|> Red.Practice.read!()
 ```
