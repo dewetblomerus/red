@@ -85,6 +85,12 @@ defmodule Red.Practice.Card do
     end
   end
 
+  calculations do
+    calculate :interval_in_seconds,
+              :integer,
+              expr(fragment("EXTRACT(EPOCH FROM ?)", retry_at - tried_at))
+  end
+
   attributes do
     integer_primary_key :id
 

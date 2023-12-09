@@ -161,4 +161,44 @@ defmodule Red.Practice.CardTest do
       assert near_future_card.id == Card.next!(actor: user).id
     end
   end
+
+  describe "interval_in_seconds" do
+    test "returns the correct interval for a card with rety_at and tried_at", %{
+      user: user
+    } do
+      now = NaiveDateTime.utc_now()
+      ten_minutes_from_now = NaiveDateTime.add(now, 10, :minute)
+
+      card =
+        Factory.card_factory(
+          user,
+          %{
+            retry_at: ten_minutes_from_now,
+            tried_at: now
+          }
+        )
+
+      loaded_card =
+        Red.Practice.load!(card, [
+          :interval_in_seconds
+        ])
+
+      assert 600 == loaded_card.interval_in_seconds
+    end
+
+    test "returns the nil for a card without a tried_at", %{
+      user: user
+    } do
+      now = NaiveDateTime.utc_now()
+      ten_minutes_from_now = NaiveDateTime.add(now, 10, :minute)
+
+      card =
+        Factory.card_factory(user)
+
+      loaded_card =
+        Red.Practice.load!(card, :interval_in_seconds)
+
+      assert nil == loaded_card.interval_in_seconds
+    end
+  end
 end
