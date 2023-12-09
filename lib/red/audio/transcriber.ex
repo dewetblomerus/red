@@ -1,8 +1,11 @@
-defmodule Transcriber do
+defmodule Red.Audio.Transcriber do
   require Req
   alias ExAws.S3
+  alias Red.Audio.Slugger
 
-  def transcribe(text, filename) do
+  @file_format "mp3"
+
+  def transcribe(text) do
     api_key = Application.fetch_env!(:red, :open_api_key)
 
     headers = [
@@ -14,7 +17,7 @@ defmodule Transcriber do
       model: "tts-1-hd",
       input: text,
       voice: "echo",
-      response_format: "opus"
+      response_format: @file_format
     }
 
     %Req.Response{status: 200, body: file_contents} =
@@ -23,7 +26,11 @@ defmodule Transcriber do
         headers: headers
       )
 
-    S3.put_object("spellsightwords", "audio/#{filename}", file_contents)
+    S3.put_object(
+      "spellsightwords",
+      "audio/#{Slugger.file_name(text, @file_format)}",
+      file_contents
+    )
     |> ExAws.request!()
   end
 end
