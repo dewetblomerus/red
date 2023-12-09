@@ -183,7 +183,7 @@ defmodule Red.Practice.CardTest do
           :interval
         ])
 
-      assert Time.new!(0, 10, 0) == loaded_card.interval
+      assert 600 == loaded_card.interval
     end
 
     test "returns the nil for a card without a tried_at", %{
