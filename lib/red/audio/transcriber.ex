@@ -6,6 +6,8 @@ defmodule Red.Audio.Transcriber do
   @file_format "mp3"
 
   def transcribe(text) do
+    file_exists?(text)
+
     api_key = Application.fetch_env!(:red, :open_api_key)
 
     headers = [
@@ -33,5 +35,19 @@ defmodule Red.Audio.Transcriber do
         file_contents
       )
       |> ExAws.request!()
+  end
+
+  def file_exists?(text) do
+    perform_check =
+      S3.head_object(
+        "spellsightwords",
+        "audio/#{Slugger.file_name(text, @file_format)}"
+      )
+      |> ExAws.request()
+
+    case perform_check do
+      {:ok, %{status_code: 200}} -> true
+      {:error, {:http_error, 404, _}} -> false
+    end
   end
 end
