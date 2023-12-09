@@ -26,11 +26,12 @@ defmodule Red.Audio.Transcriber do
         headers: headers
       )
 
-    S3.put_object(
-      "spellsightwords",
-      "audio/#{Slugger.file_name(text, @file_format)}",
-      file_contents
-    )
-    |> ExAws.request!()
+    %{status_code: 200} =
+      S3.put_object(
+        "spellsightwords",
+        "audio/#{Slugger.file_name(text, @file_format)}",
+        file_contents
+      )
+      |> ExAws.request!()
   end
 end
