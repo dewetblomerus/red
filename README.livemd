@@ -8,6 +8,7 @@ To start your Phoenix server:
 * `mix phx.server`
 
 ```elixir
+require Ash.Query
 alias Red.Practice.Card
 alias Red.Accounts.User
 
@@ -98,8 +99,31 @@ user = Red.Accounts.User.get_by!(%{email: email})
 # end)
 require Ash.Query
 
+# ten_minutes = Time.new!(0, 10, 0)
+
+# Red.Practice.Card
+# |> Ash.Query.filter(interval > ^ten_minutes)
+# |> Red.Practice.read!()
+
+day_of_seconds = round(:timer.hours(24) / 1000)
+
 Red.Practice.Card
-|> Ash.Query.filter(interval > 10)
-# |> Ash.Query.sort([:title])
+|> Ash.Query.filter(interval_in_seconds < ^day_of_seconds)
+|> Ash.Query.load(:interval_in_seconds)
 |> Red.Practice.read!()
+```
+
+```elixir
+alias ExAws.S3
+
+file_contents = File.read!("audio-file.opus")
+
+S3.put_object("spellsightwords", "audio/audio-file.opus", file_contents)
+|> ExAws.request!()
+
+# S3.list_objects("spellsightwords") |> ExAws.request!
+```
+
+```elixir
+S3.list_objects("spellsightwords") |> ExAws.request!()
 ```

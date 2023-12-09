@@ -1,5 +1,6 @@
 defmodule Transcriber do
   require Req
+  alias ExAws.S3
 
   def transcribe(text, filename) do
     api_key = Application.fetch_env!(:red, :open_api_key)
@@ -16,12 +17,13 @@ defmodule Transcriber do
       response_format: "opus"
     }
 
-    %Req.Response{status: 200, body: response_body} =
+    %Req.Response{status: 200, body: file_contents} =
       Req.post!("https://api.openai.com/v1/audio/speech",
         json: body,
         headers: headers
       )
 
-    File.write(filename, response_body)
+    S3.put_object("spellsightwords", "audio/#{filename}", file_contents)
+    |> ExAws.request!()
   end
 end
