@@ -162,7 +162,7 @@ defmodule Red.Practice.CardTest do
     end
   end
 
-  describe "interval" do
+  describe "interval_in_seconds" do
     test "returns the correct interval for a card with rety_at and tried_at", %{
       user: user
     } do
@@ -180,10 +180,10 @@ defmodule Red.Practice.CardTest do
 
       loaded_card =
         Red.Practice.load!(card, [
-          :interval
+          :interval_in_seconds
         ])
 
-      assert 600 == loaded_card.interval
+      assert 600 == loaded_card.interval_in_seconds
     end
 
     test "returns the nil for a card without a tried_at", %{
@@ -196,9 +196,9 @@ defmodule Red.Practice.CardTest do
         Factory.card_factory(user)
 
       loaded_card =
-        Red.Practice.load!(card, :interval)
+        Red.Practice.load!(card, :interval_in_seconds)
 
-      assert nil == loaded_card.interval
+      assert nil == loaded_card.interval_in_seconds
     end
   end
 end

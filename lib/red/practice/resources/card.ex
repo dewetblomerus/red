@@ -86,7 +86,7 @@ defmodule Red.Practice.Card do
   end
 
   calculations do
-    calculate :interval,
+    calculate :interval_in_seconds,
               :integer,
               expr(fragment("EXTRACT(EPOCH FROM ?)", retry_at - tried_at))
   end
