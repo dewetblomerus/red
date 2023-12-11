@@ -8,6 +8,7 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.header>
         Practice
       </.header>
+      <audio id="phraseAudio" autoplay src={@audio_url} controls></audio>
       <.button id="repeatButton">Repeat Audio</.button>
       <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form

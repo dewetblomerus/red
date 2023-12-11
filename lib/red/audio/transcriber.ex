@@ -1,11 +1,14 @@
 defmodule Red.Audio.Transcriber do
   require Req
+  require Logger
   alias ExAws.S3
   alias Red.Audio.Slugger
 
   @file_format "mp3"
 
-  def transcribe(text) do
+  def transcribe(word, phrase) do
+    text = Slugger.audio_text(word, phrase)
+
     if file_exists?(text) do
       {:ok, :already_exists}
     else
@@ -17,6 +20,8 @@ defmodule Red.Audio.Transcriber do
   end
 
   def file_exists?(text) do
+    Logger.info("Checking if file exists for: #{text} ✅")
+
     perform_check =
       S3.head_object(
         "spellsightwords",
@@ -31,6 +36,8 @@ defmodule Red.Audio.Transcriber do
   end
 
   def perform_transcription(text) do
+    Logger.info("Performing transcription for: #{text} 💬")
+
     headers = [
       {"Authorization", "Bearer #{openapi_key()}"},
       {"Content-Type", "application/json"}
@@ -53,6 +60,8 @@ defmodule Red.Audio.Transcriber do
   end
 
   def upload_to_s3(text, file_contents) do
+    Logger.info("Uploading file for: #{text} 🛢️")
+
     %{status_code: 200} =
       S3.put_object(
         "spellsightwords",
