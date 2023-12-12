@@ -1,11 +1,11 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
 
+  alias Red.Audio.Transcriber
   alias Red.Practice.Card
   alias Red.Practice.Card.{Loader, Try}
   alias Red.Words
   alias RedWeb.PracticeLive.FormComponent
-  alias Red.Audio.Slugger
 
   def mount(
         _params,
@@ -55,7 +55,7 @@ defmodule RedWeb.PracticeLive do
 
     word_list_files =
       if card do
-        Red.Audio.Transcriber.transcribe(card.word, card.phrase)
+        Transcriber.transcribe(card.word, card.phrase)
         nil
       else
         Loader.list!(socket.assigns.current_user)
@@ -64,15 +64,13 @@ defmodule RedWeb.PracticeLive do
         end)
       end
 
-    audio_url =
-      if card do
-        "https://f000.backblazeb2.com/file/spellsightwords/audio/#{Slugger.file_name(card.word, card.phrase, "mp3")}"
-      end
+    audio_url_prefix =
+      "https://f000.backblazeb2.com/file/spellsightwords/audio/"
 
     assign(
       socket,
       card: card,
-      audio_url: audio_url,
+      audio_url_prefix: audio_url_prefix,
       word_list_files: Words.sort_word_lists(word_list_files)
     )
   end
