@@ -62,13 +62,13 @@ defmodule RedWeb.PracticeLive do
         end)
       end
 
-    audio_url =
-      "https://f000.backblazeb2.com/file/spellsightwords/audio/#{Slugger.file_name(card.word, card.phrase, "mp3")}"
+    audio_url_prefix =
+      "https://f000.backblazeb2.com/file/spellsightwords/audio/"
 
     assign(
       socket,
       card: card,
-      audio_url: audio_url,
+      audio_url_prefix: audio_url_prefix,
       word_list_files: word_list_files
     )
   end

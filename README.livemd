@@ -97,20 +97,6 @@ user = Red.Accounts.User.get_by!(%{email: email})
 # |> Enum.map(fn card ->
 #   DateTime.diff(card.retry_at, card.tried_at, :day)
 # end)
-require Ash.Query
-
-# ten_minutes = Time.new!(0, 10, 0)
-
-# Red.Practice.Card
-# |> Ash.Query.filter(interval > ^ten_minutes)
-# |> Red.Practice.read!()
-
-day_of_seconds = round(:timer.hours(24) / 1000)
-
-Red.Practice.Card
-|> Ash.Query.filter(interval_in_seconds < ^day_of_seconds)
-|> Ash.Query.load(:interval_in_seconds)
-|> Red.Practice.read!()
 ```
 
 ```elixir
@@ -126,4 +112,8 @@ S3.put_object("spellsightwords", "audio/audio-file.opus", file_contents)
 
 ```elixir
 S3.list_objects("spellsightwords") |> ExAws.request!()
+```
+
+```elixir
+S3.head_object("spellsightwords", "audio/have-as-in-i-have-a-dog-onyx.mp3") |> ExAws.request()
 ```

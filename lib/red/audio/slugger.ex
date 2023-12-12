@@ -7,13 +7,18 @@ defmodule Red.Audio.Slugger do
     |> String.replace(~r/-+/, "-")
   end
 
-  def file_name(text, format) do
-    slug(text) <> "." <> format
+  def file_name(%{text: text, voice: voice, format: format}) do
+    slug(text) <> "-" <> voice <> "." <> format
   end
 
-  def file_name(word, phrase, format) do
+  def file_name(%{
+        word: word,
+        phrase: phrase,
+        voice: voice,
+        format: format
+      }) do
     text = audio_text(word, phrase)
-    slug(text) <> "." <> format
+    file_name(%{text: text, voice: voice, format: format})
   end
 
   def audio_text(word, phrase) do

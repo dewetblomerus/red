@@ -8,7 +8,24 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.header>
         Practice
       </.header>
-      <audio id="phraseAudio" autoplay src={@audio_url} controls></audio>
+
+      <%= for voice <- Red.Audio.OpenApi.voices() do %>
+        <div><%= String.capitalize(voice) %></div>
+        <audio
+          id={"phraseAudio-#{voice}"}
+          controls
+          src={@audio_url_prefix <> Red.Audio.Slugger.file_name(
+            %{
+              word: @card.word,
+              phrase: @card.phrase,
+              format: "opus",
+              voice: voice
+            }
+          )}
+        >
+        </audio>
+      <% end %>
+
       <.button id="repeatButton">Repeat Audio</.button>
       <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form

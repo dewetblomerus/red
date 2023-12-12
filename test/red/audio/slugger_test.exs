@@ -10,12 +10,32 @@ defmodule Red.Audio.SluggerTest do
   end
 
   test "file_name/2" do
-    assert Slugger.file_name("hello world", "mp3") == "hello-world.mp3"
+    assert Slugger.file_name(%{
+             word: "hello",
+             phrase: "hello world",
+             voice: "connory",
+             format: "opus"
+           }) == "hello-as-in-hello-world-connory.opus"
 
-    assert Slugger.file_name("Do you want a cookie?", "mp3") ==
-             "do-you-want-a-cookie.mp3"
+    assert Slugger.file_name(%{
+             word: "cookie",
+             phrase: "Do you want a cookie?",
+             voice: "connory",
+             format: "opus"
+           }) == "cookie-as-in-do-you-want-a-cookie-connory.opus"
 
-    assert Slugger.file_name("How do, you do?", "mp3") == "how-do-you-do.mp3"
-    assert Slugger.file_name("many       spaces", "mp3") == "many-spaces.mp3"
+    assert Slugger.file_name(%{
+             word: "how",
+             phrase: "How do, you do?",
+             voice: "connory",
+             format: "opus"
+           }) == "how-as-in-how-do-you-do-connory.opus"
+
+    assert Slugger.file_name(%{
+             word: "many",
+             phrase: "many       spaces",
+             voice: "connory",
+             format: "opus"
+           }) == "many-as-in-many-spaces-connory.opus"
   end
 end
