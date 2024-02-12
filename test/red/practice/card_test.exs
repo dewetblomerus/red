@@ -41,9 +41,7 @@ defmodule Red.Practice.CardTest do
 
       tried_card =
         card
-        |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"},
-          actor: user
-        )
+        |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
         |> Red.Practice.update!()
 
       assert %Card{
@@ -116,19 +114,9 @@ defmodule Red.Practice.CardTest do
 
     test "when there are no cards due, before hitting daily goal, get oldest untried card",
          %{user: user} do
-      now = NaiveDateTime.utc_now()
-      nineteen_minutes_from_now = NaiveDateTime.add(now, 19, :minute)
 
       oldest_card =
         Factory.card_factory(user)
-
-      near_future_card =
-        Factory.card_factory(
-          user,
-          %{
-            retry_at: nineteen_minutes_from_now
-          }
-        )
 
       assert oldest_card.id == Card.next!(actor: user).id
     end
@@ -137,9 +125,6 @@ defmodule Red.Practice.CardTest do
          %{user: user} do
       now = NaiveDateTime.utc_now()
       nineteen_minutes_from_now = NaiveDateTime.add(now, 19, :minute)
-
-      oldest_card =
-        Factory.card_factory(user)
 
       for _ <- 1..user.daily_goal do
         Factory.card_factory(
@@ -189,9 +174,6 @@ defmodule Red.Practice.CardTest do
     test "returns the nil for a card without a tried_at", %{
       user: user
     } do
-      now = NaiveDateTime.utc_now()
-      ten_minutes_from_now = NaiveDateTime.add(now, 10, :minute)
-
       card =
         Factory.card_factory(user)
 
