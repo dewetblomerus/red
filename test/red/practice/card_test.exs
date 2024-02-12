@@ -41,7 +41,9 @@ defmodule Red.Practice.CardTest do
 
       tried_card =
         card
-        |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
+        |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"},
+          actor: user
+        )
         |> Red.Practice.update!()
 
       assert %Card{
@@ -114,7 +116,6 @@ defmodule Red.Practice.CardTest do
 
     test "when there are no cards due, before hitting daily goal, get oldest untried card",
          %{user: user} do
-
       oldest_card =
         Factory.card_factory(user)
 
