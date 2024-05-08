@@ -41,8 +41,8 @@ defmodule Red.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:ex_check, "~> 0.15.0", only: [:dev, :test], runtime: false},
-      {:faker, "~> 0.17.0", only: [:dev, :test], runtime: false},
+      {:ex_check, "~> 0.16.0", only: [:dev, :test], runtime: false},
+      {:faker, "~> 0.18.0", only: [:dev, :test], runtime: false},
       {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.20"},
@@ -61,7 +61,7 @@ defmodule Red.MixProject do
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"}
     ]
   end
