@@ -8,5 +8,6 @@ defmodule Red.Practice do
 
   resources do
     resource Red.Practice.Card
+    resource Red.Accounts.User
   end
 end
