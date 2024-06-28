@@ -44,7 +44,7 @@ defmodule Red.Practice.CardTest do
         |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"},
           actor: user
         )
-        |> Red.Practice.update!()
+        |> Ash.update!()
 
       assert %Card{
                correct_streak: 0,
@@ -165,7 +165,7 @@ defmodule Red.Practice.CardTest do
         )
 
       loaded_card =
-        Red.Practice.load!(card, [
+        Ash.load!(card, [
           :interval_in_seconds
         ])
 
@@ -179,7 +179,7 @@ defmodule Red.Practice.CardTest do
         Factory.card_factory(user)
 
       loaded_card =
-        Red.Practice.load!(card, :interval_in_seconds)
+        Ash.load!(card, :interval_in_seconds)
 
       assert nil == loaded_card.interval_in_seconds
     end

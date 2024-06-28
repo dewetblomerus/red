@@ -34,7 +34,7 @@ defmodule Red.Accounts.UserTest do
             oauth_tokens: %{}
           }
         )
-        |> Red.Accounts.create!()
+        |> Ash.create!()
 
       auth0_id = user.auth0_id
       email = user_info["email"]

@@ -32,12 +32,12 @@ defmodule Red.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash_admin, "~> 0.10"},
-      {:ash_authentication_phoenix, "~> 1.9"},
-      {:ash_authentication, "~> 3.12"},
-      {:ash_phoenix, "~> 1.3"},
-      {:ash_postgres, "~> 1.5"},
-      {:ash, "~> 2.21"},
+      {:ash_admin, "~> 0.11"},
+      {:ash_authentication_phoenix, "~> 2.0"},
+      {:ash_authentication, "~> 4.0"},
+      {:ash_phoenix, "~> 2.0"},
+      {:ash_postgres, "~> 2.0"},
+      {:ash, "~> 3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},

@@ -1,6 +1,6 @@
 defmodule Red.Accounts do
-  use Ash.Api,
-    extensions: [AshAdmin.Api]
+  use Ash.Domain,
+    extensions: [AshAdmin.Domain]
 
   admin do
     show?(true)

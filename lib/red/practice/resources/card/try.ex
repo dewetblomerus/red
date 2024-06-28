@@ -49,7 +49,7 @@ defmodule Red.Practice.Card.Try do
 
     changeset
     |> Ash.Changeset.for_update(:update, params)
-    |> Red.Practice.update()
+    |> Ash.update()
   end
 
   defp get_previous_interval(retry_at, tried_at)

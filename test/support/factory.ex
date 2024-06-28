@@ -19,7 +19,7 @@ defmodule Red.Factory do
         oauth_tokens: %{}
       }
     )
-    |> Red.Accounts.create!()
+    |> Ash.create!()
   end
 
   def user_factory do
@@ -39,7 +39,7 @@ defmodule Red.Factory do
         oauth_tokens: %{}
       }
     )
-    |> Red.Accounts.create!()
+    |> Ash.create!()
   end
 
   def card_factory(user, opts \\ %{}) do

@@ -4,10 +4,11 @@ defmodule Red.Practice.Card do
   require Logger
 
   use Ash.Resource,
+    domain: Red.Practice,
     data_layer: AshPostgres.DataLayer
 
   code_interface do
-    define_for Red.Practice
+    domain Red.Practice
 
     define :create, action: :create
     define :for_user, action: :for_user
@@ -18,13 +19,14 @@ defmodule Red.Practice.Card do
   end
 
   actions do
-    defaults [:read, :update]
+    defaults [:read]
 
     read :for_user do
       filter expr(user_id == ^actor(:id))
     end
 
     create :create do
+      accept [:phrase, :word, :retry_at, :tried_at]
       change relate_actor(:user)
     end
 
@@ -41,7 +43,7 @@ defmodule Red.Practice.Card do
             Logger.debug("No cards due 📭")
 
             reviewed_today_count =
-              Red.Accounts.load!(
+              Ash.load!(
                 context.actor,
                 [:count_cards_reviewed_today]
               ).count_cards_reviewed_today
@@ -78,8 +80,12 @@ defmodule Red.Practice.Card do
       get_by [:word]
     end
 
+    update :update do
+      require_atomic? false
+      accept [:correct_streak, :retry_at, :tried_at]
+    end
+
     update :try do
-      accept [:tried_spelling]
       argument(:tried_spelling, :string, allow_nil?: false)
       manual Red.Practice.Card.Try
     end

@@ -1,5 +1,6 @@
 defmodule Red.Accounts.User do
   use Ash.Resource,
+    domain: Red.Accounts,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication, AshAdmin.Resource]
 
@@ -10,7 +11,7 @@ defmodule Red.Accounts.User do
   attributes do
     integer_primary_key :id
     attribute :email, :ci_string, allow_nil?: false
-    attribute :auth0_id, :string, allow_nil?: false, private?: true
+    attribute :auth0_id, :string, allow_nil?: false, public?: false
     attribute :email_verified, :boolean
     attribute :picture, :string
     attribute :name, :string
@@ -57,7 +58,7 @@ defmodule Red.Accounts.User do
   end
 
   authentication do
-    api Red.Accounts
+    domain(Red.Accounts)
 
     strategies do
       auth0 do
@@ -118,7 +119,7 @@ defmodule Red.Accounts.User do
   end
 
   code_interface do
-    define_for Red.Accounts
+    domain Red.Accounts
 
     define :get_by, action: :get_by
   end
