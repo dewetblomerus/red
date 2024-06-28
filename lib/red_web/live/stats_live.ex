@@ -3,7 +3,7 @@ defmodule RedWeb.StatsLive do
 
   def mount(_params, _session, socket) do
     user =
-      Red.Accounts.load!(socket.assigns.current_user, [
+      Ash.load!(socket.assigns.current_user, [
         :count_cards_goal_today,
         :count_cards_practice,
         :count_cards_review,

@@ -72,7 +72,7 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
     |> Ash.Query.filter(interval_in_seconds < ^day_of_seconds)
     |> Ash.Query.sort([:word])
     |> Ash.Query.load(:interval_in_seconds)
-    |> Red.Practice.read!()
+    |> Ash.read!()
   end
 
   def known_cards(user) do
@@ -84,6 +84,6 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
     |> Ash.Query.filter(user_id == ^user.id)
     |> Ash.Query.filter(interval_in_seconds >= ^day_of_seconds)
     |> Ash.Query.sort(:retry_at)
-    |> Red.Practice.read!()
+    |> Ash.read!()
   end
 end

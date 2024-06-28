@@ -34,7 +34,7 @@ defmodule RedWeb.PracticeLive do
       socket
     else
       reviewed_today_count =
-        Red.Accounts.load!(
+        Ash.load!(
           socket.assigns.current_user,
           [:count_cards_reviewed_today]
         ).count_cards_reviewed_today
@@ -69,7 +69,7 @@ defmodule RedWeb.PracticeLive do
 
   def assign_progress(socket) do
     user =
-      Red.Accounts.load!(socket.assigns.current_user, [
+      Ash.load!(socket.assigns.current_user, [
         :count_cards_goal_today,
         :count_cards_practice,
         :count_cards_review,
@@ -135,7 +135,7 @@ defmodule RedWeb.PracticeLive do
           socket
           |> assign_progress()
           |> clear_flash()
-          |> assign(:card, Red.Practice.reload!(socket.assigns.card))
+          |> assign(:card, Ash.reload!(socket.assigns.card))
           |> put_flash(
             :error,
             "The word was '#{correct_spelling}' but you typed '#{tried_spelling}'."

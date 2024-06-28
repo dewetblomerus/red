@@ -4,8 +4,8 @@
 
 To start your Phoenix server:
 
-* `mix setup`
-* `mix phx.server`
+- `mix setup`
+- `mix phx.server`
 
 ```elixir
 alias Red.Practice.Card
@@ -65,7 +65,7 @@ user = Red.Accounts.User.get_by!(%{email: email})
 
 # card
 # |> Ash.Changeset.for_update(:try, %{tried_spelling: "untried"}, actor: user)
-# |> Red.Practice.update!()
+# |> Ash.update!()
 ```
 
 ```elixir
