@@ -36,7 +36,7 @@ defmodule Red.MixProject do
       {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_authentication, "~> 4.0"},
       {:ash_phoenix, "~> 2.0"},
-      {:ash_postgres, "~> 2.0"},
+      {:ash_postgres, "~> 2.4"},
       {:ash, "~> 3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
