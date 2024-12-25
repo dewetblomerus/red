@@ -20,5 +20,5 @@ defmodule RedWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :red
+  use Gettext.Backend, otp_app: :red
 end
