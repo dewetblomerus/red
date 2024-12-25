@@ -3,6 +3,7 @@ defmodule RedWeb.PracticeLive do
 
   alias Red.Practice.Card
   alias Red.Practice.Card.{Loader, Try}
+  alias Red.Words
   alias RedWeb.PracticeLive.FormComponent
 
   def mount(
@@ -63,7 +64,7 @@ defmodule RedWeb.PracticeLive do
     assign(
       socket,
       card: card,
-      word_list_files: word_list_files
+      word_list_files: Words.sort_word_lists(word_list_files)
     )
   end
 
