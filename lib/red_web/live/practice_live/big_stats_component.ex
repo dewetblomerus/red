@@ -13,7 +13,7 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
           <div>Phrase</div>
         </div>
         <%= for card <- practicing_cards(@user) do %>
-          <%= render_practicing_card(card) %>
+          {render_practicing_card(card)}
         <% end %>
       </div>
 
@@ -25,7 +25,7 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
           <div>Review In</div>
         </div>
         <%= for card <- known_cards(@user) do %>
-          <%= render_known_card(card) %>
+          {render_known_card(card)}
         <% end %>
       </div>
     </div>
@@ -37,8 +37,8 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
 
     ~H"""
     <div class="h-8 flex items-center justify-between odd:bg-gray-200 last:rounded-b-xl first:rounded-t-xl px-2">
-      <div class="mr-4"><%= @card.word %></div>
-      <div><%= @card.phrase %></div>
+      <div class="mr-4">{@card.word}</div>
+      <div>{@card.phrase}</div>
     </div>
     """
   end
@@ -56,8 +56,8 @@ defmodule RedWeb.PracticeLive.BigStatsComponent do
 
     ~H"""
     <div class="h-8 flex items-center justify-between odd:bg-gray-200 last:rounded-b-xl first:rounded-t-xl px-2">
-      <div class="mr-4"><%= @card.word %></div>
-      <div><%= @days_display %></div>
+      <div class="mr-4">{@card.word}</div>
+      <div>{@days_display}</div>
     </div>
     """
   end

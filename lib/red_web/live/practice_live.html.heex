@@ -3,11 +3,11 @@
   <div class="row">
     <div class="col-12">
       <div>
-        <%= @count_cards_succeeded_today %>/<%= @count_cards_goal_today %> words for today
+        {@count_cards_succeeded_today}/{@count_cards_goal_today} words for today
       </div>
       <div class="flex flex-wrap gap-1">
         <%= for i <- success_streak(@count_cards_succeeded_today, @count_cards_goal_today) do %>
-          <div class=""><%= i %></div>
+          <div class="">{i}</div>
         <% end %>
       </div>
       <%= if @card do %>
