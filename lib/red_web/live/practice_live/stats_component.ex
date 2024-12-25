@@ -5,9 +5,9 @@ defmodule RedWeb.PracticeLive.StatsComponent do
     ~H"""
     <div class="flex justify-center">
       <div class="border-2 border-gray-500 rounded-xl">
-        <%= render_row("Known Words", @user.count_cards_review) %>
-        <%= render_row("Practicing", @user.count_cards_practice) %>
-        <%= render_row("New Untried Words", @user.count_cards_untried) %>
+        {render_row("Known Words", @user.count_cards_review)}
+        {render_row("Practicing", @user.count_cards_practice)}
+        {render_row("New Untried Words", @user.count_cards_untried)}
       </div>
     </div>
     """
@@ -18,8 +18,8 @@ defmodule RedWeb.PracticeLive.StatsComponent do
 
     ~H"""
     <div class="h-8 flex items-center justify-between odd:bg-gray-200 last:rounded-b-xl first:rounded-t-xl px-2">
-      <div><%= @description %></div>
-      <div class="pl-3"><%= @stat %></div>
+      <div>{@description}</div>
+      <div class="pl-3">{@stat}</div>
     </div>
     """
   end

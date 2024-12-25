@@ -9,7 +9,7 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <.live_title suffix=" · SpellSightWords">
-      <%= assigns[:page_title] || "Sight Words" %>
+      {assigns[:page_title] || "Sight Words"}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script
@@ -21,6 +21,6 @@
     </script>
   </head>
   <body class="bg-white antialiased">
-    <%= @inner_content %>
+    {@inner_content}
   </body>
 </html>

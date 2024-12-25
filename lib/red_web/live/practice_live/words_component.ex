@@ -8,7 +8,7 @@ defmodule RedWeb.PracticeLive.WordsComponent do
       <%= for word_list_file <- @word_list_files do %>
         <div class="h-14 mx-auto flex flex-nowrap justify-between max-w-md odd:bg-gray-200 last:rounded-b-xl first:rounded-t-xl">
           <div class="pl-4 my-auto text-left">
-            <%= display_file_name(word_list_file.file_name) %>
+            {display_file_name(word_list_file.file_name)}
           </div>
           <div class="my-auto pr-4">
             <%= if word_list_file.already_loaded? do %>
@@ -17,7 +17,7 @@ defmodule RedWeb.PracticeLive.WordsComponent do
                   Known Words:
                 </div>
                 <div class="w-12 text-right">
-                  <%= word_list_file.progress.review_count %>/<%= word_list_file.progress.total_count %>
+                  {word_list_file.progress.review_count}/{word_list_file.progress.total_count}
                 </div>
               </div>
             <% else %>
