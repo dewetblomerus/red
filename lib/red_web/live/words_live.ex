@@ -1,6 +1,8 @@
 defmodule RedWeb.WordsLive do
   use RedWeb, :live_view
+
   alias Red.Practice.Card.Loader
+  alias Red.Words
 
   def mount(_params, _session, old_socket) do
     socket =
@@ -22,7 +24,7 @@ defmodule RedWeb.WordsLive do
 
     assign(socket,
       any_loaded?: any_loaded?,
-      word_list_files: Enum.sort_by(word_list_files, &get_book_number/1)
+      word_list_files: Words.sort_word_lists(word_list_files)
     )
   end
 
@@ -63,13 +65,5 @@ defmodule RedWeb.WordsLive do
     |> String.trim_trailing(".csv")
     |> String.replace("-", " ")
     |> String.capitalize()
-  end
-
-  defp get_book_number(file_map) do
-    file_map.file_name
-    |> String.trim_trailing(".csv")
-    |> String.split("-")
-    |> List.last()
-    |> String.to_integer()
   end
 end
