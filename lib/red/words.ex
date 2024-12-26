@@ -3,6 +3,8 @@ defmodule Red.Words do
     :persistent_term.get({__MODULE__, :wordlists})
   end
 
+  def sort_word_lists(nil), do: nil
+
   def sort_word_lists(word_lists) do
     Enum.sort_by(word_lists, &get_book_number/1)
   end
