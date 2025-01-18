@@ -40,7 +40,8 @@ defmodule RedWeb.PracticeLive do
           [:count_cards_reviewed_today]
         ).count_cards_reviewed_today
 
-      if reviewed_today_count < socket.assigns.current_user.daily_goal do
+      if reviewed_today_count < socket.assigns.current_user.daily_goal &&
+           !Loader.all_loaded?(socket.assigns.current_user) do
         redirect(socket, to: "/words")
       else
         socket
