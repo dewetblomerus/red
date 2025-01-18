@@ -65,4 +65,12 @@ defmodule Red.Practice.Card.Loader do
       Enum.member?(cards, word)
     end)
   end
+
+  def all_loaded?(current_user) do
+    current_user
+    |> list!()
+    |> Enum.all?(fn file_map ->
+      file_map.already_loaded?
+    end)
+  end
 end
