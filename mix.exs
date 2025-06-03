@@ -34,7 +34,7 @@ defmodule Red.MixProject do
     [
       {:ash_admin, "~> 0.11"},
       {:ash_authentication_phoenix, "~> 2.0"},
-      {:ash_authentication, "~> 4.0"},
+      {:ash_authentication, "~> 4.7"},
       {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.4"},
       {:ash, "~> 3.0"},
