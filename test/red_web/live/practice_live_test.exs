@@ -28,7 +28,7 @@ defmodule RedWeb.PracticeLiveTest do
 
       # Verify that Card.next returns the expected error structure
       assert {:error, %Ash.Error.Invalid{errors: [%Ash.Error.Query.NotFound{}]}} =
-        Card.next(actor: user)
+               Card.next(actor: user)
 
       # Verify that get_next_card handles this error gracefully
       assert PracticeLive.get_next_card(user) == nil
