@@ -93,7 +93,7 @@ defmodule RedWeb.PracticeLive do
       {:ok, card} ->
         card
 
-      {:error, %Ash.Error.Query.NotFound{}} ->
+      {:error, %Ash.Error.Invalid{errors: [%Ash.Error.Query.NotFound{}]}} ->
         nil
     end
   end

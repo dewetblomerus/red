@@ -4,7 +4,8 @@ defmodule Red.Secrets do
   def secret_for(
         [:authentication, :strategies, :auth0, :client_id],
         Red.Accounts.User,
-        _
+        _,
+        _opts
       ) do
     get_config(:client_id)
   end
@@ -12,7 +13,8 @@ defmodule Red.Secrets do
   def secret_for(
         [:authentication, :strategies, :auth0, :redirect_uri],
         Red.Accounts.User,
-        _
+        _,
+        _opts
       ) do
     get_config(:redirect_uri)
   end
@@ -20,7 +22,8 @@ defmodule Red.Secrets do
   def secret_for(
         [:authentication, :strategies, :auth0, :client_secret],
         Red.Accounts.User,
-        _
+        _,
+        _opts
       ) do
     get_config(:client_secret)
   end
@@ -28,7 +31,8 @@ defmodule Red.Secrets do
   def secret_for(
         [:authentication, :strategies, :auth0, :base_url],
         Red.Accounts.User,
-        _
+        _,
+        _opts
       ) do
     get_config(:base_url)
   end

@@ -60,7 +60,8 @@ defmodule Red.Practice.CardTest do
 
   describe "next/1" do
     test "returns an error when there are no cards", %{user: user} do
-      assert {:error, %Ash.Error.Query.NotFound{}} = Card.next(actor: user)
+      assert {:error, %Ash.Error.Invalid{errors: [%Ash.Error.Query.NotFound{}]}} =
+               Card.next(actor: user)
     end
 
     test "when there are cards due, returns the oldest due card", %{user: user} do
