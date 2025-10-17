@@ -60,7 +60,7 @@ defmodule Red.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.19.8"},
-      {:tailwind, "~> 0.3.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.4.0", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.1"},
       {:telemetry_poller, "~> 1.3"}
     ]
