@@ -32,13 +32,13 @@ defmodule Red.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash_admin, "~> 0.13"},
+      {:ash_admin, "~> 0.13.19"},
       {:ash_authentication_phoenix, "~> 2.10"},
       {:ash_authentication, "~> 4.7"},
       {:ash_phoenix, "~> 2.3"},
       {:ash_postgres, "~> 2.4"},
       {:ash, "~> 3.6"},
-      {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7.13", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_check, "~> 0.16.0", only: [:dev, :test], runtime: false},
@@ -47,22 +47,22 @@ defmodule Red.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
-      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.1.5", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.3", only: [:dev, :test], runtime: false},
-      {:nimble_csv, "~> 1.2"},
-      {:phoenix_ecto, "~> 4.6.4"},
+      {:nimble_csv, "~> 1.3"},
+      {:phoenix_ecto, "~> 4.6.5"},
       {:phoenix_html, "~> 4.2"},
       {:phoenix_live_dashboard, "~> 0.8.7"},
-      {:phoenix_live_reload, "~> 1.6", only: :dev},
+      {:phoenix_live_reload, "~> 1.6.1", only: :dev},
       {:phoenix_live_view, "~> 1.0"},
       {:phoenix, "~> 1.7"},
       {:plug_cowboy, "~> 2.7"},
       {:postgrex, ">= 0.0.0"},
-      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
-      {:swoosh, "~> 1.19"},
+      {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
+      {:swoosh, "~> 1.19.8"},
       {:tailwind, "~> 0.3.0", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.1"},
-      {:telemetry_poller, "~> 1.2"}
+      {:telemetry_poller, "~> 1.3"}
     ]
   end
 
