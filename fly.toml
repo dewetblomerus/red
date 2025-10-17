@@ -4,7 +4,7 @@
 #
 
 app = "spellsightwords"
-primary_region = "atl"
+primary_region = "iad"
 kill_signal = "SIGTERM"
 swap_size_mb = 512
 
