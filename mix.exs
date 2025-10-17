@@ -33,11 +33,11 @@ defmodule Red.MixProject do
   defp deps do
     [
       {:ash_admin, "~> 0.13"},
-      {:ash_authentication_phoenix, "~> 2.7"},
+      {:ash_authentication_phoenix, "~> 2.10"},
       {:ash_authentication, "~> 4.7"},
       {:ash_phoenix, "~> 2.3"},
       {:ash_postgres, "~> 2.4"},
-      {:ash, "~> 3.0"},
+      {:ash, "~> 3.6"},
       {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
