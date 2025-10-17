@@ -29,7 +29,7 @@ defmodule RedWeb.Router do
     get "/privacy", PageController, :privacy
 
     sign_out_route AuthController
-    auth_routes Red.Accounts.User, to: AuthController
+    auth_routes AuthController, Red.Accounts.User
     reset_route []
 
     ash_authentication_live_session :authentication_optional,
