@@ -11,4 +11,4 @@ permissions:
 
 jobs:
   mix-check:
-    uses: dewetblomerus/actions-elixir/.github/workflows/mix-check.yml@main
+    uses: dewetblomerus/actions-elixir/.github/workflows/elixir-ci.yml@main
