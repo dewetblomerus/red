@@ -103,3 +103,5 @@ Red.Practice.Card
 # |> Ash.Query.sort([:title])
 |> Red.Practice.read!()
 ```
+
+Branch protection rules governed by Terraform
