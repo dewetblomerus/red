@@ -1,0 +1,15 @@
+name: Bump Elixir
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-elixir:
+    name: Bump Elixir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dewetblomerus/actions-elixir/.github/actions/bump-elixir@main
