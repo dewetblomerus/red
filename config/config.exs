@@ -16,6 +16,7 @@ config :ash,
 
 # Configures the endpoint
 config :red, RedWeb.Endpoint,
+  adapter: Bandit.PhoenixAdapter,
   url: [host: "localhost"],
   render_errors: [
     formats: [html: RedWeb.ErrorHTML, json: RedWeb.ErrorJSON],

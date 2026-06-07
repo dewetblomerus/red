@@ -17,13 +17,11 @@ defmodule Red.Accounts.UserTest do
     test "updates an existing user" do
       user = Red.Factory.user_factory()
 
-      user_info = %{
-        "email_verified" => true,
-        "email" => Faker.Internet.email(),
-        "name" => Faker.Person.name(),
-        "sub" => user.auth0_id,
-        "picture" => Faker.Internet.url()
-      }
+      user_info =
+        Red.Factory.user_info(%{
+          "email_verified" => true,
+          "sub" => user.auth0_id
+        })
 
       updated_user =
         User

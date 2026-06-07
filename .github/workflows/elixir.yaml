@@ -11,4 +11,5 @@ permissions:
 
 jobs:
   mix-check:
+    name: Elixir CI
     uses: dewetblomerus/actions-elixir/.github/workflows/elixir-ci.yml@main
