@@ -55,7 +55,7 @@ defmodule Red.MixProject do
       {:phoenix_live_reload, "~> 1.6", only: :dev},
       {:phoenix_live_view, "~> 1.1"},
       {:phoenix, "~> 1.8"},
-      {:plug_cowboy, "~> 2.8"},
+      {:bandit, "~> 1.0"},
       {:postgrex, ">= 0.0.0"},
       {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.26.0"},
