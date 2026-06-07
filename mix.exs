@@ -42,7 +42,6 @@ defmodule Red.MixProject do
       {:ecto_sql, "~> 3.13"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:ex_check, "~> 0.16.0", only: [:dev, :test], runtime: false},
-      {:faker, "~> 0.18.0", only: [:dev, :test], runtime: false},
       {:finch, "~> 0.21"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 1.0"},
