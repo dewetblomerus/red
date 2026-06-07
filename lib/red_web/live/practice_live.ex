@@ -1,6 +1,8 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
 
+  require Logger
+
   alias Red.Audio.Transcriber
   alias Red.Practice.Card
   alias Red.Practice.Card.{Loader, Try}
@@ -55,7 +57,7 @@ defmodule RedWeb.PracticeLive do
 
     word_list_files =
       if card do
-        Transcriber.transcribe(card.word, card.phrase)
+        transcribe(card)
         nil
       else
         Loader.list!(socket.assigns.current_user)
@@ -64,13 +66,9 @@ defmodule RedWeb.PracticeLive do
         end)
       end
 
-    audio_url_prefix =
-      "https://f000.backblazeb2.com/file/spellsightwords/audio/"
-
     assign(
       socket,
       card: card,
-      audio_url_prefix: audio_url_prefix,
       word_list_files: Words.sort_word_lists(word_list_files)
     )
   end
@@ -106,14 +104,17 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(:say, socket) do
     if socket.assigns.card do
-      {:noreply,
-       push_event(socket, "Say", %{
-         utterance:
-           "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
-       })}
+      {:noreply, push_event(socket, "Say", say_payload(socket.assigns.card))}
     else
       {:noreply, socket}
     end
+  end
+
+  def say_payload(card) do
+    %{
+      utterance: "#{card.word}, as in #{card.phrase}",
+      audio_url: Transcriber.audio_url(card.word, card.phrase)
+    }
   end
 
   def handle_info(
@@ -211,5 +212,16 @@ defmodule RedWeb.PracticeLive do
     blanks = ["_"] |> Stream.cycle() |> Enum.take(blanks_count)
 
     emojis ++ blanks
+  end
+
+  defp transcribe(card) do
+    case Transcriber.transcribe(card.word, card.phrase) do
+      {:ok, _} ->
+        :ok
+
+      {:error, reason} ->
+        Logger.warning("Could not generate practice audio: #{inspect(reason)}")
+        :error
+    end
   end
 end

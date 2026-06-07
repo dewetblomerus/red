@@ -30,26 +30,66 @@ let Hooks = {}
 
 Hooks.Say = {
   mounted() {
-    this.handleEvent('Say', ({ utterance }) => {
-      const utter = new SpeechSynthesisUtterance(utterance)
-      window.speechSynthesis.cancel()
-      utter.rate = 0.8
-      window.speechSynthesis.speak(utter)
-      console.log('Tried to say the word')
+    this.playSpeech = null
 
-      const element = document.getElementById('repeatButton')
-      element.addEventListener('click', function () {
-        console.log("You've clicked the repeat button")
+    this.handleEvent('Say', ({ utterance, audio_url }) => {
+      const utter = new SpeechSynthesisUtterance(utterance)
+      utter.rate = 0.8
+
+      const speakWithBrowser = function () {
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak(utter)
-      })
+      }
 
-      document.body.onkeyup = function (e) {
-        if (e.key == ' ' || e.code == 'Space' || e.keyCode == 32) {
-          console.log("You've pressed the spacebar")
+      this.playSpeech = speakWithBrowser
+
+      if (audio_url) {
+        const audio = new Audio(audio_url)
+        audio.preload = 'auto'
+
+        let settled = false
+
+        const useGeneratedAudio = function () {
+          audio.currentTime = 0
           window.speechSynthesis.cancel()
-          window.speechSynthesis.speak(utter)
+          audio.play()
         }
+
+        const chooseGeneratedAudio = () => {
+          if (settled) return
+          settled = true
+          this.playSpeech = useGeneratedAudio
+          useGeneratedAudio()
+        }
+
+        const chooseBrowserSpeech = () => {
+          if (settled) return
+          settled = true
+          this.playSpeech = speakWithBrowser
+          speakWithBrowser()
+        }
+
+        audio.addEventListener('canplay', chooseGeneratedAudio, { once: true })
+        audio.addEventListener('error', chooseBrowserSpeech, { once: true })
+        window.setTimeout(chooseBrowserSpeech, 3000)
+        audio.load()
+      } else {
+        speakWithBrowser()
+      }
+    })
+
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'repeatButton' && this.playSpeech) {
+        this.playSpeech()
+      }
+    })
+
+    document.body.addEventListener('keyup', (e) => {
+      if (
+        (e.key == ' ' || e.code == 'Space' || e.keyCode == 32) &&
+        this.playSpeech
+      ) {
+        this.playSpeech()
       }
     })
   },
