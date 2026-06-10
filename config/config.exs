@@ -9,7 +9,11 @@ import Config
 
 config :red,
   ash_domains: [Red.Accounts, Red.Practice],
-  ecto_repos: [Red.Repo]
+  ecto_repos: [Red.Repo],
+  audio_file_format: "mp3",
+  audio_provider_path: "eleven/v3/kristen",
+  audio_public_url_prefix:
+    "https://f000.backblazeb2.com/file/spellsightwords/audio/"
 
 config :ash,
   use_all_identities_in_manage_relationship?: false

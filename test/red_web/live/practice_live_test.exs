@@ -1,8 +1,30 @@
 defmodule RedWeb.PracticeLiveTest do
-  use Red.DataCase, async: true
+  use Red.DataCase, async: false
   alias Red.Factory
   alias Red.Practice.Card
   alias RedWeb.PracticeLive
+
+  setup do
+    old_provider_path = Application.get_env(:red, :audio_provider_path)
+    old_public_url_prefix = Application.get_env(:red, :audio_public_url_prefix)
+
+    Application.put_env(
+      :red,
+      :audio_provider_path,
+      "test-provider/test-model/test-voice"
+    )
+
+    Application.put_env(
+      :red,
+      :audio_public_url_prefix,
+      "https://example.test/audio/"
+    )
+
+    on_exit(fn ->
+      restore_env(:audio_provider_path, old_provider_path)
+      restore_env(:audio_public_url_prefix, old_public_url_prefix)
+    end)
+  end
 
   describe "get_next_card/1" do
     test "returns nil when Card.next returns NotFound error" do
@@ -19,6 +41,21 @@ defmodule RedWeb.PracticeLiveTest do
 
       result = PracticeLive.get_next_card(user)
       assert result.id == card.id
+    end
+  end
+
+  describe "assign_card/1" do
+    test "assigns the card without generating audio" do
+      user = Factory.user_factory()
+      card = Factory.card_factory(user)
+
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{__changed__: %{}, current_user: user}
+      }
+
+      result = PracticeLive.assign_card(socket)
+
+      assert result.assigns.card.id == card.id
     end
   end
 
@@ -59,6 +96,15 @@ defmodule RedWeb.PracticeLiveTest do
       # The socket should have the push_event applied
       assert result_socket != socket
     end
+
+    test "builds Say payload with utterance and generated audio url" do
+      assert PracticeLive.say_payload(%{word: "test", phrase: "test phrase"}) ==
+               %{
+                 utterance: "test, as in test phrase",
+                 audio_url:
+                   "https://example.test/audio/test-provider/test-model/test-voice/test-as-in-test-phrase.mp3"
+               }
+    end
   end
 
   describe "success_streak/2" do
@@ -92,4 +138,7 @@ defmodule RedWeb.PracticeLiveTest do
       assert result == ["_", "_", "_"]
     end
   end
+
+  defp restore_env(key, nil), do: Application.delete_env(:red, key)
+  defp restore_env(key, value), do: Application.put_env(:red, key, value)
 end

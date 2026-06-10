@@ -24,6 +24,15 @@ config :red, RedWeb.Endpoint,
 # In test we don't send emails.
 config :red, Red.Mailer, adapter: Swoosh.Adapters.Test
 
+config :red,
+  audio_tts_provider: Red.Audio.ElevenLabs,
+  audio_storage: Red.Audio.Storage,
+  audio_bucket: "spellsightwords",
+  elevenlabs_api_key: "",
+  elevenlabs_voice_id: "OIadkU6YLviNhuekXGly",
+  elevenlabs_model_id: "eleven_v3",
+  elevenlabs_output_format: "mp3_44100_128"
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 

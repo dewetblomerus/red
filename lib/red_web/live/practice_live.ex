@@ -1,6 +1,7 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
 
+  alias Red.Audio.Generator
   alias Red.Practice.Card
   alias Red.Practice.Card.{Loader, Try}
   alias Red.Words
@@ -100,11 +101,7 @@ defmodule RedWeb.PracticeLive do
 
   def handle_info(:say, socket) do
     if socket.assigns.card do
-      {:noreply,
-       push_event(socket, "Say", %{
-         utterance:
-           "#{socket.assigns.card.word}, as in #{socket.assigns.card.phrase}"
-       })}
+      {:noreply, push_event(socket, "Say", say_payload(socket.assigns.card))}
     else
       {:noreply, socket}
     end
@@ -146,6 +143,13 @@ defmodule RedWeb.PracticeLive do
         Process.send_after(self(), :say, 1)
         {:noreply, socket}
     end
+  end
+
+  def say_payload(card) do
+    %{
+      utterance: "#{card.word}, as in #{card.phrase}",
+      audio_url: Generator.audio_url(card.word, card.phrase)
+    }
   end
 
   defp correct_message do
