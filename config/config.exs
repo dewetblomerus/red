@@ -10,8 +10,9 @@ import Config
 config :red,
   ash_domains: [Red.Accounts, Red.Practice],
   ecto_repos: [Red.Repo],
-  audio_voice_name: "george",
+  audio_voice_name: "kristen",
   audio_file_format: "mp3",
+  audio_provider_path: "eleven/v3/kristen",
   audio_public_url_prefix:
     "https://f000.backblazeb2.com/file/spellsightwords/audio/"
 

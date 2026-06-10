@@ -5,7 +5,7 @@ defmodule Red.Audio.Generator do
   alias Red.Words
 
   def audio_url(word, phrase) do
-    file_name = file_name(word, phrase)
+    file_name = object_key(word, phrase)
 
     audio_public_url_prefix() <> file_name
   end
@@ -19,6 +19,10 @@ defmodule Red.Audio.Generator do
     })
   end
 
+  def object_key(word, phrase) do
+    Path.join([audio_provider_path(), file_name(word, phrase)])
+  end
+
   def generate(word) do
     case find_word(word) do
       {:ok, %{word: word, phrase: phrase}} -> generate(word, phrase)
@@ -28,10 +32,10 @@ defmodule Red.Audio.Generator do
 
   def generate(word, phrase) do
     text = Slugger.audio_text(word, phrase)
-    file_name = file_name(word, phrase)
+    object_key = object_key(word, phrase)
 
-    with {:ok, file_contents} <- generate_audio(text),
-         :ok <- upload(text, file_contents, file_name) do
+    with {:ok, file_contents} <- generate_audio(word, phrase),
+         :ok <- upload(text, file_contents, object_key) do
       {:ok, :uploaded}
     else
       {:error, reason} -> {:error, reason}
@@ -65,8 +69,16 @@ defmodule Red.Audio.Generator do
     |> Enum.uniq_by(fn %{word: word, phrase: phrase} -> {word, phrase} end)
   end
 
-  defp generate_audio(text) do
+  defp generate_audio(word, phrase) do
+    text = elevenlabs_audio_text(word, phrase)
+
+    Logger.notice("Sending audio text to ElevenLabs: #{text}")
+
     audio_tts_provider().generate_audio(text)
+  end
+
+  defp elevenlabs_audio_text(word, phrase) do
+    "[clearly] #{Slugger.audio_text(word, phrase)}"
   end
 
   defp upload(text, file_contents, file_name) do
@@ -79,6 +91,10 @@ defmodule Red.Audio.Generator do
   defp audio_storage, do: Application.fetch_env!(:red, :audio_storage)
   defp audio_voice_name, do: Application.fetch_env!(:red, :audio_voice_name)
   defp audio_file_format, do: Application.fetch_env!(:red, :audio_file_format)
+
+  defp audio_provider_path do
+    Application.fetch_env!(:red, :audio_provider_path)
+  end
 
   defp audio_public_url_prefix do
     Application.fetch_env!(:red, :audio_public_url_prefix)

@@ -87,7 +87,7 @@ config :red,
   audio_storage: Red.Audio.Storage,
   audio_bucket: "spellsightwords",
   elevenlabs_api_key: System.fetch_env!("ELEVENLABS_API_KEY"),
-  elevenlabs_voice_id: "JBFqnCBsd6RMkjVDRZzb",
+  elevenlabs_voice_id: "OIadkU6YLviNhuekXGly",
   elevenlabs_model_id: "eleven_v3",
   elevenlabs_output_format: "mp3_44100_128"
 
