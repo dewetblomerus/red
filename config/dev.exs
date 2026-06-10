@@ -82,4 +82,23 @@ config :phoenix, :plug_init_mode, :runtime
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 
+config :red,
+  audio_tts_provider: Red.Audio.ElevenLabs,
+  audio_storage: Red.Audio.Storage,
+  audio_bucket: "spellsightwords",
+  elevenlabs_api_key: System.fetch_env!("ELEVENLABS_API_KEY"),
+  elevenlabs_voice_id: "JBFqnCBsd6RMkjVDRZzb",
+  elevenlabs_model_id: "eleven_v3",
+  elevenlabs_output_format: "mp3_44100_128"
+
+config :ex_aws,
+  access_key_id: System.fetch_env!("BACKBLAZE_B2_KEY_ID"),
+  secret_access_key: System.fetch_env!("BACKBLAZE_B2_APPLICATION_KEY"),
+  region: "us-east-1"
+
+config :ex_aws, :s3,
+  scheme: "https://",
+  host: System.fetch_env!("BACKBLAZE_B2_S3_HOST"),
+  port: 443
+
 import_config "dev_secrets.exs"

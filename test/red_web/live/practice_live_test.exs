@@ -4,29 +4,21 @@ defmodule RedWeb.PracticeLiveTest do
   alias Red.Practice.Card
   alias RedWeb.PracticeLive
 
-  defmodule Provider do
-    def voice_name, do: "test-voice"
-    def perform_transcription(_text), do: {:error, :missing_api_key}
-  end
-
-  defmodule Storage do
-    def public_url(file_name), do: "https://example.test/audio/#{file_name}"
-    def file_exists?(_file_name), do: {:error, :missing_storage_credentials}
-
-    def upload(_file_name, _file_contents),
-      do: {:error, :missing_storage_credentials}
-  end
-
   setup do
-    old_provider = Application.get_env(:red, :audio_tts_provider)
-    old_storage = Application.get_env(:red, :audio_storage)
+    old_voice_name = Application.get_env(:red, :audio_voice_name)
+    old_public_url_prefix = Application.get_env(:red, :audio_public_url_prefix)
 
-    Application.put_env(:red, :audio_tts_provider, Provider)
-    Application.put_env(:red, :audio_storage, Storage)
+    Application.put_env(:red, :audio_voice_name, "test-voice")
+
+    Application.put_env(
+      :red,
+      :audio_public_url_prefix,
+      "https://example.test/audio/"
+    )
 
     on_exit(fn ->
-      restore_env(:audio_tts_provider, old_provider)
-      restore_env(:audio_storage, old_storage)
+      restore_env(:audio_voice_name, old_voice_name)
+      restore_env(:audio_public_url_prefix, old_public_url_prefix)
     end)
   end
 
@@ -49,12 +41,12 @@ defmodule RedWeb.PracticeLiveTest do
   end
 
   describe "assign_card/1" do
-    test "assigns the card when transcription fails" do
+    test "assigns the card without generating audio" do
       user = Factory.user_factory()
       card = Factory.card_factory(user)
 
       socket = %Phoenix.LiveView.Socket{
-        assigns: %{current_user: user}
+        assigns: %{__changed__: %{}, current_user: user}
       }
 
       result = PracticeLive.assign_card(socket)

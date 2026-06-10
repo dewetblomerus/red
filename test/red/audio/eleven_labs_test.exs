@@ -17,7 +17,7 @@ defmodule Red.Audio.ElevenLabsTest do
     Application.put_env(:red, :elevenlabs_api_key, "")
 
     assert {:error, :missing_api_key} =
-             ElevenLabs.perform_transcription("Hello. As in, hello world")
+             ElevenLabs.generate_audio("Hello. As in, hello world")
   end
 
   test "returns generated audio from a successful response" do
@@ -30,7 +30,7 @@ defmodule Red.Audio.ElevenLabsTest do
 
       assert opts[:json] == %{
                text: "Hello. As in, hello world",
-               model_id: "eleven_multilingual_v2"
+               model_id: "eleven_v3"
              }
 
       assert {"xi-api-key", "test-key"} in opts[:headers]
@@ -39,7 +39,7 @@ defmodule Red.Audio.ElevenLabsTest do
     end
 
     assert {:ok, "audio-bytes"} =
-             ElevenLabs.perform_transcription("Hello. As in, hello world",
+             ElevenLabs.generate_audio("Hello. As in, hello world",
                post: post
              )
   end

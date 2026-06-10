@@ -1,9 +1,7 @@
 defmodule RedWeb.PracticeLive do
   use RedWeb, :live_view
 
-  require Logger
-
-  alias Red.Audio.Transcriber
+  alias Red.Audio.Generator
   alias Red.Practice.Card
   alias Red.Practice.Card.{Loader, Try}
   alias Red.Words
@@ -57,7 +55,6 @@ defmodule RedWeb.PracticeLive do
 
     word_list_files =
       if card do
-        transcribe(card)
         nil
       else
         Loader.list!(socket.assigns.current_user)
@@ -110,13 +107,6 @@ defmodule RedWeb.PracticeLive do
     end
   end
 
-  def say_payload(card) do
-    %{
-      utterance: "#{card.word}, as in #{card.phrase}",
-      audio_url: Transcriber.audio_url(card.word, card.phrase)
-    }
-  end
-
   def handle_info(
         {FormComponent,
          {:tried,
@@ -153,6 +143,13 @@ defmodule RedWeb.PracticeLive do
         Process.send_after(self(), :say, 1)
         {:noreply, socket}
     end
+  end
+
+  def say_payload(card) do
+    %{
+      utterance: "#{card.word}, as in #{card.phrase}",
+      audio_url: Generator.audio_url(card.word, card.phrase)
+    }
   end
 
   defp correct_message do
@@ -212,16 +209,5 @@ defmodule RedWeb.PracticeLive do
     blanks = ["_"] |> Stream.cycle() |> Enum.take(blanks_count)
 
     emojis ++ blanks
-  end
-
-  defp transcribe(card) do
-    case Transcriber.transcribe(card.word, card.phrase) do
-      {:ok, _} ->
-        :ok
-
-      {:error, reason} ->
-        Logger.warning("Could not generate practice audio: #{inspect(reason)}")
-        :error
-    end
   end
 end

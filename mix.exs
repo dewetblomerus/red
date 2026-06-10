@@ -32,6 +32,7 @@ defmodule Red.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:tidewave, "~> 0.5", only: [:dev]},
       {:ash_admin, "~> 1.1.0"},
       {:ash_authentication_phoenix, "~> 2.15"},
       {:ash_authentication, "~> 4.13"},

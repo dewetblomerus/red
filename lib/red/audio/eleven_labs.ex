@@ -1,23 +1,16 @@
 defmodule Red.Audio.ElevenLabs do
   require Logger
 
-  @output_format "mp3_44100_128"
-  @voice_id "JBFqnCBsd6RMkjVDRZzb"
-  @voice_name "george"
-  @model_id "eleven_multilingual_v2"
-
-  def voice_name, do: @voice_name
-
-  def perform_transcription(text, opts \\ []) do
+  def generate_audio(text, opts \\ []) do
     with {:ok, api_key} <- api_key() do
       post = Keyword.get(opts, :post, &Req.post/2)
 
       url =
-        "https://api.elevenlabs.io/v1/text-to-speech/#{voice_id()}?output_format=#{@output_format}"
+        "https://api.elevenlabs.io/v1/text-to-speech/#{voice_id()}?output_format=#{output_format()}"
 
       body = %{
         text: text,
-        model_id: @model_id
+        model_id: model_id()
       }
 
       case post.(url, json: body, headers: headers(api_key)) do
@@ -46,8 +39,7 @@ defmodule Red.Audio.ElevenLabs do
   end
 
   defp api_key do
-    case Application.get_env(:red, :elevenlabs_api_key) ||
-           System.get_env("ELEVENLABS_API_KEY") do
+    case Application.fetch_env!(:red, :elevenlabs_api_key) do
       nil -> {:error, :missing_api_key}
       "" -> {:error, :missing_api_key}
       api_key -> {:ok, api_key}
@@ -55,6 +47,12 @@ defmodule Red.Audio.ElevenLabs do
   end
 
   defp voice_id do
-    Application.get_env(:red, :elevenlabs_voice_id, @voice_id)
+    Application.fetch_env!(:red, :elevenlabs_voice_id)
+  end
+
+  defp model_id, do: Application.fetch_env!(:red, :elevenlabs_model_id)
+
+  defp output_format do
+    Application.fetch_env!(:red, :elevenlabs_output_format)
   end
 end
