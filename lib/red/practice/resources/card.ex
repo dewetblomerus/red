@@ -82,7 +82,7 @@ defmodule Red.Practice.Card do
 
     update :update do
       require_atomic? false
-      accept [:correct_streak, :retry_at, :tried_at]
+      accept [:correct_streak, :phrase, :retry_at, :tried_at]
     end
 
     update :try do
