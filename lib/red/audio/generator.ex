@@ -77,7 +77,7 @@ defmodule Red.Audio.Generator do
   end
 
   defp elevenlabs_audio_text(word, phrase) do
-    "[clearly] #{Slugger.audio_text(word, phrase)}"
+    Slugger.audio_text(word, phrase)
   end
 
   defp upload(text, file_contents, file_name) do

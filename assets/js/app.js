@@ -31,12 +31,24 @@ let Hooks = {}
 Hooks.Say = {
   mounted() {
     this.playSpeech = null
+    this.playbackSpeed = 1.1
+
+    const getPlaybackSpeed = () => {
+      const speedControl = document.getElementById('playbackSpeed')
+      const speed = speedControl
+        ? Number.parseFloat(speedControl.value)
+        : this.playbackSpeed
+
+      return Number.isFinite(speed) && speed > 0 ? speed : 1.1
+    }
+
+    this.playbackSpeed = getPlaybackSpeed()
 
     this.handleEvent('Say', ({ utterance, audio_url }) => {
-      const utter = new SpeechSynthesisUtterance(utterance)
-      utter.rate = 0.8
-
       const speakWithBrowser = function () {
+        const utter = new SpeechSynthesisUtterance(utterance)
+        utter.rate = getPlaybackSpeed()
+
         window.speechSynthesis.cancel()
         window.speechSynthesis.speak(utter)
       }
@@ -51,6 +63,7 @@ Hooks.Say = {
 
         const useGeneratedAudio = function () {
           audio.currentTime = 0
+          audio.playbackRate = getPlaybackSpeed()
           window.speechSynthesis.cancel()
           audio.play()
         }
@@ -81,6 +94,12 @@ Hooks.Say = {
     document.addEventListener('click', (e) => {
       if (e.target && e.target.id === 'repeatButton' && this.playSpeech) {
         this.playSpeech()
+      }
+    })
+
+    document.addEventListener('change', (e) => {
+      if (e.target && e.target.id === 'playbackSpeed') {
+        this.playbackSpeed = getPlaybackSpeed()
       }
     })
 

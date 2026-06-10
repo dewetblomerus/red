@@ -30,7 +30,14 @@ defmodule Red.Audio.ElevenLabsTest do
 
       assert opts[:json] == %{
                text: "Hello. As in, hello world",
-               model_id: "eleven_v3"
+               model_id: "eleven_v3",
+               voice_settings: %{
+                 stability: 1,
+                 similarity_boost: 1,
+                 style: 0,
+                 use_speaker_boost: true,
+                 speed: 1
+               }
              }
 
       assert {"xi-api-key", "test-key"} in opts[:headers]

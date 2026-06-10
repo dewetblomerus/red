@@ -10,7 +10,8 @@ defmodule Red.Audio.ElevenLabs do
 
       body = %{
         text: text,
-        model_id: model_id()
+        model_id: model_id(),
+        voice_settings: voice_settings()
       }
 
       case post.(url, json: body, headers: headers(api_key)) do
@@ -51,6 +52,16 @@ defmodule Red.Audio.ElevenLabs do
   end
 
   defp model_id, do: Application.fetch_env!(:red, :elevenlabs_model_id)
+
+  defp voice_settings do
+    %{
+      stability: 1,
+      similarity_boost: 1,
+      style: 0,
+      use_speaker_boost: true,
+      speed: 1
+    }
+  end
 
   defp output_format do
     Application.fetch_env!(:red, :elevenlabs_output_format)
