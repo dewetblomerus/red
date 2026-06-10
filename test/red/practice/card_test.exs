@@ -28,6 +28,17 @@ defmodule Red.Practice.CardTest do
     end
   end
 
+  describe "update/1" do
+    test "updates phrase", %{user: user} do
+      card = Factory.card_factory(user, %{phrase: "old phrase"})
+
+      assert {:ok, %Card{phrase: "new phrase"}} =
+               card
+               |> Ash.Changeset.for_update(:update, %{phrase: "new phrase"})
+               |> Ash.update()
+    end
+  end
+
   describe "try" do
     test "requires a retry when incorrect", %{user: user} do
       {:ok, card} =
