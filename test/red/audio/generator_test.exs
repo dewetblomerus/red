@@ -63,7 +63,7 @@ defmodule Red.Audio.GeneratorTest do
   test "generates a word from the loaded word lists" do
     assert {:ok, :uploaded} = Generator.generate("have")
 
-    assert_received {:generated_audio, "[clearly] Have. As in, I have a dog"}
+    assert_received {:generated_audio, "Have. As in, I have a dog"}
 
     assert_received {:uploaded_file,
                      "test-provider/test-model/test-voice/have-as-in-i-have-a-dog.mp3",
@@ -81,19 +81,18 @@ defmodule Red.Audio.GeneratorTest do
   test "generates and uploads" do
     assert {:ok, :uploaded} = Generator.generate("hello", "hello world")
 
-    assert_received {:generated_audio, "[clearly] Hello. As in, hello world"}
+    assert_received {:generated_audio, "Hello. As in, hello world"}
 
     assert_received {:uploaded_file,
                      "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3",
                      "audio-bytes"}
   end
 
-  test "formats ElevenLabs text with a v3 audio tag" do
+  test "formats ElevenLabs text without a v3 audio tag" do
     assert {:ok, :uploaded} =
              Generator.generate("cookie", "can I have a cookie?")
 
-    assert_received {:generated_audio,
-                     "[clearly] Cookie. As in, can I have a cookie?"}
+    assert_received {:generated_audio, "Cookie. As in, can I have a cookie?"}
   end
 
   test "returns provider errors without uploading" do
@@ -102,7 +101,7 @@ defmodule Red.Audio.GeneratorTest do
     assert {:error, :missing_api_key} =
              Generator.generate("hello", "hello world")
 
-    assert_received {:generated_audio, "[clearly] Hello. As in, hello world"}
+    assert_received {:generated_audio, "Hello. As in, hello world"}
 
     refute_received {:uploaded_file, _, _}
   end

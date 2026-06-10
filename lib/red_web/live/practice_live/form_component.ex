@@ -8,7 +8,26 @@ defmodule RedWeb.PracticeLive.FormComponent do
       <.header>
         Practice
       </.header>
-      <.button id="repeatButton">Repeat Audio</.button>
+      <div
+        id="audioControls"
+        class="flex flex-wrap items-end gap-3"
+        phx-update="ignore"
+      >
+        <.button id="repeatButton">Repeat Audio</.button>
+        <label class="text-sm">
+          <span class="block font-semibold">Playback speed</span>
+          <select
+            id="playbackSpeed"
+            class="mt-1 rounded-md border-zinc-300 text-sm focus:border-zinc-400 focus:ring-0"
+          >
+            <option value="0.8">0.8x</option>
+            <option value="1">1x</option>
+            <option value="1.1" selected>1.1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+          </select>
+        </label>
+      </div>
       <div class="text-sm">Spacebar also repeats audio</div>
       <.simple_form
         autocapitalize="none"
