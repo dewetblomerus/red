@@ -29,13 +29,6 @@ defmodule Red.Audio.Storage do
 
         {:error, reason}
     end
-  rescue
-    exception ->
-      Logger.warning(
-        "Could not check audio file #{file_name}: #{Exception.message(exception)}"
-      )
-
-      {:error, exception}
   end
 
   def upload(file_name, file_contents) do
@@ -56,13 +49,6 @@ defmodule Red.Audio.Storage do
 
         {:error, reason}
     end
-  rescue
-    exception ->
-      Logger.warning(
-        "Could not upload audio file #{file_name}: #{Exception.message(exception)}"
-      )
-
-      {:error, exception}
   end
 
   defp bucket do
