@@ -33,20 +33,31 @@ defmodule Red.Audio.Generator do
     text = Slugger.audio_text(word, phrase)
     object_key = object_key(word, phrase)
 
-    with {:ok, file_contents} <- generate_audio(word, phrase),
+    with {:ok, false} <- audio_storage().exists?(object_key),
+         {:ok, file_contents} <- generate_audio(word, phrase),
          :ok <- upload(text, file_contents, object_key) do
       {:ok, :uploaded}
     else
-      {:error, reason} -> {:error, reason}
+      {:ok, true} ->
+        Logger.info("#{word} recording already exists")
+        {:ok, :already_exists}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
   def generate_all do
     Words.lists()
     |> entries()
-    |> Enum.map(fn %{word: word, phrase: phrase} ->
-      {word, generate(word, phrase)}
-    end)
+    |> Task.async_stream(
+      fn %{word: word, phrase: phrase} ->
+        {word, generate(word, phrase)}
+      end,
+      max_concurrency: 3,
+      timeout: :infinity
+    )
+    |> Enum.map(fn {:ok, result} -> result end)
   end
 
   defp find_word(word) do

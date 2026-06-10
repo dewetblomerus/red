@@ -5,28 +5,43 @@ defmodule Red.Audio.GeneratorTest do
 
   defmodule Provider do
     def generate_audio(text) do
-      send(self(), {:generated_audio, text})
+      send(test_pid(), {:generated_audio, text})
 
       case Process.get(:provider_result, {:ok, "audio-bytes"}) do
         {:ok, _} = result -> result
         {:error, _} = result -> result
       end
     end
+
+    defp test_pid do
+      Application.get_env(:red, :audio_test_pid, self())
+    end
   end
 
   defmodule Storage do
+    def exists?(file_name) do
+      send(test_pid(), {:checked_file, file_name})
+      {:ok, Process.get(:file_exists?, false)}
+    end
+
     def upload(file_name, file_contents) do
-      send(self(), {:uploaded_file, file_name, file_contents})
+      send(test_pid(), {:uploaded_file, file_name, file_contents})
       Process.get(:upload_result, :ok)
+    end
+
+    defp test_pid do
+      Application.get_env(:red, :audio_test_pid, self())
     end
   end
 
   setup do
+    old_test_pid = Application.get_env(:red, :audio_test_pid)
     old_provider = Application.get_env(:red, :audio_tts_provider)
     old_storage = Application.get_env(:red, :audio_storage)
     old_provider_path = Application.get_env(:red, :audio_provider_path)
     old_public_url_prefix = Application.get_env(:red, :audio_public_url_prefix)
 
+    Application.put_env(:red, :audio_test_pid, self())
     Application.put_env(:red, :audio_tts_provider, Provider)
     Application.put_env(:red, :audio_storage, Storage)
 
@@ -43,6 +58,7 @@ defmodule Red.Audio.GeneratorTest do
     )
 
     on_exit(fn ->
+      restore_env(:audio_test_pid, old_test_pid)
       restore_env(:audio_tts_provider, old_provider)
       restore_env(:audio_storage, old_storage)
       restore_env(:audio_provider_path, old_provider_path)
@@ -81,11 +97,27 @@ defmodule Red.Audio.GeneratorTest do
   test "generates and uploads" do
     assert {:ok, :uploaded} = Generator.generate("hello", "hello world")
 
+    assert_received {:checked_file,
+                     "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3"}
+
     assert_received {:generated_audio, "Hello. As in, hello world"}
 
     assert_received {:uploaded_file,
                      "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3",
                      "audio-bytes"}
+  end
+
+  test "skips generation when the audio file already exists" do
+    Process.put(:file_exists?, true)
+
+    assert {:ok, :already_exists} =
+             Generator.generate("hello", "hello world")
+
+    assert_received {:checked_file,
+                     "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3"}
+
+    refute_received {:generated_audio, _}
+    refute_received {:uploaded_file, _, _}
   end
 
   test "formats ElevenLabs text without a v3 audio tag" do
