@@ -24,18 +24,16 @@ defmodule Red.Audio.GeneratorTest do
   setup do
     old_provider = Application.get_env(:red, :audio_tts_provider)
     old_storage = Application.get_env(:red, :audio_storage)
-    old_voice_name = Application.get_env(:red, :audio_voice_name)
     old_provider_path = Application.get_env(:red, :audio_provider_path)
     old_public_url_prefix = Application.get_env(:red, :audio_public_url_prefix)
 
     Application.put_env(:red, :audio_tts_provider, Provider)
     Application.put_env(:red, :audio_storage, Storage)
-    Application.put_env(:red, :audio_voice_name, "test-voice")
 
     Application.put_env(
       :red,
       :audio_provider_path,
-      "test-provider/test-version/test-voice"
+      "test-provider/test-model/test-voice"
     )
 
     Application.put_env(
@@ -47,7 +45,6 @@ defmodule Red.Audio.GeneratorTest do
     on_exit(fn ->
       restore_env(:audio_tts_provider, old_provider)
       restore_env(:audio_storage, old_storage)
-      restore_env(:audio_voice_name, old_voice_name)
       restore_env(:audio_provider_path, old_provider_path)
       restore_env(:audio_public_url_prefix, old_public_url_prefix)
     end)
@@ -55,12 +52,12 @@ defmodule Red.Audio.GeneratorTest do
 
   test "builds the public audio url" do
     assert Generator.audio_url("hello", "hello world") ==
-             "https://example.test/audio/test-provider/test-version/test-voice/hello-as-in-hello-world-test-voice.mp3"
+             "https://example.test/audio/test-provider/test-model/test-voice/hello-as-in-hello-world.mp3"
   end
 
   test "builds the storage object key" do
     assert Generator.object_key("hello", "hello world") ==
-             "test-provider/test-version/test-voice/hello-as-in-hello-world-test-voice.mp3"
+             "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3"
   end
 
   test "generates a word from the loaded word lists" do
@@ -69,7 +66,7 @@ defmodule Red.Audio.GeneratorTest do
     assert_received {:generated_audio, "[clearly] Have. As in, I have a dog"}
 
     assert_received {:uploaded_file,
-                     "test-provider/test-version/test-voice/have-as-in-i-have-a-dog-test-voice.mp3",
+                     "test-provider/test-model/test-voice/have-as-in-i-have-a-dog.mp3",
                      "audio-bytes"}
   end
 
@@ -87,7 +84,7 @@ defmodule Red.Audio.GeneratorTest do
     assert_received {:generated_audio, "[clearly] Hello. As in, hello world"}
 
     assert_received {:uploaded_file,
-                     "test-provider/test-version/test-voice/hello-as-in-hello-world-test-voice.mp3",
+                     "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3",
                      "audio-bytes"}
   end
 
@@ -117,7 +114,7 @@ defmodule Red.Audio.GeneratorTest do
              Generator.generate("hello", "hello world")
 
     assert_received {:uploaded_file,
-                     "test-provider/test-version/test-voice/hello-as-in-hello-world-test-voice.mp3",
+                     "test-provider/test-model/test-voice/hello-as-in-hello-world.mp3",
                      "audio-bytes"}
   end
 
@@ -127,7 +124,7 @@ defmodule Red.Audio.GeneratorTest do
     assert {"a", {:ok, :uploaded}} in results
 
     assert_received {:uploaded_file,
-                     "test-provider/test-version/test-voice/a-as-in-do-you-want-a-cookie-test-voice.mp3",
+                     "test-provider/test-model/test-voice/a-as-in-do-you-want-a-cookie.mp3",
                      _}
   end
 

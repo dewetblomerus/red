@@ -14,7 +14,6 @@ defmodule Red.Audio.Generator do
     Slugger.file_name(%{
       word: word,
       phrase: phrase,
-      voice: audio_voice_name(),
       format: audio_file_format()
     })
   end
@@ -89,7 +88,6 @@ defmodule Red.Audio.Generator do
 
   defp audio_tts_provider, do: Application.fetch_env!(:red, :audio_tts_provider)
   defp audio_storage, do: Application.fetch_env!(:red, :audio_storage)
-  defp audio_voice_name, do: Application.fetch_env!(:red, :audio_voice_name)
   defp audio_file_format, do: Application.fetch_env!(:red, :audio_file_format)
 
   defp audio_provider_path do

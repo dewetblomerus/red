@@ -13,29 +13,25 @@ defmodule Red.Audio.SluggerTest do
     assert Slugger.file_name(%{
              word: "hello",
              phrase: "hello world",
-             voice: "connory",
              format: "opus"
-           }) == "hello-as-in-hello-world-connory.opus"
+           }) == "hello-as-in-hello-world.opus"
 
     assert Slugger.file_name(%{
              word: "cookie",
              phrase: "Do you want a cookie?",
-             voice: "connory",
              format: "opus"
-           }) == "cookie-as-in-do-you-want-a-cookie-connory.opus"
+           }) == "cookie-as-in-do-you-want-a-cookie.opus"
 
     assert Slugger.file_name(%{
              word: "how",
              phrase: "How do, you do?",
-             voice: "connory",
              format: "opus"
-           }) == "how-as-in-how-do-you-do-connory.opus"
+           }) == "how-as-in-how-do-you-do.opus"
 
     assert Slugger.file_name(%{
              word: "many",
              phrase: "many       spaces",
-             voice: "connory",
              format: "opus"
-           }) == "many-as-in-many-spaces-connory.opus"
+           }) == "many-as-in-many-spaces.opus"
   end
 end
