@@ -5,6 +5,32 @@ defmodule Red.Audio.Storage do
 
   def public_url(file_name), do: public_url_prefix() <> file_name
 
+  def exists?(file_name) do
+    bucket()
+    |> S3.head_object("audio/#{file_name}")
+    |> request()
+    |> case do
+      {:ok, %{status_code: status}} when status in 200..299 ->
+        {:ok, true}
+
+      {:error, {:http_error, 404, _body}} ->
+        {:ok, false}
+
+      {:ok, %{status_code: 404}} ->
+        {:ok, false}
+
+      {:ok, %{status_code: status}} ->
+        {:error, {:exists_http_error, status}}
+
+      {:error, reason} ->
+        Logger.warning(
+          "Could not check audio file #{file_name}: #{inspect(reason)}"
+        )
+
+        {:error, reason}
+    end
+  end
+
   def upload(file_name, file_contents) do
     bucket()
     |> S3.put_object("audio/#{file_name}", file_contents)
@@ -23,13 +49,6 @@ defmodule Red.Audio.Storage do
 
         {:error, reason}
     end
-  rescue
-    exception ->
-      Logger.warning(
-        "Could not upload audio file #{file_name}: #{Exception.message(exception)}"
-      )
-
-      {:error, exception}
   end
 
   defp bucket do
