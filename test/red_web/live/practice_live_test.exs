@@ -6,9 +6,16 @@ defmodule RedWeb.PracticeLiveTest do
 
   setup do
     old_voice_name = Application.get_env(:red, :audio_voice_name)
+    old_provider_path = Application.get_env(:red, :audio_provider_path)
     old_public_url_prefix = Application.get_env(:red, :audio_public_url_prefix)
 
     Application.put_env(:red, :audio_voice_name, "test-voice")
+
+    Application.put_env(
+      :red,
+      :audio_provider_path,
+      "test-provider/test-version/test-voice"
+    )
 
     Application.put_env(
       :red,
@@ -18,6 +25,7 @@ defmodule RedWeb.PracticeLiveTest do
 
     on_exit(fn ->
       restore_env(:audio_voice_name, old_voice_name)
+      restore_env(:audio_provider_path, old_provider_path)
       restore_env(:audio_public_url_prefix, old_public_url_prefix)
     end)
   end
@@ -98,7 +106,7 @@ defmodule RedWeb.PracticeLiveTest do
                %{
                  utterance: "test, as in test phrase",
                  audio_url:
-                   "https://example.test/audio/test-as-in-test-phrase-test-voice.mp3"
+                   "https://example.test/audio/test-provider/test-version/test-voice/test-as-in-test-phrase-test-voice.mp3"
                }
     end
   end
