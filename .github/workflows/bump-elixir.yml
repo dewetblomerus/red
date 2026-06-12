@@ -10,8 +10,6 @@ permissions:
 jobs:
   bump-elixir:
     name: Bump Elixir
-    runs-on: ubuntu-latest
-    steps:
-      - uses: dewetblomerus/actions-elixir/.github/actions/bump-elixir@main
-        with:
-          token: ${{ secrets.CREATE_PULL_REQUEST_TOKEN }}
+    uses: dewetblomerus/actions-elixir/.github/workflows/bump-elixir.yml@main
+    secrets:
+      create-pull-request-token: ${{ secrets.CREATE_PULL_REQUEST_TOKEN }}
