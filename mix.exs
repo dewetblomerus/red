@@ -62,11 +62,11 @@ defmodule Red.MixProject do
       {:phoenix, "~> 1.8"},
       {:bandit, "~> 1.0"},
       {:postgrex, ">= 0.0.0"},
-      {:req, "~> 0.5.10"},
+      {:req, "~> 0.6.1"},
       {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
       {:sweet_xml, "~> 0.7.4"},
       {:swoosh, "~> 1.26.0"},
-      {:tailwind, "~> 0.4.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.5.1", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.1"},
       {:telemetry_poller, "~> 1.3"}
     ]
