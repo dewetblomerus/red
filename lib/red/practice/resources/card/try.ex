@@ -8,7 +8,7 @@ defmodule Red.Practice.Card.Try do
     |> String.replace(" ", "") == String.downcase(correct_spelling)
   end
 
-  def update(changeset, _opts, _context) do
+  def update(changeset, _opts, context) do
     is_correct? =
       check_is_correct?(changeset.data.word, changeset.arguments.tried_spelling)
 
@@ -47,9 +47,9 @@ defmodule Red.Practice.Card.Try do
       tried_at: now
     }
 
-    changeset
+    changeset.data
     |> Ash.Changeset.for_update(:update, params)
-    |> Ash.update()
+    |> Ash.update(actor: context.actor, tenant: context.tenant)
   end
 
   defp get_previous_interval(retry_at, tried_at)

@@ -23,6 +23,7 @@ defmodule Red.Accounts.User do
 
   relationships do
     has_many :cards, Red.Practice.Card
+    has_many :identities, Red.Accounts.UserIdentity
   end
 
   aggregates do
@@ -66,6 +67,7 @@ defmodule Red.Accounts.User do
         redirect_uri Red.Secrets
         client_secret Red.Secrets
         base_url Red.Secrets
+        identity_resource Red.Accounts.UserIdentity
       end
     end
   end
@@ -88,6 +90,7 @@ defmodule Red.Accounts.User do
       argument :oauth_tokens, :map, allow_nil?: false
       upsert? true
       upsert_identity :unique_auth0_id
+      change AshAuthentication.Strategy.OAuth2.IdentityChange
 
       change fn changeset, _ ->
         user_info = Ash.Changeset.get_argument(changeset, :user_info)
