@@ -63,7 +63,7 @@ defmodule Red.MixProject do
       {:bandit, "~> 1.0"},
       {:postgrex, ">= 0.0.0"},
       {:req, "~> 0.7.2"},
-      {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.15.0", only: [:dev, :test], runtime: false},
       {:sweet_xml, "~> 0.7.4"},
       {:swoosh, "~> 1.27.0"},
       {:tailwind, "~> 0.5.1", runtime: Mix.env() == :dev},
