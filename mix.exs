@@ -34,7 +34,7 @@ defmodule Red.MixProject do
   defp deps do
     [
       {:tidewave, "~> 0.5", only: [:dev]},
-      {:ash_admin, "~> 1.2.0"},
+      {:ash_admin, "~> 1.3.0"},
       {:ash_authentication_phoenix, "~> 2.15"},
       {:ash_authentication, "~> 4.13"},
       {:ash_phoenix, "~> 2.3"},
@@ -56,7 +56,7 @@ defmodule Red.MixProject do
       {:nimble_csv, "~> 1.3"},
       {:phoenix_ecto, "~> 4.7.0"},
       {:phoenix_html, "~> 4.2"},
-      {:phoenix_live_dashboard, "~> 0.8.7"},
+      {:phoenix_live_dashboard, "~> 0.9.0"},
       {:phoenix_live_reload, "~> 1.6", only: :dev},
       {:phoenix_live_view, "~> 1.1"},
       {:phoenix, "~> 1.8"},
