@@ -65,7 +65,7 @@ defmodule Red.MixProject do
       {:req, "~> 0.7.2"},
       {:sobelow, "~> 0.15.0", only: [:dev, :test], runtime: false},
       {:sweet_xml, "~> 0.7.4"},
-      {:swoosh, "~> 1.27.0"},
+      {:swoosh, "~> 1.28.0"},
       {:tailwind, "~> 0.5.1", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.1"},
       {:telemetry_poller, "~> 1.3"}
